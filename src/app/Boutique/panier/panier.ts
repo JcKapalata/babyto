@@ -1,31 +1,44 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
+import { PanierService } from '../panier-service';
+import { CommandeItem } from '../../Models/commande';
+import { CommonModule, CurrencyPipe } from '@angular/common';
+
 
 @Component({
   selector: 'app-panier',
-  imports: [],
+  imports: [CommonModule, CurrencyPipe ],
   templateUrl: './panier.html',
-  styleUrl: './panier.css',
+  styleUrls: ['./panier.css']
 })
-export class Panier {
-  panier = [
-    { nom: 'Coca-Cola 33cl', prix: 2, quantite: 1, image: 'assets/coca.jpg' },
-    { nom: 'Fanta Orange 50cl', prix: 3, quantite: 2, image: 'assets/fanta.jpg' }
-  ];
+export class Panier implements OnInit {
+  items: CommandeItem[] = [];
 
-  increment(item: any) {
-    item.quantite++;
+  constructor(private panierService: PanierService) {}
+
+  ngOnInit() {
+    this.panierService.items$.subscribe(items => {
+      this.items = items;
+    });
   }
 
-  decrement(item: any) {
-    if (item.quantite > 1) item.quantite--;
+  increment(item: CommandeItem) {
+    item.quantity++;
+    this.panierService.updateItems(this.items);
   }
 
-  supprimer(item: any) {
-    this.panier = this.panier.filter(p => p !== item);
+  decrement(item: CommandeItem) {
+    if (item.quantity > 1) {
+      item.quantity--;
+      this.panierService.updateItems(this.items);
+    }
   }
 
-  getTotal() {
-    return this.panier.reduce((sum, item) => sum + item.prix * item.quantite, 0);
+  getTotal(): number {
+    return this.items.reduce((sum, item) => sum + item.getTotal(), 0);
   }
 
+  supprimer(item: CommandeItem) {
+    this.items = this.items.filter(i => i !== item);
+    this.panierService.updateItems(this.items);
+  }
 }

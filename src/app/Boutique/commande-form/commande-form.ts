@@ -6,6 +6,8 @@ import { CommonModule } from '@angular/common';
 import { BoutiqueService } from '../boutique-service';
 import { MatIconModule } from "@angular/material/icon";
 import { MatButtonModule } from '@angular/material/button';
+import { PanierService } from '../panier-service';
+import { CommandeItem } from '../../Models/commande';
 
 
 @Component({
@@ -21,12 +23,14 @@ export class CommandeFormComponent implements OnInit {
   produitForm: FormGroup;
   produit: Produit | null = null;
   prixTotal: number;
+  quantite: number = 1;
 
   constructor(
     private fb: FormBuilder,
     private route: ActivatedRoute,
     private boutiqueService: BoutiqueService,
-    private router: Router
+    private router: Router,
+    private panierService: PanierService
   ) {
     this.produitForm = this.fb.group({
       // nom: ['', Validators.required],
@@ -71,8 +75,25 @@ export class CommandeFormComponent implements OnInit {
   onSubmit() {
     if (this.produitForm.valid) {
       this.router.navigate(['boutique/produits-list']);
+      this.ajouterAuPanier()
     }
   }
+
+  ajouterAuPanier() {
+    if (this.produit) {
+      const itemCommande = new CommandeItem(this.produit, this.quantite);
+      this.panierService.ajouterProduit(itemCommande);
+      alert(`${this.produit.nom} ajouté au panier !`);
+    }
+  }
+
+  // ajouterAuPanier() {
+  //   if (this.produit) {
+  //     this.panierService.ajouterProduit(this.produit);
+  //     alert(`${this.produit.nom} ajouté au panier !`);
+  //   }
+  // }
+
 
   goBack(){
     this.router.navigate(['boutique/produits-list']);

@@ -1,24 +1,14 @@
-export class Commande {
-    id: number;
-    clientName: string;
-    orderDate: Date;
-    items: Array<{ productId: number; quantity: number; price: number }>;
-    totalAmount: number;
+import { Produit } from "./produits";
 
-    constructor(
-        id: number,
-        clientName: string,
-        orderDate: Date,
-        items: Array<{ productId: number; quantity: number; price: number }>
-    ) {
-        this.id = id;
-        this.clientName = clientName;
-        this.orderDate = orderDate;
-        this.items = items;
-        this.totalAmount = this.calculateTotal();
-    }
+export class CommandeItem extends Produit {
+  quantity: number; // quantité commandée
 
-    private calculateTotal(): number {
-        return this.items.reduce((total, item) => total + item.quantity * item.price, 0);
-    }
+  constructor(produit: Produit, quantity: number = 1) {
+    super(produit.id, produit.nom, produit.description, produit.prix, produit.imageUrl);
+    this.quantity = quantity;
+  }
+
+  getTotal(): number {
+    return this.prix * this.quantity;
+  }
 }

@@ -1,44 +1,44 @@
-<div class="panier-container">
-
-  <h2 class="titre-panier">Votre Panier</h2>
-
-  <!-- Si le panier est vide -->
-  <!-- <div *ngIf="panier.length === 0" class="panier-vide">
-    <p>Votre panier est vide.</p>
-  </div> -->
-
-  <!-- Liste des produits -->
-  @if (panier.length > 0) {
-    <div class="panier-liste">
-
-        @for (item of panier; track $index) {
-            <div class="panier-item">
-        
-                <img [src]="item.image" alt="Produit" class="item-image">
-
-                <div class="item-info">
-                    <h3>{{ item.nom }}</h3>
-                    <p>Prix : {{ item.prix }} $</p>
-
-                    <div class="quantite-control">
-                    <button (click)="decrement(item)">-</button>
-                    <span>{{ item.quantite }}</span>
-                    <button (click)="increment(item)">+</button>
-                    </div>
-                </div>
-
-                <div class="item-total">
-                    <p>{{ item.prix * item.quantite }} $</p>
-                    <button class="supprimer" (click)="supprimer(item)">Supprimer</button>
-                </div>
+@if (items.length > 0) {
+    <div class="panier-container">
+    
+        <h2>Mon Panier</h2>
+    
+        <div class="panier-liste">
+    
+        <div class="panier-item" *ngFor="let item of items">
+    
+            <!-- Image du produit -->
+            <img [src]="item.imageUrl" alt="{{item.nom}}" class="item-image">
+    
+            <!-- Infos produit -->
+            <div class="item-info">
+            <h3>{{ item.nom }}</h3>
+            <p>Prix unitaire : {{ item.prix | currency:'USD' }}</p>
+    
+            <div class="quantite-control">
+                <button (click)="decrement(item)">-</button>
+                <span>{{ item.quantity }}</span>
+                <button (click)="increment(item)">+</button>
             </div>
-
-            <!-- Total général -->
-            <div class="panier-total">
-                <h3>Total : {{ getTotal() }} $</h3>
-                <button class="btn-valider">Valider la commande</button>
             </div>
-        }
+    
+            <!-- Total et suppression -->
+            <div class="item-total">
+            <p>Total : {{ item.getTotal() | currency:'USD' }}</p>
+            <button class="supprimer" (click)="supprimer(item)">Supprimer</button>
+            </div>
+    
+        </div>
+    
+        </div>
+    
+        <!-- Total général -->
+        <div class="panier-total">
+        <h3>Total général : {{ getTotal() | currency:'USD' }}</h3>
+        <button class="btn-valider">Valider la commande</button>
+        </div>
+    
     </div>
+} @else {
+    <p>Votre panier est vide.</p>
 }
-  
