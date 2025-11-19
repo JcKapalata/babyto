@@ -2,6 +2,9 @@
   background-color: var(--primary-color); /* Vert moyen */
   color: white;
   height: 8vh;
+  position: sticky;
+  top: 0;
+  z-index: 1000;
 }
 
 .mat-badge-content {
@@ -10,8 +13,8 @@
 }
 
 .logo {
-  font-size: 24px;
-  font-weight: bold;
+  font-size: 1.8rem;
+  font-weight: 500;
 }
 
 .spacer {

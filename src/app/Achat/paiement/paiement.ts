@@ -11,6 +11,17 @@ import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angula
 export class Paiement implements OnInit {
 
   paymentForm!: FormGroup;
+  
+  // propriete pour visa
+  method: string;
+  cardNumber: string;
+  cardName: string;
+  expiry: string;
+  cvv: string;
+
+  // propriete pour mobile money
+  mobileNumber: string;
+  operator: string;
 
   constructor(private fb: FormBuilder) {}
 
@@ -36,7 +47,7 @@ export class Paiement implements OnInit {
         this.paymentForm.get('mobileNumber')?.clearValidators();
         this.paymentForm.get('operator')?.clearValidators();
       } else if (method === 'mobile') {
-        this.paymentForm.get('mobileNumber')?.setValidators([Validators.required, Validators.minLength(10)]);
+        this.paymentForm.get('mobileNumber')?.setValidators([Validators.required, Validators.minLength(10), Validators.maxLength(10)]);
         this.paymentForm.get('operator')?.setValidators([Validators.required]);
         // Désactive Visa
         this.paymentForm.get('cardNumber')?.clearValidators();
@@ -56,7 +67,21 @@ export class Paiement implements OnInit {
 
   onSubmit() {
     if (this.paymentForm.valid) {
-      console.log('Paiement valide :', this.paymentForm.value);
+      const paymentMethod = this.paymentForm.get('method')?.value
+
+      if (paymentMethod === 'visa') {
+        this.cardName = this.paymentForm.get('cardName')?.value;
+        this.cardNumber = this.paymentForm.get('cardNumber')?.value;
+        this.cvv = this.paymentForm.get('cvv')?.value;
+        this.expiry = this.paymentForm.get('expiry')?.value;
+      }
+
+      if(paymentMethod === 'mobile' ){
+        this.operator = this.paymentForm.get('operator')?.value;
+        this.mobileNumber = this.paymentForm.get('mobileNumber')?.value
+        console.log(`le numero qui a payer est ${this.mobileNumber} sur l'operateur ${this.operator}`);
+        
+      }
     } else {
       this.paymentForm.markAllAsTouched();
     }
