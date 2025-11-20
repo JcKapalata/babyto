@@ -30,10 +30,7 @@ export class CommandeFormComponent implements OnInit {
     private achatService: AchatService
   ) {
     this.produitForm = this.fb.group({
-      // nom: ['', Validators.required],
-      // description: ['', Validators.required],
       quantite: [1, [Validators.required, Validators.min(1), this.integerValidator]],
-      // imageUrl: ['']
     });
 
     this.produitForm.get('quantite')?.valueChanges.subscribe(qty => {

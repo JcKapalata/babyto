@@ -36,4 +36,8 @@ export class ProduitsList implements OnInit{
     this.router.navigate(['achat/commande', produit.id]);
   }
 
+  goToDetailProduit(produit: Produit){
+    this.router.navigate(['boutique/produit-detail', produit.id])
+  }
+
 }

@@ -1,7 +1,7 @@
 <div class="produits-main-container">
     <div class="produits-container">
         @for (produit of produitList; track $index) {
-            <mat-card class="produit-card">
+            <mat-card class="produit-card" (click)="goToDetailProduit(produit)">
                 <img mat-card-image [src]="produit.imageUrl" [alt]="produit.nom">
 
                 <mat-card-content>
@@ -17,12 +17,6 @@
         }
     
     </div>
-
-    <!-- @if (panierService.showPanier$ | async) {
-        <div class="panier-container">
-            <app-panier></app-panier>
-        </div>
-    } -->
 </div>
 
 

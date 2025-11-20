@@ -1,0 +1,38 @@
+<div class="product-detail-container">
+  <div class="product-card">
+
+    @if(produit){
+         <!-- Image du produit -->
+        <div class="product-image">
+        <img [src]="produit.imageUrl" alt="{{ produit.nom }}">
+        </div>
+
+        <div class="back-button">
+            <button mat-icon-button color="warn" (click)="goBack()">
+                <mat-icon>close</mat-icon>
+            </button>
+        </div>
+
+        <!-- Informations -->
+        <div class="product-info">
+            <h1 class="product-title">{{ produit.nom }}</h1>
+
+            <p class="product-description">
+                {{ produit.description }}
+            </p>
+
+            <div class="product-meta">
+                <p><strong>Prix :</strong> {{ produit.prix | currency:'USD' }}</p>
+            </div>
+
+            <!-- Boutons -->
+            <div class="actions">
+                <button class="btn primary" (click)="goToCommande(produit)">Passer commande</button>
+            </div>
+        </div>
+    } @else {
+        <span class="error-msg">Aucun produit</span>
+    }
+  </div>
+</div>
+

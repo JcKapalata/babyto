@@ -18,6 +18,10 @@
     flex-direction: column;
     height: 320px;
     box-shadow:-1px 2px 5px 1px #504f4f85;
+    transition: 0.3s;
+}
+.produit-card:hover{
+  border: 5px solid var(--primary-color);
 }
 
 .prix {
