@@ -63,6 +63,7 @@
   font-size: 1.1rem;
 }
 
+
 /* IMAGE BLOCK */
 .image-block {
   flex: 1;
@@ -101,6 +102,11 @@
   transform: translateX(60px);
 }
 
+.slide-center{
+  display: flex;
+  flex-direction: column;
+}
+
 .animate-fade.visible {
   opacity: 1;
   transform: translateY(0);
@@ -113,7 +119,9 @@
     flex-direction: column;
     text-align: center;
   }
-
+  li{
+    text-align: left;
+  }
   .image-block img {
     max-height: 350px;
     object-fit: cover;
