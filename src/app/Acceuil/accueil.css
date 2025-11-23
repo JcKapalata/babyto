@@ -72,7 +72,7 @@
 .image-block img {
   width: 100%;
   border-radius: 15px;
-  box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+  box-shadow: 0 10px 25px rgba(0,0,0,0.2);
 }
 
 /* --- ANIMATIONS AU SCROLL --- */
