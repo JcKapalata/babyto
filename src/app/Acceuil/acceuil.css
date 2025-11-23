@@ -1,16 +1,17 @@
-:root {
+/* :root {
   --primary-color: #94D8B5;
   --accent-color: #66A9BD;
   --text-dark: #1a1a1a;
   --bg-light: #f7f9fa;
-}
+} */
 
 /* HERO */
 .hero {
   background: linear-gradient(to bottom right, var(--primary-color), var(--accent-color));
   color: white;
-  padding: 80px 20px;
+  padding: 20px 20px;
   text-align: center;
+  border-radius: 0 0 30px 30px;
 }
 
 .hero h1 {
