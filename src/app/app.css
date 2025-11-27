@@ -13,7 +13,6 @@
   background: rgba(0, 0, 0, 0.600);
   z-index: 1000;         /* 👉 passe devant tout */
   animation: slideUp 0.3s ease;
-  padding: auto;
 }
 
 /* Animation d'apparition */
@@ -30,9 +29,6 @@
 
 /* Responsive */
 @media (max-width: 768px) {
-  .main-container {
-    padding: 10px;
-  }
 
   .legal-info {
     padding: 15px;
