@@ -17,6 +17,7 @@ import { MatCardModule } from '@angular/material/card';
 export class ProduitsList implements OnInit{
 
   produitList: Produit[];
+  phoneNumber: string = '243995069788'; // Remplacez par le numéro de téléphone souhaité
 
   constructor(
     private boutiqueService: BoutiqueService,
@@ -45,8 +46,8 @@ export class ProduitsList implements OnInit{
     return text;
   }
 
-  goToCommande(produit: Produit) {
-    this.router.navigate(['achat/commande', produit.id]);
+  goToWhatsappCommande(produit: Produit) {
+    this.router.navigate(['achat/watsapp-commande'], { state: { produit: produit } });
   }
 
   goToDetailProduit(produit: Produit){

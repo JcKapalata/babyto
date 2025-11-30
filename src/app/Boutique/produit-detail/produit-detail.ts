@@ -35,6 +35,10 @@ export class ProduitDetail implements OnInit{
     }
   }
 
+  goToWhatsApp(produit: Produit) {
+    this.router.navigate(['achat/watsapp-commande'], { state: { produit } });
+  }
+
   goToCommande(produit: Produit) {
     this.router.navigate(['achat/commande', produit.id]);
   }
