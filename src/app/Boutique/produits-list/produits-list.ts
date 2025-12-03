@@ -2,14 +2,14 @@ import { Component, OnInit } from '@angular/core';
 import { Produit } from '../../Models/produits';
 import {  Router } from '@angular/router';
 import { BoutiqueService } from '../boutique-service';
-import { CommonModule } from '@angular/common';
+
 import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
 
 
 @Component({
   selector: 'app-produits-list',
-  imports: [CommonModule, MatCardModule, MatButtonModule],
+  imports: [MatCardModule, MatButtonModule],
   templateUrl: './produits-list.html',
   styleUrl: './produits-list.css',
   providers: [BoutiqueService]
