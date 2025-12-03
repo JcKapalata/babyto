@@ -9,10 +9,6 @@
                     <p >{{ truncate(produit.description, 35)}}</p>
                     <p class="prix">{{ produit.prix }} {{ produit.devise}}</p>
                 </mat-card-content>
-
-                <mat-card-actions>
-                    <button mat-raised-button (click)="goToWhatsappCommande(produit)" class="boutton" color="primary">Commande rapide</button>
-                </mat-card-actions>
             </mat-card>
         }
     
