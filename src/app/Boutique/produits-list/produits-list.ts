@@ -5,11 +5,12 @@ import { BoutiqueService } from '../boutique-service';
 
 import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
+import { MatIcon } from "@angular/material/icon";
 
 
 @Component({
   selector: 'app-produits-list',
-  imports: [MatCardModule, MatButtonModule],
+  imports: [MatCardModule, MatButtonModule, MatIcon],
   templateUrl: './produits-list.html',
   styleUrl: './produits-list.css',
   providers: [BoutiqueService]
@@ -47,6 +48,10 @@ export class ProduitsList implements OnInit{
 
   goToDetailProduit(produit: Produit){
     this.router.navigate(['boutique/produit-detail', produit.id])
+  }
+
+  goToAchatDirect(produit: Produit){
+    this.router.navigate(['achat/achat-direct', produit.id])
   }
 
 }

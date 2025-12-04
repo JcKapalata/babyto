@@ -16,23 +16,31 @@ export class AchatService {
 
   constructor(private boutiqueService: BoutiqueService) { }
 
-  //go To commande
+  //go chercher un produit par son id
   getProduitById(produitId: number) {
     return this.boutiqueService.getProduitById(produitId);
   }
 
+  //Achat rapide ou access direct du formulaire et du payemnt
+  // achatRapide(item: CommandeItem) {
+    // Traitement de l'achat rapide, par exemple, redirection vers la page de paiement
+    // console.log('Achat rapide pour le produit:', item);
+    // Implémenter la logique d'achat rapide ici
+  // }
+
+  // important pour ajoute un article au panier avant de mettre a jour le produit 
+  // donc ajout du panier puis dans panier pour mettre a jour le produit avant de payer 
   // Ajouter un produit
   ajouterProduit(item: CommandeItem) {
     const currentItems = this.itemsSubject.value;
 
     const existing = currentItems.find(p => p.id === item.id);
     if (existing) {
-      existing.quantity += item.quantity;
-    } else {
       currentItems.push(item);
+      this.itemsSubject.next([...currentItems]);
+    } else {
+      alert(`Produit ${item.id} est déjà dans le panier. Pas d'incrémentation.`);
     }
-
-    this.itemsSubject.next([...currentItems]);
   }
 
   // mise en jour du panier

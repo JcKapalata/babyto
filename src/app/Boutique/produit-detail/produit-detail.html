@@ -24,12 +24,6 @@
             <div class="product-meta">
                 <p><strong>Prix :</strong> {{ produit.prix | currency:'USD' }}</p>
             </div>
-
-            <!-- Boutons -->
-            <div class="actions">
-                <button class="btn primary" (click)="goToWhatsApp(produit)">Commander via WhatsApp</button>
-                <button class="btn primary" (click)="goToCommande(produit)">Passer commande</button>
-            </div>
         </div>
     } @else {
         <app-loading></app-loading>

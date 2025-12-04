@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators, ReactiveFormsModule, ValidationErrors, AbstractControl } from '@angular/forms';
 import { Produit } from '../../Models/produits';
 import { ActivatedRoute, Router } from '@angular/router';
@@ -13,15 +13,17 @@ import { CommandeItem } from '../../Models/commande';
   selector: 'app-commande-form',
   standalone: true,
   imports: [ReactiveFormsModule, CommonModule, MatIconModule, MatButtonModule],
-  templateUrl: './commande-form.html',
-  styleUrls: ['./commande-form.css'],
+  templateUrl: './achat-form.html',
+  styleUrls: ['./achat-form.css'],
 })
-export class CommandeFormComponent implements OnInit {
+export class AchatForm implements OnInit {
 
+  @Input() produit: Produit;
   produitForm: FormGroup;
-  produit: Produit | null = null;
   prixTotal: number;
   quantite: number = 1;
+  taille: string = '';
+  couleur: string = '';
 
   constructor(
     private fb: FormBuilder,
@@ -31,6 +33,8 @@ export class CommandeFormComponent implements OnInit {
   ) {
     this.produitForm = this.fb.group({
       quantite: [1, [Validators.required, Validators.min(1), this.integerValidator]],
+      taille: ['', Validators.required],
+      couleur: ['', Validators.required]
     });
 
     this.produitForm.get('quantite')?.valueChanges.subscribe(qty => {
@@ -41,13 +45,26 @@ export class CommandeFormComponent implements OnInit {
   ngOnInit() {
     const id = Number(this.route.snapshot.paramMap.get('id'));
 
-    if (id) {
-      this.achatService.getProduitById(id).subscribe(prod => {
-        if (prod) {
-          this.produit = prod;
+    if (this.produit){
+      const tailleControl = this.produitForm.get('taille');
+          const couleurControl = this.produitForm.get('couleur');
+
+          // Si des tailles sont disponibles, présélectionner la première option
+          if (this.produit.taille && this.produit.taille.length > 0 && tailleControl) {
+            tailleControl.setValue(this.produit.taille[0]); 
+          } else if (tailleControl) {
+            // Si aucune taille n'est disponible, le désactiver et/ou retirer le validateur
+            tailleControl.disable(); 
+          }
+
+          // Si des couleurs sont disponibles, présélectionner la première option
+          if (this.produit.couleur && this.produit.couleur.length > 0 && couleurControl) {
+            couleurControl.setValue(this.produit.couleur[0]);
+          } else if (couleurControl) {
+            couleurControl.disable();
+          }
+
           this.updateTotal(this.produitForm.value.quantite);
-        }
-      });
     }
   }
 
@@ -69,7 +86,9 @@ export class CommandeFormComponent implements OnInit {
   onSubmit() {
     if (this.produitForm.valid) {
       this.router.navigate(['boutique/produits-list']);
-      this.ajouterAuPanier()
+      console.log('le submit a reussit');
+      
+      // this.ajouterAuPanier()
     }
   }
 
@@ -83,16 +102,5 @@ export class CommandeFormComponent implements OnInit {
     }
   }
 
-  // ajouterAuPanier() {
-  //   if (this.produit) {
-  //     this.panierService.ajouterProduit(this.produit);
-  //     alert(`${this.produit.nom} ajouté au panier !`);
-  //   }
-  // }
-
-
-  goBack(){
-    this.router.navigate(['boutique/produits-list']);
-  }
 }
 

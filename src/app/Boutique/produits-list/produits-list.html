@@ -9,6 +9,15 @@
                     <p >{{ truncate(produit.description, 35)}}</p>
                     <p class="prix">{{ produit.prix }} {{ produit.devise}}</p>
                 </mat-card-content>
+                
+                <mat-card-actions>
+                    <button mat-raised-button 
+                    class="boutton" color="primary" 
+                    (click)="goToAchatDirect(produit); $event.stopPropagation()">
+                        <mat-icon>add_shopping_cart</mat-icon>
+                        Achat Direct
+                    </button>
+                </mat-card-actions>
             </mat-card>
         }
     

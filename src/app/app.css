@@ -15,6 +15,7 @@
     border-radius: 50%;
     padding: 0;
     background: var(--primary-color);
+    cursor: pointer;
 }
 
 /* Optionnel: Ajuster la taille de l'icône Font Awesome */

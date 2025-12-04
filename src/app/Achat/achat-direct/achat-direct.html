@@ -1,0 +1,16 @@
+<div class="achat-container">
+  <div class="form-header">
+    <div class="back-button">
+      <button mat-icon-button color="warn" (click)="goBack()">
+        <mat-icon>close</mat-icon>
+      </button>
+    </div>
+
+    <div>
+      <h2>Formulaire Achat directe</h2>
+    </div>
+  </div>
+
+  <app-commande-form [produit]="produit"></app-commande-form>
+</div>
+
