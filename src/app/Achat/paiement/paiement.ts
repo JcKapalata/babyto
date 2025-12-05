@@ -1,6 +1,7 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { CommandeItem } from '../../Models/commande';
+import { MobileMoney } from '../../Models/mobileMoney';
 
 @Component({
   selector: 'app-paiement',
@@ -116,6 +117,14 @@ export class Paiement implements OnInit{
     return !!method && this.operatorSelect.includes(method); 
   }
 
+  // recuperation de l'information du payement
+  getInfoPayement(): MobileMoney{
+    return {
+      numberPhone: this.mobileNumber,
+      opereator: this.operator
+    }
+  }
+
   // submit le paiement
   onSubmit() {
     if (this.paymentForm.valid) {
@@ -138,8 +147,8 @@ export class Paiement implements OnInit{
         this.operator = paymentMethod; 
         this.mobileNumber = this.paymentForm.get('mobileNumber')?.value;
         
-        console.log(`Paiement Mobile Money soumis : Numéro ${this.mobileNumber} sur l'opérateur ${this.operator}`);
         console.table(this.articleAchete);
+        console.table(this.getInfoPayement())
       }
     } else {
       this.paymentForm.markAllAsTouched();
