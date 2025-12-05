@@ -89,7 +89,12 @@
           class="btn" 
           [disabled]="produitForm.invalid" 
           (click)="goToActivePayement()"
-          >Paiement</button>
+          >
+            <span class="material-icons">
+              {{ showPayementComponent ? 'lock_open' : 'lock' }}
+            </span>
+            {{ showPayementComponent ? 'Masquer Paiement' : 'Procéder au Paiement' }}
+          </button>
       } @else {
         <button type="submit" class="btn" [disabled]="produitForm.invalid">Valider</button>
       }
