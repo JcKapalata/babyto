@@ -9,10 +9,19 @@
         <input type="radio" formControlName="method" value="visa">
         Carte Visa
       </label>
-      <label>
+      <!-- <label>
         <input type="radio" formControlName="method" value="mobile">
         Mobile Money
-      </label>
+      </label> -->
+
+      <div>
+        @for (operatorSelectItem of operatorSelect; track $index) {
+          <label>
+            <input type="radio" formControlName="method" value="{{operatorSelectItem}}">
+            {{operatorSelectItem}}
+          </label>
+        }
+      </div>
 
       @if (paymentForm.get('method')?.touched && paymentForm.get('method')?.invalid) {
         <span class="error">Veuillez choisir un mode de paiement.</span>
@@ -45,17 +54,17 @@
      }
 
     <!-- Paiement Mobile Money -->
-    @if (paymentForm.get('method')?.value === 'mobile') {
-      <select formControlName="operator">
-        <option value="">Sélectionnez votre opérateur</option>
+    @if (paymentForm.get('method')?.value != 'visa') {
+      <!-- <div formControlName="operator">
         @for (operatorSelectItem of operatorSelect; track $index) {
-          <option [value]="operatorSelectItem">{{operatorSelectItem}}</option>
+          <input type="radio" name="" id="">
         }
-      </select>
+      </div>
       @if (paymentForm.get('operator')?.touched && paymentForm.get('operator')?.invalid) {
-        <span class="error">pérateur requis.</span>
-      }
-
+        <span class="error">opérateur requis.</span>
+      } -->
+      
+      <!-- numero du client -->
       <input type="text" formControlName="mobileNumber" placeholder="Numéro Mobile">
       @if (paymentForm.get('mobileNumber')?.touched && paymentForm.get('mobileNumber')?.invalid) {
         <span class="error">Numéro Mobile requis.</span>

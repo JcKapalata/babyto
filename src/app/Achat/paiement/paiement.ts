@@ -23,8 +23,7 @@ export class Paiement implements OnInit{
   cardName: string;
   expiry: string;
   cvv: string;
-
-  // propriete pour mobile money
+// propriete pour mobile money
   mobileNumber: string;
   operator: string;
 
@@ -41,35 +40,65 @@ export class Paiement implements OnInit{
       operator: ['', []]
     });
 
+    // Récupération de tous les contrôles une seule fois pour la mise à jour finale
+    const visaControls = [
+        this.paymentForm.get('cardNumber'),
+        this.paymentForm.get('cardName'),
+        this.paymentForm.get('expiry'),
+        this.paymentForm.get('cvv')
+    ];
+    const mobileControls = [
+        this.paymentForm.get('mobileNumber'),
+        this.paymentForm.get('operator')
+    ];
+
     // Gestion des validations dynamiques selon la méthode choisie
     this.paymentForm.get('method')?.valueChanges.subscribe(method => {
+
+      // --- LOGIQUE VISA ---
       if (method === 'visa') {
+        // 1. Définir les validateurs Visa
         this.paymentForm.get('cardNumber')?.setValidators([Validators.required, Validators.minLength(16), Validators.maxLength(16)]);
         this.paymentForm.get('cardName')?.setValidators([Validators.required]);
         this.paymentForm.get('expiry')?.setValidators([Validators.required]);
         this.paymentForm.get('cvv')?.setValidators([Validators.required, Validators.minLength(3), Validators.maxLength(3)]);
-        // Désactive Mobile Money
-        this.paymentForm.get('mobileNumber')?.clearValidators();
-        this.paymentForm.get('operator')?.clearValidators();
-      } else if (method === 'mobile') {
-        this.paymentForm.get('mobileNumber')?.setValidators([Validators.required, Validators.minLength(10), Validators.maxLength(10)]);
+        
+        // 2. Supprimer les validateurs Mobile Money
+        mobileControls.forEach(control => {
+            control?.clearValidators();
+        });
+
+      // --- LOGIQUE MOBILE MONEY ---
+      } else if (this.operatorSelect.includes(method)) {
+        // 1. Définir les validateurs Mobile Money
+        this.paymentForm.get('mobileNumber')?.setValidators([
+            Validators.required, 
+            Validators.minLength(10), 
+            Validators.maxLength(10)
+        ]);
         this.paymentForm.get('operator')?.setValidators([Validators.required]);
-        // Désactive Visa
-        this.paymentForm.get('cardNumber')?.clearValidators();
-        this.paymentForm.get('cardName')?.clearValidators();
-        this.paymentForm.get('expiry')?.clearValidators();
-        this.paymentForm.get('cvv')?.clearValidators();
-      }
-      // Met à jour les erreurs
-      this.paymentForm.get('cardNumber')?.updateValueAndValidity();
-      this.paymentForm.get('cardName')?.updateValueAndValidity();
-      this.paymentForm.get('expiry')?.updateValueAndValidity();
-      this.paymentForm.get('cvv')?.updateValueAndValidity();
-      this.paymentForm.get('mobileNumber')?.updateValueAndValidity();
-      this.paymentForm.get('operator')?.updateValueAndValidity();
+
+        // 2. Supprimer les validateurs Visa
+        visaControls.forEach(control => {
+            control?.clearValidators();
+        });
+      } 
+      
+      // --- MISE À JOUR FINALE DE LA VALIDITÉ ---
+      // ⚠️ C'est ici qu'on appelle updateValueAndValidity, une seule fois pour tout !
+      
+      // Mettre à jour les contrôles Visa
+      visaControls.forEach(control => {
+          control?.updateValueAndValidity();
+      });
+      
+      // Mettre à jour les contrôles Mobile
+      mobileControls.forEach(control => {
+          control?.updateValueAndValidity();
+      });
     });
   }
-
+  
   // submit le paiement
   onSubmit() {
     if (this.paymentForm.valid) {
