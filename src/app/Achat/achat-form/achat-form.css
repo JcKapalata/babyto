@@ -92,3 +92,12 @@ input.ng-valid.ng-touched {
   cursor: not-allowed;
   opacity: 0.6;
 }
+
+@media (max-width: 450px){
+  .image-block{
+    img{
+      width: 130px;
+      height: 130px;
+    }
+  }
+}

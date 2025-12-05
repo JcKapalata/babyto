@@ -125,9 +125,14 @@ export class Paiement implements OnInit{
     }
   }
 
+  // desactive le button payer
+  disableButtonPayer(){
+    return this.paymentForm.valid && this.articleAchete
+  }
+
   // submit le paiement
   onSubmit() {
-    if (this.paymentForm.valid) {
+    if (this.disableButtonPayer()) {
       const paymentMethod = this.paymentForm.get('method')?.value;
 
       // Si la transaction ce faite avec visa
@@ -152,7 +157,7 @@ export class Paiement implements OnInit{
       }
     } else {
       this.paymentForm.markAllAsTouched();
-      console.error('Formulaire invalide. Veuillez vérifier les champs requis.');
+      console.error(`Formulaire invalide ou de l'article. Veuillez vérifier les champs requis.`);
     }
   }
 }

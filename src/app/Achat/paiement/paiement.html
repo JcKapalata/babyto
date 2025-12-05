@@ -68,7 +68,7 @@
       </div>
     }
 
-    <button type="submit" [disabled]="paymentForm.invalid">Payer</button>
+    <button type="submit" [disabled]="!disableButtonPayer()">Payer</button>
 
   </form>
 </div>
