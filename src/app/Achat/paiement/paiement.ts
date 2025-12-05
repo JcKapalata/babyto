@@ -1,6 +1,7 @@
 
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnChanges, OnInit, SimpleChanges } from '@angular/core';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
+import { CommandeItem } from '../../Models/commande';
 
 @Component({
   selector: 'app-paiement',
@@ -8,13 +9,13 @@ import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angula
   templateUrl: './paiement.html',
   styleUrls: ['./paiement.css']
 })
-export class Paiement implements OnInit {
+export class Paiement implements OnInit{
 
+  @Input() articleAchete: CommandeItem| undefined;
   paymentForm!: FormGroup;
   
   // propriete a place dans le formulaire
-    operatorSelect: string[] = ['Airtel', 'Vodacom', 'Orange'];
-
+  operatorSelect: string[] = ['Airtel', 'Vodacom', 'Orange'];
 
   // propriete pour visa
   method: string;
@@ -69,6 +70,7 @@ export class Paiement implements OnInit {
     });
   }
 
+  // submit le paiement
   onSubmit() {
     if (this.paymentForm.valid) {
       const paymentMethod = this.paymentForm.get('method')?.value
@@ -86,6 +88,7 @@ export class Paiement implements OnInit {
         this.operator = this.paymentForm.get('operator')?.value;
         this.mobileNumber = this.paymentForm.get('mobileNumber')?.value
         console.log(`le numero qui a payer est ${this.mobileNumber} sur l'operateur ${this.operator}`);
+        console.table(this.articleAchete)
       }
     } else {
       this.paymentForm.markAllAsTouched();

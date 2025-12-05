@@ -7,12 +7,13 @@ import { MatIconModule } from "@angular/material/icon";
 import { MatButtonModule } from '@angular/material/button';
 import { AchatService} from '../achat-service';
 import { CommandeItem } from '../../Models/commande';
+import { Paiement } from "../paiement/paiement";
 
 
 @Component({
   selector: 'app-commande-form',
   standalone: true,
-  imports: [ReactiveFormsModule, CommonModule, MatIconModule, MatButtonModule],
+  imports: [ReactiveFormsModule, CommonModule, MatIconModule, MatButtonModule, Paiement],
   templateUrl: './achat-form.html',
   styleUrls: ['./achat-form.css'],
 })
@@ -25,6 +26,7 @@ export class AchatForm implements OnInit, OnChanges {
   taille: string;
   couleur: string;
   isAchatDirect: boolean;
+  showPayementComponent: boolean = false;
 
   constructor(
     private fb: FormBuilder,
@@ -47,8 +49,7 @@ export class AchatForm implements OnInit, OnChanges {
   }
 
   ngOnChanges() {
-        if (this.produit){
-      // this.prixTotal = this.produitForm.value.quantite * this.produit.prix;
+      if (this.produit){
       const tailleControl = this.produitForm.get('taille');
       const couleurControl = this.produitForm.get('couleur');
 
@@ -85,15 +86,21 @@ export class AchatForm implements OnInit, OnChanges {
     return null;
   }
 
-  articleAchete(){
-    return {
-      ...this.produitForm.value,
-      produitId: this.produit.id,
-      prixUnitaire: this.produit.prix,
-      prixTotal: this.prixTotal
+  // Récupère les informations de l'article acheté
+  articleAchete(): CommandeItem | undefined {
+    if (this.produitForm.valid) {
+      return {
+        ...this.produitForm.value,
+        produitId: this.produit.id,
+        prixUnitaire: this.produit.prix,
+        prixTotal: this.prixTotal
+      }
+    }else{
+      return undefined
     }
   }
 
+  // Gestion du submit
   onSubmit() {
     if (this.produitForm.valid) {
 
@@ -107,6 +114,19 @@ export class AchatForm implements OnInit, OnChanges {
     }
   }
 
+  // Navigue vers la page de payement
+  goToActivePayement() {
+    if(this.produitForm.valid){
+      this.showPayementComponent = !this.showPayementComponent;
+      console.log('clic buttton payement');
+    } else{
+      this.produitForm.markAllAsTouched();
+      console.log("Formulaire invalide. Impossible d'activer le paiement.");
+    }
+  }
+
+
+  // 
   ajouterAuPanier() {
     if (this.produit && this.produitForm.valid) {
       // Récupère la valeur du FormControl "quantite"

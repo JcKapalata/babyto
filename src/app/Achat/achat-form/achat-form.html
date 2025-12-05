@@ -83,12 +83,22 @@
       </div>
     }
 
-    @if (isAchatDirect) {
-      <button type="submit" class="btn" [disabled]="produitForm.invalid">Payement</button>
-    } @else {
-      <button type="submit" class="btn" [disabled]="produitForm.invalid">Valider</button>
-    }
+    <div class="boutton-container">
+      @if (isAchatDirect) {
+        <button type="button" 
+          class="btn" 
+          [disabled]="produitForm.invalid" 
+          (click)="goToActivePayement()"
+          >Paiement</button>
+      } @else {
+        <button type="submit" class="btn" [disabled]="produitForm.invalid">Valider</button>
+      }
+    </div>
     
+    @if(showPayementComponent){
+      <app-paiement [articleAchete]="articleAchete()"></app-paiement>
+    }
+
   </form>
 } @else {
   <div class="error-message">

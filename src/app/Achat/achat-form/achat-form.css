@@ -46,8 +46,14 @@ textarea {
   min-height: 60px;
 }
 
+.boutton-container{
+  display: flex;
+  justify-content: center;
+  margin-top: 20px;
+}
+
 .btn {
-  width: 100%;
+  width: 40%;
   padding: 12px;
   background: var(--primary-color);
   color: white;
