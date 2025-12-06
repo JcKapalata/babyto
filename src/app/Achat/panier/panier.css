@@ -28,15 +28,21 @@
 }
 
 .panier-item {
-  display: flex;
-  gap: 16px;
-  justify-content: space-between;
-  align-items: center;
   background: #f3f3f3;
   padding: 12px;
   border-radius: 8px;
   margin-bottom: 12px;
 }
+
+.panier-small-item{
+  display: flex;
+  gap: 16px;
+  justify-content: space-between;
+  align-items: center;
+  padding: 12px;
+  margin-bottom: 12px;
+}
+
 
 .item-image {
   width: 80px;
@@ -59,6 +65,12 @@
   font-weight: bold;
 }
 
+.btn-actions{
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
 .supprimer {
   background: var(--warn-color);
   color: white;
@@ -66,6 +78,18 @@
   padding: 6px 8px;
   cursor: pointer;
   border-radius: 4px;
+}
+
+.updater{
+  background: var(--primary-color);
+  color: white;
+  border: none;
+  padding: 6px 8px;
+  cursor: pointer;
+  border-radius: 4px;
+}
+.updater:hover{
+  background: var(--accent-color);
 }
 
 /* adresse */

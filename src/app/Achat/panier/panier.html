@@ -13,27 +13,35 @@
         <div class="panier-liste">
             @for (item of items; track $index) {
                 <div class="panier-item">
-        
-                    <!-- Image du produit -->
-                    <img [src]="item.imageUrl" alt="{{item.nom}}" class="item-image">
-            
-                    <!-- Infos produit -->
-                    <div class="item-info">
-                        <h3>{{ item.nom }}</h3>
-                        <p>Prix unitaire : {{ item.prix | currency:'USD' }}</p>
+                    <div class="panier-small-item">
+                        <!-- Image du produit -->
+                        <img [src]="item.imageUrl" alt="{{item.nom}}" class="item-image">
                 
-                        <div class="quantite-control">
-                            <button (click)="decrement(item)">-</button>
-                            <span>{{ item.quantity }}</span>
-                            <button (click)="increment(item)">+</button>
+                        <!-- Infos produit -->
+                        <div class="item-info">
+                            <h3>{{ item.nom }}</h3>
+                            <p>Prix unitaire : {{ item.prix }} {{ item.devise}}</p>
+                    
+                            <div class="quantite-control">
+                                <button (click)="decrement(item)">-</button>
+                                <span>{{ item.quantity }}</span>
+                                <button (click)="increment(item)">+</button>
+                            </div>
+                        </div>
+                
+                        <!-- Total, suppression et mise en jour -->
+                        <div class="item-total">
+                            <p>Total : {{ item.getTotal()}} {{ item.devise}}</p>
+
+                            <div class="btn-actions">
+                                <button class="supprimer" (click)="supprimer(item)">Supprimer</button>
+                                <button class="updater" (click)="goToUpdateProduit(item)">Mise en jour</button>
+                            </div>
+                        </div>
                     </div>
-                    </div>
-            
-                    <!-- Total et suppression -->
-                    <div class="item-total">
-                        <p>Total : {{ item.getTotal() | currency:'USD' }}</p>
-                        <button class="supprimer" (click)="supprimer(item)">Supprimer</button>
-                    </div>
+                    @if (idProduitUpdate.includes(item.id)) {
+                        <app-achat-form [produit]="item"></app-achat-form>
+                    }
                 </div>
             }
         </div>

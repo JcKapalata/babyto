@@ -1,7 +1,7 @@
 import { Component, Input, OnChanges, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators, ReactiveFormsModule, ValidationErrors, AbstractControl } from '@angular/forms';
 import { Produit } from '../../Models/produits';
-import { ActivatedRoute, Router } from '@angular/router';
+import { Router } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { MatIconModule } from "@angular/material/icon";
 import { MatButtonModule } from '@angular/material/button';
@@ -11,7 +11,7 @@ import { Paiement } from "../paiement/paiement";
 
 
 @Component({
-  selector: 'app-commande-form',
+  selector: 'app-achat-form',
   standalone: true,
   imports: [ReactiveFormsModule, CommonModule, MatIconModule, MatButtonModule, Paiement],
   templateUrl: './achat-form.html',

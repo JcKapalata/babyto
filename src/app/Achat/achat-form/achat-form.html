@@ -1,14 +1,18 @@
 @if (produit) {
   <form [formGroup]="produitForm" (ngSubmit)="onSubmit()" class="form-container">
-    <div class="image-block">
-        <img [src]="produit.imageUrl">
-    </div>
 
-    <div>
-      <h3>Nom du produit : {{produit.nom}}</h3>
-      <h3>Prix : {{produit.prix }} {{ produit.devise}}</h3>
-      <p>Description: {{produit.description}}</p>
-    </div>
+    @if (isAchatDirect) {
+      <div class="image-block">
+          <img [src]="produit.imageUrl">
+      </div>
+
+      <div>
+        <h3>Nom du produit : {{produit.nom}}</h3>
+        <h3>Prix : {{produit.prix }} {{ produit.devise}}</h3>
+        <p>Description: {{produit.description}}</p>
+      </div>
+    }
+    <p>Description: {{produit.description}}</p>
   
     <div class="form-group">
 

@@ -22,7 +22,7 @@
                     <!-- Ajout au panier-->
                     <button
                     class="boutton" color="primary" 
-                    (click)="addToPanier( produit)"
+                    (click)="addToPanier( produit); $event.stopPropagation()"
                     >
                         <mat-icon>add_shopping_cart</mat-icon>
                         Ajouter au panier
