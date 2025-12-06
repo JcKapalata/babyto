@@ -6,13 +6,14 @@ import { BoutiqueService } from '../boutique-service';
 
 import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
-import { MatIcon } from "@angular/material/icon";
+import { MatIcon, MatIconModule } from "@angular/material/icon";
 import { CommandeItem } from '../../Models/commande';
+import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
 
 
 @Component({
   selector: 'app-produits-list',
-  imports: [MatCardModule, MatButtonModule, MatIcon],
+  imports: [MatCardModule, MatButtonModule, MatIcon, MatIconModule, MatSnackBarModule],
   templateUrl: './produits-list.html',
   styleUrl: './produits-list.css',
   providers: [BoutiqueService]
@@ -24,7 +25,8 @@ export class ProduitsList implements OnInit{
   constructor(
     private boutiqueService: BoutiqueService,
     private achatService: AchatService,
-    private router: Router
+    private router: Router,
+    private matSnackBar: MatSnackBar
   ){}
 
   ngOnInit() {
@@ -66,7 +68,20 @@ export class ProduitsList implements OnInit{
     this.achatService.ajouterProduit(itemToAdd);
     console.table(itemToAdd)
     
-    // Optionnel : Afficher une notification ici
+    // 3. ✅ Affichage du SnackBar (la notification)
+    const message = `✅ ${product.nom} ajouté au panier !`;
+    const action = 'Voir Panier';
+    
+    const snackBarRef = this.matSnackBar.open(message, action, {
+        duration: 4000, 
+        horizontalPosition: 'end', 
+        verticalPosition: 'bottom',    
+        panelClass: ['snackbar-success'] 
+    });
+
+    snackBarRef.onAction().subscribe(() => {
+        this.router.navigate(['/achat/panier']);
+    });
   }
 
 }

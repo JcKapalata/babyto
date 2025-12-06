@@ -60,6 +60,13 @@ mat-card-actions{
   background-color: var(--accent-color); /* un peu plus foncé au survol */
 }
 
+/* Style du SnackBar */
+/* .snackbar-success {
+  background-color: #4CAF50;
+  color: white !important;
+  font-weight: bold;
+} */
+
 @media (920px <= width < 1024px) {
   .produits-container {
     grid-template-columns: repeat(auto-fill, minmax(230px, 1fr));  

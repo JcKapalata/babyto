@@ -14,6 +14,6 @@ export const appConfig: ApplicationConfig = {
       HttpClientInMemoryWebApiModule.forRoot(InMemoryDataService, {
         dataEncapsulation: false
       })
-    ),
+    )
   ]
 };
