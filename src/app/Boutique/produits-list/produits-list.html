@@ -22,6 +22,7 @@
                     <!-- Ajout au panier-->
                     <button mat-raised-button 
                     class="boutton" color="primary" 
+                    (click)="addToPanier($event, produit)"
                     >
                         <mat-icon>add_shopping_cart</mat-icon>
                         Ajouter au panier

@@ -1,60 +1,115 @@
 import { Injectable } from '@angular/core';
-import { BehaviorSubject, map } from 'rxjs';
-import { CommandeItem } from '../Models/commande';
-import { BoutiqueService } from '../Boutique/boutique-service';
+import { BehaviorSubject, map, Observable } from 'rxjs';
+import { CommandeItem } from '../Models/commande'; // Assurez-vous du bon chemin
+import { Produit } from '../Models/produits'; // Assurez-vous d'importer la classe/interface Produit
+import { BoutiqueService } from '../Boutique/boutique-service'; 
 
 @Injectable({
   providedIn: 'root',
 })
 export class AchatService {
 
-  // private showPanierSubject = new BehaviorSubject<boolean>(false);
-  // showPanier$ = this.showPanierSubject.asObservable();
-
-  private itemsSubject = new BehaviorSubject<CommandeItem[]>([]);
-  items$ = this.itemsSubject.asObservable();
+  // BehaviorSubject est initialisé avec la fonction qui charge le panier depuis le local storage
+  private itemsSubject = new BehaviorSubject<CommandeItem[]>(this.getInitialCart());
+  items$: Observable<CommandeItem[]> = this.itemsSubject.asObservable();
 
   constructor(private boutiqueService: BoutiqueService) { }
 
-  //go chercher un produit par son id
+  // --- LOGIQUE DE PERSISTANCE ---
+  
+  /**
+   * Charge le panier depuis localStorage et reconstruit les instances de CommandeItem.
+   */
+  private getInitialCart(): CommandeItem[] {
+    const storedCart = localStorage.getItem('shopping_add_cart_items_produit');
+    if (!storedCart) {
+      return [];
+    }
+    
+    const rawItems: any[] = JSON.parse(storedCart);
+
+    // VITAL : On reconstruit chaque CommandeItem pour que les méthodes (comme getTotal) fonctionnent.
+    return rawItems.map(rawItem => {
+      // 1. Reconstruire la partie Produit (doit correspondre à la structure de Produit)
+      const produit: Produit = { 
+          id: rawItem.id, 
+          nom: rawItem.nom, 
+          prix: rawItem.prix, 
+          devise: rawItem.devise, 
+          categorie: rawItem.categorie, 
+          type: rawItem.type, 
+          taille: rawItem.taille, 
+          couleur: rawItem.couleur,
+          description: rawItem.description,  
+          imageUrl: rawItem.imageUrl
+      } as Produit; 
+      
+      // 2. Créer une nouvelle instance de CommandeItem
+      return new CommandeItem(produit, rawItem.quantity);
+    });
+  }
+
+  /**
+   * Sauvegarde l'état actuel du panier dans localStorage.
+   */
+  private persistCart(items: CommandeItem[]): void {
+    // Le JSON.stringify sauvegarde la structure de données
+    localStorage.setItem('shopping_add_cart_items_produit', JSON.stringify(items));
+  }
+
+  // --- MÉTHODES DU SERVICE ---
+
   getProduitById(produitId: number) {
     return this.boutiqueService.getProduitById(produitId);
   }
 
-  //Achat rapide ou access direct du formulaire et du payemnt
-  // achatRapide(item: CommandeItem) {
-    // Traitement de l'achat rapide, par exemple, redirection vers la page de paiement
-    // console.log('Achat rapide pour le produit:', item);
-    // Implémenter la logique d'achat rapide ici
-  // }
-
-  // important pour ajoute un article au panier avant de mettre a jour le produit 
-  // donc ajout du panier puis dans panier pour mettre a jour le produit avant de payer 
-  // Ajouter un produit
+  /**
+   * LOGIQUE : Ajoute un article ou incrémente sa quantité.
+   * Assure l'immutabilité et la persistance.
+   */
   ajouterProduit(item: CommandeItem) {
     const currentItems = this.itemsSubject.value;
+    const existingIndex = currentItems.findIndex(p => p.id === item.id);
+    // On travaille sur une copie pour respecter l'immutabilité
+    let updatedItems = [...currentItems]; 
 
-    const existing = currentItems.find(p => p.id === item.id);
-    if (existing) {
-      currentItems.push(item);
-      this.itemsSubject.next([...currentItems]);
+    if (existingIndex > -1) {
+      // CAS 1: L'article existe déjà.
+      console.log(`Produit ID ${item.id} déjà présent. Non ajouté. Sa quantité sera modifiée dans le panier.`);
+      return;
     } else {
-      alert(`Produit ${item.id} est déjà dans le panier. Pas d'incrémentation.`);
+      // CAS 2: L'article est NOUVEAU (Ajout)
+      updatedItems.push(item);
     }
+
+    // Publier le nouvel état
+    this.itemsSubject.next(updatedItems);
+    
+    // Persister la nouvelle liste
+    this.persistCart(updatedItems); 
   }
 
-  // mise en jour du panier
+  // mise en jour du panier (utilisé dans la vue panier pour changer la quantité directement)
   updateItems(items: CommandeItem[]) {
+    // Si la liste complète est mise à jour, on publie et on persiste
     this.itemsSubject.next([...items]);
+    this.persistCart(items);
   }
 
   // vide le panier
   viderPanier() {
     this.itemsSubject.next([]);
+    // Vider aussi le stockage local
+    this.persistCart([]);
   }
 
   // recupere la nombre produit
   nombreProduits$ = this.items$.pipe(
     map(items => items.length)
+  );
+
+  // Observable pour le total du panier (optionnel mais utile)
+  totalPanier$ = this.items$.pipe(
+    map(items => items.reduce((total, item) => total + item.getTotal(), 0))
   );
 }

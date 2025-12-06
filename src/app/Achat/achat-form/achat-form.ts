@@ -127,15 +127,15 @@ export class AchatForm implements OnInit, OnChanges {
 
 
   // 
-  ajouterAuPanier() {
-    if (this.produit && this.produitForm.valid) {
-      // Récupère la valeur du FormControl "quantite"
-      const quantite = this.produitForm.get('quantite')?.value;
+  // ajouterAuPanier() {
+  //   if (this.produit && this.produitForm.valid) {
+  //     // Récupère la valeur du FormControl "quantite"
+  //     const quantite = this.produitForm.get('quantite')?.value;
 
-      const itemCommande = new CommandeItem(this.produit, quantite);
-      this.achatService.ajouterProduit(itemCommande);
-    }
-  }
+  //     const itemCommande = new CommandeItem(this.produit, quantite);
+  //     this.achatService.ajouterProduit(itemCommande);
+  //   }
+  // }
 
 }
 
