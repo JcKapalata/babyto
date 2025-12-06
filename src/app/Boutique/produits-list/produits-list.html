@@ -5,29 +5,28 @@
                 <img mat-card-image [src]="produit.imageUrl" [alt]="produit.nom">
 
                 <mat-card-content>
-                    <h2>{{ produit.nom }}</h2>
+                    <!-- <h2>{{ produit.nom }}</h2> -->
                     <p >{{ truncate(produit.description, 35)}}</p>
                     <p class="prix">{{ produit.prix }} {{ produit.devise}}</p>
                 </mat-card-content>
                 
                 <mat-card-actions>
                     <!-- Achat direct -->
-                    <button mat-raised-button 
+                    <button 
                     class="boutton" color="primary" 
-                    (click)="goToAchatDirect(produit); $event.stopPropagation()">
+                    (click)="goToAchatDirect(produit)">
                         <span class="material-icons">flash_on</span>
                         Achat Rapide
                     </button>
 
                     <!-- Ajout au panier-->
-                    <button mat-raised-button 
+                    <button
                     class="boutton" color="primary" 
-                    (click)="addToPanier($event, produit)"
+                    (click)="addToPanier( produit); $event.stopPropagation()"
                     >
                         <mat-icon>add_shopping_cart</mat-icon>
                         Ajouter au panier
                     </button>
-
                 </mat-card-actions>
             </mat-card>
         }

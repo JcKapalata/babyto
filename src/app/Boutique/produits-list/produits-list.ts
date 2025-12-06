@@ -13,7 +13,7 @@ import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
 
 @Component({
   selector: 'app-produits-list',
-  imports: [MatCardModule, MatButtonModule, MatIcon, MatIconModule, MatSnackBarModule],
+  imports: [MatCardModule, MatButtonModule, MatIconModule, MatSnackBarModule],
   templateUrl: './produits-list.html',
   styleUrl: './produits-list.css',
   providers: [BoutiqueService]
@@ -60,8 +60,8 @@ export class ProduitsList implements OnInit{
   }
 
   // AddToPanier
-  addToPanier(event: Event, product: Produit, quantity: number = 1): void {
-    event.stopPropagation()
+  addToPanier( product: Produit, quantity: number = 1): void {
+    
     // 1. Instancier le CommandeItem avec le produit et la quantité
     const itemToAdd = new CommandeItem(product, quantity);
     // 2. Appeler la méthode du service (qui gère l'unicité et la persistance)
