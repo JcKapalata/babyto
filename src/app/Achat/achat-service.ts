@@ -52,10 +52,13 @@ export class AchatService {
     
     // 2. Créer le nouveau tableau (immutabilité)
     const newItems = currentItems.map(item => {
-        
-      const { quantity, ...productDetails } = item;
 
       if (item.id === itemId) { 
+        // 1. SAUVEGARDE : Récupérer les options complètes de l'article existant
+        const originalTailleOptions = item.taille;
+        const originalCouleurOptions = item.couleur;
+        const { quantity, ...productDetails } = item;
+
         const updatedProductDetails = {
           ...productDetails, 
           couleur: Array.isArray(updatedItemData.couleur) ? updatedItemData.couleur : [updatedItemData.couleur],
@@ -64,7 +67,13 @@ export class AchatService {
 
         // Création et retour direct
         console.table(new CommandeItem(updatedProductDetails, updatedItemData.quantity))
-        return new CommandeItem(updatedProductDetails, updatedItemData.quantity); // Retour direct
+
+        // 4. CRÉATION DU NOUVEL ARTICLE : Création de la nouvelle instance de CommandeItem
+        const newItem = new CommandeItem(updatedProductDetails, updatedItemData.quantity);
+            
+        // 5. RÉINJECTION : Réinjecter les options complètes sauvegardées (étape 1)
+        newItem.taille = originalTailleOptions;
+        newItem.couleur = originalCouleurOptions;
       }
       return item;
     });

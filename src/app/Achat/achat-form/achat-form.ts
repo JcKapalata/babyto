@@ -33,12 +33,11 @@ export class AchatForm implements OnInit, OnChanges {
   constructor(
     private fb: FormBuilder,
     private router: Router,
-    private achatService: AchatService
   ) {
     this.produitForm = this.fb.group({
       quantity: [1, [Validators.required, Validators.min(1), this.integerValidator]],
-      taille: ['', Validators.required],
-      couleur: ['', Validators.required]
+      taille: [ '', Validators.required],
+      couleur: [ '', Validators.required]
     });
 
     this.produitForm.get('quantity')?.valueChanges.subscribe(qty => {
