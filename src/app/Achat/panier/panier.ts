@@ -70,6 +70,7 @@ export class Panier implements OnInit {
     // 1. Mise à jour des détails dans le service (déclenche la mise à jour de this.items via subscribe)
     this.achatService.updateProduitDetails(articleAchete)
 
+    //log du reponse reussi du achat-form
     console.log('valider mise a jour')
     console.table(articleAchete)
 

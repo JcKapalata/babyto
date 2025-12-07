@@ -19,12 +19,11 @@ import { Paiement } from "../paiement/paiement";
 })
 export class AchatForm implements OnInit, OnChanges {
 
-  @Input() produit: Produit;
+  @Input() produit!: any;
   @Output() validationMiseAJour = new EventEmitter<any>();
 
   produitForm: FormGroup;
   prixTotal: number;
-  // quantity: number = 1;
   taille: string;
   couleur: string;
   isAchatDirect: boolean;
@@ -45,31 +44,62 @@ export class AchatForm implements OnInit, OnChanges {
     });
   }
 
-  ngOnInit() {
-    this.isAchatDirect = this.router.url.includes('achat-direct');
-  }
-
   ngOnChanges() {
-      if (this.produit){
+    if (this.produit) {
       const tailleControl = this.produitForm.get('taille');
       const couleurControl = this.produitForm.get('couleur');
+      const quantityControl = this.produitForm.get('quantity'); // Ajout du contrôle de quantité
 
-      // Si des tailles sont disponibles, présélectionner la première option
-      if (this.produit.taille && this.produit.taille.length > 0 && tailleControl) {
-        tailleControl.setValue(this.produit.taille[0]);     
-      } else if (tailleControl) {
-      // Si aucune taille n'est disponible, le désactiver et/ou retirer le validateur
-        tailleControl.disable(); 
+      // 1. MISE À JOUR DE LA QUANTITÉ
+      // Initialise le champ quantité avec la quantité actuelle de l'article (si présente, sinon 1)
+      const currentQuantity = this.produit.quantity || 1;
+      if (quantityControl && quantityControl.value !== currentQuantity) {
+          quantityControl.setValue(currentQuantity, { emitEvent: false }); // Pas d'événement pour éviter un double appel à updateTotal
       }
 
-      // Si des couleurs sont disponibles, présélectionner la première option
-      if (this.produit.couleur && this.produit.couleur.length > 0 && couleurControl) {
-        couleurControl.setValue(this.produit.couleur[0]);
-      } else if (couleurControl) {
-        couleurControl.disable();
+      // 2. MISE À JOUR DE LA TAILLE
+
+      // Logique pour l'édition dans le panier : utiliser la valeur taille de l'article si elle existe
+      const selectedTaille = Array.isArray(this.produit.taille) 
+          ? (this.produit.taille[0] || '') // Utilise la taille sélectionnée dans l'article
+          : (this.produit.taille || ''); 
+      
+      if (tailleControl) {
+        if (selectedTaille) {
+          tailleControl.enable();
+          tailleControl.setValue(selectedTaille); // Précoche la taille actuelle
+        } else {
+          // Si le produit n'a pas de taille sélectionnée (nouvel article ou détail manquant)
+          tailleControl.disable();
+          tailleControl.setValue('');
+        }
       }
-      this.updateTotal(this.produitForm.value.quantity);
+
+      // 3. MISE À JOUR DE LA COULEUR
+      
+      // Logique pour l'édition dans le panier : utiliser la valeur couleur de l'article si elle existe
+      const selectedCouleur = Array.isArray(this.produit.couleur) 
+          ? (this.produit.couleur[0] || '') // Utilise la couleur sélectionnée dans l'article
+          : (this.produit.couleur || '');
+      
+      if (couleurControl) {
+        if (selectedCouleur) {
+          couleurControl.enable();
+          couleurControl.setValue(selectedCouleur); // Précoche la couleur actuelle
+        } else {
+          // Si le produit n'a pas de couleur sélectionnée
+          couleurControl.disable();
+          couleurControl.setValue('');
+        }
+      }
+
+      // 4. MISE À JOUR DU TOTAL
+      this.updateTotal(currentQuantity);
     }
+  }
+
+  ngOnInit() {
+    this.isAchatDirect = this.router.url.includes('achat-direct');
   }
 
   private updateTotal(qty: number) {
