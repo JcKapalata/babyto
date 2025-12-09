@@ -415,7 +415,7 @@ mat-card-actions{
   }
 }
 
-@media (600px <= width < 660px) {
+@media (550px <= width < 660px) {
   .produits-container {
     grid-template-columns: repeat(auto-fill, minmax(145px, 1fr));
   }
@@ -478,7 +478,7 @@ mat-card-actions{
   }
 }
 
-@media (470px <= width < 599px) {
+@media (470px <= width < 509px) {
   .produits-container {
     grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));  
   }
