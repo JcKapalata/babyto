@@ -18,6 +18,7 @@ export class Paiement implements OnInit{
   operatorSelect: string[] = ['Airtel Money', 'M-pesa', 'Orange money'];
 
   // Propriétés du composant (ne sont pas utilisées directement pour la liaison, mais pour le submit)
+  address!: string;
   method!: string;
   cardNumber!: string;
   cardName!: string;
@@ -30,6 +31,7 @@ export class Paiement implements OnInit{
 
   ngOnInit() {
     this.paymentForm = this.fb.group({
+      address: ['', Validators.required],
       method: ['', Validators.required],
       cardNumber: ['', []],
       cardName: ['', []],
@@ -221,7 +223,9 @@ export class Paiement implements OnInit{
         //log infoPayement
         console.table(this.getInfoPayement())
       }
-      
+
+      //log Adress de livraison
+      console.log(`l'address de livraison est: ${this.paymentForm.get('address')?.value}`)
       //log le prix global
       this.logPrixGlobal()
       //log les article

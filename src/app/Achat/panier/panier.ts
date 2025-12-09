@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { CommandeItem } from '../../Models/commande';
-import { CommonModule, CurrencyPipe, Location } from '@angular/common';
+import { CommonModule, Location } from '@angular/common';
 import { AchatService} from '../achat-service';
 import { MatIconModule } from "@angular/material/icon";
 import { MatButtonModule } from '@angular/material/button';
@@ -11,7 +11,7 @@ import { AchatForm } from "../achat-form/achat-form";
 
 @Component({
   selector: 'app-panier',
-  imports: [CommonModule, CurrencyPipe, MatIconModule, MatButtonModule, FormsModule, Paiement, AchatForm],
+  imports: [CommonModule, MatIconModule, MatButtonModule, FormsModule, Paiement, AchatForm],
   templateUrl: './panier.html',
   styleUrls: ['./panier.css']
 })

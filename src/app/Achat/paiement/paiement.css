@@ -8,6 +8,27 @@
   font-family: Arial, sans-serif;
 }
 
+/* Textarea */
+textarea {
+  padding: 10px;
+  font-size: 14px;
+  font-family: Arial, sans-serif;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  resize: none;       /* Empêche le redimensionnement */
+  width: 100%;        /* Occupe toute la largeur du parent */
+  box-sizing: border-box; /* Inclut le padding dans la largeur */
+  min-height: 50px;   /* Hauteur minimale */
+  outline: none;
+  transition: border 0.2s;
+}
+
+/* Focus */
+textarea:focus {
+  border-color: #007bff;
+  box-shadow: 0 0 5px rgba(0,123,255,0.3);
+}
+
 .payment-method label {
   display: block;
   margin-bottom: 10px;
@@ -85,7 +106,6 @@ select.ng-touched.ng-valid {
   border-color: var(--primary-color);
 }
 
-/* Responsive */
 @media (max-width: 500px) {
   .expiry-cvv {
     flex-direction: column;

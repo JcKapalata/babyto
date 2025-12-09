@@ -46,32 +46,24 @@ export class AchatService {
   updateProduitDetails(updatedItemData: CommandeItem): void {
     const itemId = updatedItemData.id;
     const currentItems = this.itemsSubject.getValue();
+
+    // Récupérez directement les valeurs de SELECTION du formulaire
+    const newCouleurSelection = updatedItemData.couleurSelectionnee; 
+    const newTailleSelection = updatedItemData.tailleSelectionnee;
     
     const newItems = currentItems.map(item => {
 
         if (item.id === itemId) { 
             
-            // 1. Récupérer la nouvelle sélection unique du formulaire
-            const newCouleurSelection = Array.isArray(updatedItemData.couleur) 
-                                        ? updatedItemData.couleur[0] 
-                                        : updatedItemData.couleur; 
-
-            const newTailleSelection = Array.isArray(updatedItemData.taille) 
-                                       ? updatedItemData.taille[0]
-                                       : updatedItemData.taille;
-            
             // 2. Créer une copie de l'article existant et mettre à jour la quantité
             const newItem = new CommandeItem(item, updatedItemData.quantity);
             
             // 3. Mettre à jour les champs de SÉLECTION avec les nouvelles valeurs du formulaire
-            //    Les champs d'options (newItem.taille et newItem.couleur) conservent
-            //    les options complètes grâce à la copie de l'objet 'item' à l'étape 2.
             newItem.tailleSelectionnee = newTailleSelection;
             newItem.couleurSelectionnee = newCouleurSelection;
             
             // Recalculer le prix total (si non géré dans le setter de quantity ou dans le constructeur)
             newItem.prixTotal = newItem.quantity * newItem.prix; 
-            
             return newItem
         }
         return item;

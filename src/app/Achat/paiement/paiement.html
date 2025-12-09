@@ -1,7 +1,30 @@
 <div class="payment-container">
-  <h2>Paiement</h2>
 
   <form [formGroup]="paymentForm" (ngSubmit)="onSubmit()">
+
+    <!-- Adresse de livraison -->
+    <div>
+      <h2>Adresse de livraison</h2>
+        <div class="address-form">
+          <label for="address">Lieu de rencontre:</label>
+          <textarea
+            id="address"
+            name="address"
+            formControlName="address" 
+            placeholder="123 Rue Exemple"
+            rows="3"
+            cols="50"
+          ></textarea>
+                    
+          @if (paymentForm.get('address')?.touched && paymentForm.get('address')?.invalid) {
+            <span class="error">Veuillez indiquer un lieu de rencontre.</span>
+          }
+        </div>
+    </div>
+
+    <hr>
+
+    <h2>Paiement</h2>
 
     <!-- Choix du formulaire -->
     <div class="payment-method">

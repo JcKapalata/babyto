@@ -45,30 +45,11 @@
                 </div>
             }
         </div>
-
-        <!-- Livraison address -->
-        <div>
-            <h2>Adresse de livraison</h2>
-            <form #livraisonForm="ngForm" >
-                <div class="address-form">
-                    <label for="address">Lieu de rencontre:</label>
-                    <textarea
-                        id="address"
-                        name="address"
-                        ngModel
-                        required
-                        placeholder="123 Rue Exemple"
-                        rows="3"
-                        cols="50"
-                    ></textarea>
-                </div>
-            </form>
-        </div>
     
         <!-- Total général -->
         <div class="panier-total">
-            <h3>Total général en USD : {{ getTotalUSD() | currency:'USD'}}</h3>
-            <h3>Total général en CDF : {{ getTotalCDF() | currency:'CDF'}}</h3>
+            <h3>Total général en USD : {{ getTotalUSD() }} $</h3>
+            <h3>Total général en CDF : {{ getTotalCDF() }} Fc</h3>
             <button (click)="togglePaiement()" class="btn-valider">Paiement</button>
         </div>
 
