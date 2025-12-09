@@ -352,6 +352,69 @@ mat-card-actions{
   }
 }
 
+@media (660px <= width < 695px) {
+  .produits-container {
+    grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+  }
+
+  .produit-card {
+    height: 230px;
+  }
+
+  .produit-card:hover{
+    mat-card-content{
+      margin: 2px 0;
+      h2{
+        font-size: 0.65rem;
+        margin: 2px 0;
+      }
+      .description{
+        font-size: 0.6rem;
+        margin: 2px 0;
+      }
+      .prix {
+        font-size: 0.6rem;
+        margin: 2px 0;
+      }
+      }
+  }
+
+  .produit-card img{
+    width: 80px;        
+    height: 80px;
+  }
+
+  mat-card-content{
+    margin: 2px 0;
+    h2{
+      font-size: 0.7rem;
+      margin: 3px 0;
+    }
+    .description{
+      font-size: 0.7rem;
+      margin: 3px 0;
+    }
+    .prix {
+      font-size: 0.7rem;
+      margin: 3px 0;
+    }
+  }
+
+  mat-card-actions{
+    bottom: 2px;
+    button {
+      padding: 4px 5px;
+      font-weight: 800;
+      font-size: 0.55rem;
+      span,mat-icon{
+        font-size: 12px;
+        display: flex;
+        align-items: center;
+      }
+    }
+  }
+}
+
 @media (470px <= width < 599px) {
   .produits-container {
     grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));  
