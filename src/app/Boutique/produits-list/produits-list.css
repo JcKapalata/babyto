@@ -100,7 +100,7 @@ mat-card-actions{
       font-weight: 800;
       font-size: 0.7rem;
 
-      span,mat-icon{
+      mat-icon{
         font-size: 20px;
         display: flex;
         align-items: center;
@@ -140,7 +140,7 @@ mat-card-actions{
       padding: 4px 8px;
       font-weight: 800;
       font-size: 0.7rem;
-      span,mat-icon{
+      mat-icon{
         font-size: 18px;
         display: flex;
         align-items: center;
@@ -180,7 +180,7 @@ mat-card-actions{
       padding: 4px 5px;
       font-weight: 800;
       font-size: 0.7rem;
-      span,mat-icon{
+      mat-icon{
         font-size: 18px;
         display: flex;
         align-items: center;
@@ -220,7 +220,7 @@ mat-card-actions{
       padding: 4px 5px;
       font-weight: 800;
       font-size: 0.7rem;
-      span,mat-icon{
+      mat-icon{
         font-size: 18px;
         display: flex;
         align-items: center;
@@ -275,7 +275,7 @@ mat-card-actions{
       padding: 4px 5px;
       font-weight: 800;
       font-size: 0.6rem;
-      span,mat-icon{
+      mat-icon{
         font-size: 15px;
         display: flex;
         align-items: center;
@@ -330,7 +330,7 @@ mat-card-actions{
       padding: 4px;
       font-weight: 800;
       font-size: 0.6rem;
-      span,mat-icon{
+      mat-icon{
         font-size: 15px;
         display: flex;
         align-items: center;
@@ -385,7 +385,7 @@ mat-card-actions{
       padding: 4px 2px;
       font-weight: 800;
       font-size: 0.54rem;
-      span,mat-icon{
+      mat-icon{
         font-size: 12px;
         display: flex;
         align-items: center;
@@ -440,7 +440,7 @@ mat-card-actions{
       padding: 3px;
       font-weight: 800;
       font-size: 0.55rem;
-      span,mat-icon{
+      mat-icon{
         font-size: 12px;
         display: flex;
         align-items: center;
@@ -495,7 +495,7 @@ mat-card-actions{
       padding: 4px;
       font-weight: 800;
       font-size: 0.5rem;
-      span,mat-icon{
+      mat-icon{
         font-size: 12px;
         display: flex;
         align-items: center;
@@ -550,7 +550,7 @@ mat-card-actions{
       padding: 3px;
       font-weight: 800;
       font-size: 0.5rem;
-      span,mat-icon{
+      mat-icon{
         font-size: 12px;
         display: flex;
         align-items: center;
@@ -605,7 +605,7 @@ mat-card-actions{
       padding: 3px;
       font-weight: 800;
       font-size: 0.5rem;
-      span,mat-icon{
+      mat-icon{
         font-size: 12px;
         display: flex;
         align-items: center;
@@ -661,7 +661,7 @@ mat-card-actions{
       margin-left: 2px;
       font-weight: 700;
       font-size: 0.5rem;
-      span,mat-icon{
+      mat-icon{
         font-size: 10px;
         display: flex;
         align-items: center;
@@ -716,7 +716,7 @@ mat-card-actions{
       margin-left: 2px;
       font-weight: 800;
       font-size: 0.7rem;
-      span,mat-icon{
+      mat-icon{
         font-size: 12px;
         display: flex;
         align-items: center;
@@ -771,7 +771,7 @@ mat-card-actions{
       margin-left: 2px;
       font-weight: 800;
       font-size: 0.7rem;
-      span,mat-icon{
+      mat-icon{
         font-size: 12px;
         display: flex;
         align-items: center;
@@ -809,7 +809,7 @@ mat-card-actions{
         margin-left: 2px;
         font-weight: 700;
         font-size: 0.55rem;
-        span,mat-icon{
+        mat-icon{
           font-size: 10px;
           display: flex;
           align-items: center;
@@ -850,35 +850,147 @@ mat-card-actions{
   }
 }
 
-@media (width < 329px) {
+@media (313px <= width < 330px) {
   .produits-container {
-    grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));  
+    grid-template-columns: repeat(auto-fill, minmax(125px, 1fr));
   }
 
   .produit-card {
-    height: 280px;  
-    position: relative;
-    margin: 5px;
+    height: 175px;
   }
 
+  .produit-card:hover{
+    border: 3px solid var(--primary-color);
+    mat-card-content{
+      margin: 2px 0;
+      h2{
+        font-size: 0.7rem;
+        margin: 2px 0;
+      }
+      .prix {
+        font-size: 0.68rem;
+        margin: 1px 0;
+      }
+    }
+
+    mat-card-actions{
+      bottom: 0px;
+      button {
+        padding: 2px 1px;
+        margin-left: 2px;
+        font-weight: 700;
+        font-size: 0.48rem;
+        mat-icon{
+          font-size: 10px;
+          display: flex;
+          align-items: center;
+        }
+      }
+    }
+  }
   .produit-card img{
-    width: 70px;        
-    min-height: 70px;
+    width: 65px;        
+    height: 65px;
   }
 
   mat-card-content{
+    margin: 2px;
     h2{
-      font-size: 0.9em;
+      font-size: 0.7rem;
+      margin: 3px 0;
     }
-    p{
-      font-size: 0.8em;
+    .prix {
+      font-size: 0.7rem;
+      margin: 3px 0;
     }
   }
 
   mat-card-actions{
-    .boutton{
-      padding: 2px 4px;
-      font-size: 0.6em;
+    bottom: 0px;
+    button {
+      padding: 2px 1px;
+      margin-left: 2px;
+      font-weight: 700;
+      font-size: 0.5rem;
+      mat-icon{
+        font-size: 10px;
+        display: flex;
+        align-items: center;
+      }
+    }
+  }
+}
+
+@media (293px <= width < 313px) {
+  .produits-container {
+    grid-template-columns: repeat(auto-fill, minmax(115px, 1fr));
+  }
+
+  .produit-card {
+    height: 175px;
+  }
+
+  .produit-card:hover{
+
+    border: 2px solid var(--primary-color);
+    mat-card-content{
+      margin: 2px 0;
+      h2{
+        font-size: 0.68rem;
+        margin: 2px 0;
+      }
+      .prix {
+        font-size: 0.68rem;
+        margin: 1px 0;
+      }
+    }
+
+    mat-card-actions{
+      bottom: 0px;
+      left: -5px;
+      button {
+        padding: 1px;
+        margin-left: 2px;
+        font-weight: 600;
+        font-size: 0.48rem;
+        mat-icon{
+          font-size: 10px;
+          display: flex;
+          align-items: center;
+        }
+      }
+    }
+  }
+  .produit-card img{
+    width: 65px;        
+    height: 65px;
+  }
+
+  mat-card-content{
+    margin: 2px;
+    h2{
+      font-size: 0.68rem;
+      margin: 2px 0;
+    }
+    .prix {
+      font-size: 0.68rem;
+      margin: 2px 0;
+    }
+  }
+
+  mat-card-actions{
+    bottom: 0px;
+    left: -5px;
+    button {
+      padding:  1px;
+      margin-left: 2px;
+      font-weight: 700;
+      font-size: 0.5rem;
+      mat-icon{
+        font-size: 10px;
+        display: flex;
+        align-items: center;
+      }
     }
   }
 }
