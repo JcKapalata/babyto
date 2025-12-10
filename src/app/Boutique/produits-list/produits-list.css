@@ -994,3 +994,123 @@ mat-card-actions{
     }
   }
 }
+
+@media (208px <= width < 293px) {
+  .produits-container {
+    grid-template-columns: repeat(auto-fill, minmax(105px, 1fr));
+  }
+
+  .produit-card {
+    height: 175px;
+  }
+
+  .produit-card:hover{
+    border: 2px solid var(--primary-color);
+
+    mat-card-actions{
+    bottom: 0px;
+    button {
+      padding:  1px;
+      margin-left: 2px;
+      font-weight: 800;
+      font-size: 0.7rem;
+      mat-icon{
+        font-size: 12px;
+        display: flex;
+        align-items: center;
+      }
+    }
+  }
+  }
+  .produit-card img{
+    width: 75px;        
+    height: 75px;
+  }
+
+  mat-card-content{
+    margin: 2px;
+    h2{
+      font-size: 0.68rem;
+      margin: 2px 0;
+    }
+    .prix {
+      font-size: 0.68rem;
+      margin: 2px 0;
+    }
+  }
+
+  mat-card-actions{
+    bottom: 0px;
+    button {
+      padding:  1px;
+      margin-left: 2px;
+      font-weight: 800;
+      font-size: 0.8rem;
+      mat-icon{
+        font-size: 12px;
+        display: flex;
+        align-items: center;
+      }
+    }
+  }
+}
+
+@media ( width < 208px) {
+  .produits-container {
+    grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
+  }
+
+  .produit-card {
+    height: 175px;
+  }
+
+  .produit-card:hover{
+    border: 2px solid var(--primary-color);
+
+    mat-card-actions{
+    bottom: 0px;
+    button {
+      padding:  1px;
+      margin-left: 2px;
+      font-weight: 800;
+      font-size: 0.7rem;
+      mat-icon{
+        font-size: 12px;
+        display: flex;
+        align-items: center;
+      }
+    }
+  }
+  }
+  .produit-card img{
+    width: 75px;        
+    height: 75px;
+  }
+
+  mat-card-content{
+    margin: 2px;
+    h2{
+      font-size: 0.68rem;
+      margin: 2px 0;
+    }
+    .prix {
+      font-size: 0.68rem;
+      margin: 2px 0;
+    }
+  }
+
+  mat-card-actions{
+    bottom: 0px;
+    button {
+      padding:  1px;
+      margin-left: 2px;
+      font-weight: 800;
+      font-size: 0.7rem;
+      mat-icon{
+        font-size: 12px;
+        display: flex;
+        align-items: center;
+      }
+    }
+  }
+}
