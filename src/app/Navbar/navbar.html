@@ -7,33 +7,39 @@
   <span class="spacer"></span>
 
   <!-- Menu -->
-  <button mat-button 
-    (click)="goToAcceuil()" 
-    class="boutton"
-    >
-      <mat-icon>home</mat-icon> Accueil
-  </button>
+  <div class="menu-pcp">
 
-  <button mat-button 
-    (click)="goToProduitList()" 
-    class="boutton"
-    >
-      <mat-icon>store</mat-icon> Boutique
-  </button>
+    <!-- menu button -->
+    <div class="menu-button">
+      <button mat-button 
+        (click)="goToAcceuil()" 
+        class="boutton"
+        >
+          <mat-icon>home</mat-icon> Accueil
+      </button>
 
-  <button mat-button 
-    (click)="goToConnexion()" 
-    class="boutton"
-    >
-      <mat-icon>account_circle</mat-icon> Connexion
-  </button>
+      <button mat-button 
+        (click)="goToProduitList()" 
+        class="boutton"
+        >
+          <mat-icon>store</mat-icon> Boutique
+      </button>
 
-  <!-- Icône panier avec compteur -->
-  <button mat-icon-button 
-    (click)="goToPannier()"  
-    [matBadge]="nombreProduits$ | async"
-    matBadgeColor="accent">
-      <mat-icon class="btn-icon">shopping_cart</mat-icon>
-  </button>
+      <button mat-button 
+        (click)="goToConnexion()" 
+        class="boutton"
+        >
+          <mat-icon>account_circle</mat-icon> Connexion
+      </button>
+    </div>
+    
+    <!-- Icône panier avec compteur -->
+    <button mat-icon-button 
+      (click)="goToPannier()"  
+      [matBadge]="nombreProduits$ | async"
+      matBadgeColor="accent">
+        <mat-icon class="btn-icon">shopping_cart</mat-icon>
+    </button>
+  </div>
 
 </mat-toolbar>
