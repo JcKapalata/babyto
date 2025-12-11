@@ -17,10 +17,56 @@
         <div class="product-info">
             <h1 class="product-title">{{ produit.nom }}</h1>
 
-            <p class="product-description">Description: {{ produit.description }}</p>
+            <div class="product-description">
+                <p><strong>Code:</strong> {{produit.code}}</p>
+                <p><strong>Classement:</strong> {{ produit.classement }}</p>
+                <p><strong>Categorie:</strong> {{ produit.categorie}}</p>
+                <p><strong>Type:</strong> {{ produit.type}}</p>
+                <p><strong>Description:</strong> {{ produit.description }}</p>
+
+                <div class="product-options">
+
+                    <div class="option-group">
+                        <p class="option-title"><strong>Taille:</strong></p>
+                        <div class="option-choices">
+                            @for (taille of produit.taille; track $index) {
+                                <label class="simple-select"> 
+                                    <input 
+                                        type="radio" 
+                                        name="selectedTaille" 
+                                        [value]="taille" 
+                                        [checked]="taille === selectedTaille" 
+                                        (change)="selectOption('taille', taille)"
+                                    >
+                                    <span>{{taille}}</span>
+                                </label>
+                            }
+                        </div>
+                    </div>
+
+                    <div class="option-group">
+                        <p class="option-title"><strong>Couleur:</strong></p>
+                        <div class="option-choices">
+                            @for (couleur of produit.couleur; track $index) {
+                                <label class="simple-select">
+                                    <input 
+                                        type="radio" 
+                                        name="selectedCouleur" 
+                                        [value]="couleur" 
+                                        [checked]="couleur === selectedCouleur" 
+                                        (change)="selectOption('couleur', couleur)"
+                                    >
+                                    <span>{{couleur}}</span>
+                                </label>
+                            }
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
 
             <div class="product-meta">
-                <p><strong>Prix :</strong> {{ produit.prix | currency:'USD' }}</p>
+                <p><strong>Prix :</strong> {{ produit.prix }} {{produit.devise}}</p>
             </div>
         </div>
     } @else {

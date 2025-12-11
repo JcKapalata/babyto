@@ -51,9 +51,41 @@
 }
 
 .product-description{
-  color: #555;
   margin-bottom: 1rem;
+  text-align: justify;
 }
+
+/* section taille et couleur */
+.option-group {
+    margin-bottom: 1rem;
+}
+
+.option-title {
+    margin-bottom: 0.2rem;
+}
+
+/* Le conteneur des options est flexible */
+.option-choices {
+    display: flex;
+    flex-wrap: wrap; 
+    gap: 10px; 
+}
+
+/* Style de chaque élément radio */
+.radio-button {
+    cursor: pointer;
+    display: flex; 
+    align-items: center; 
+}
+
+/* Ajout d'une marge à l'input natif pour l'espacement */
+.radio-button input[type="radio"] {
+    margin-right: 5px;
+    opacity: 1; 
+    position: static;
+}
+
+
 
 .product-meta p {
   margin: 0.2rem 0;
@@ -200,6 +232,18 @@
   .actions {
     justify-content: center;
   }
+}
+
+
+/* Pour les écrans très petits, sur taille et couleur */
+@media (max-width: 400px) {
+    .option-choices {
+        gap: 8px; /* Réduit l'espace sur les petits écrans */
+    }
+    .radio-button span {
+        padding: 6px 10px; /* Réduit le padding */
+        font-size: 0.9rem;
+    }
 }
 
 @media (300px <= width < 350px) {
