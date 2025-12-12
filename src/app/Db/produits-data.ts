@@ -164,53 +164,64 @@ export const PRODUITS: Produit[] = [
     }
   },
   // // Produit 9
-  // { 
-  //   id: 9, 
-  //   code: 'BBI-ALI-009', // Bébé-Alimentation-009
-  //   nom: 'Biberon', 
-  //   prix: 7.99, 
-  //   devise: 'USD',
-  //   region: 'Butembo',
-  //   classement: 'Repas & Alimentation',
-  //   categorie: 'Alimentation',
-  //   type: 'Biberon',
-  //   taille: ['240 ml', '350 ml'],
-  //   couleur: ['Transparent', 'Bleu'],
-  //   description: 'Biberon en plastique sans BPA, anti-colique.', 
-  //   imageUrl: ['/assets/imagesProduits/009.jpeg']
-  // },
+  { 
+    id: 9, 
+    code: 'BBI-ALI-009', // Bébé-Alimentation-009
+    nom: 'Biberon', 
+    prix: 7.99, 
+    devise: 'USD',
+    region: 'Butembo',
+    classement: 'Repas & Alimentation',
+    categorie: 'Alimentation',
+    type: 'Biberon',
+    taille: ['240 ml', '350 ml'],
+    couleur: ['transparent', 'bleu', 'rose'],
+    description: 'Biberon en plastique sans BPA, anti-colique.', 
+    imagesParCouleur: {
+      'transparent' : '/assets/imagesProduits/bbi-ali-009/transparent.jpeg',
+      'bleu' : '/assets/imagesProduits/bbi-ali-009/bleu.jpeg',
+      'rose' : '/assets/imagesProduits/bbi-ali-009/rose.jpeg',
+    }
+  },
   // // Produit 10
-  // { 
-  //   id: 10, 
-  //   code: 'BBI-ALI-010', 
-  //   nom: 'Tasse apprentissage', 
-  //   prix: 4.99, 
-  //   devise: 'USD',
-  //   region: 'Goma',
-  //   classement: 'Repas & Alimentation',
-  //   categorie: 'Alimentation',
-  //   type: 'Tasse',
-  //   taille: ['150 ml'],
-  //   couleur: ['Rose'],
-  //   description: 'Tasse avec poignées pour apprendre à boire.', 
-  //   imageUrl: ['/assets/imagesProduits/010.jpeg']
-  // },
+  { 
+    id: 10, 
+    code: 'BBI-ALI-010', 
+    nom: 'Tasse apprentissage', 
+    prix: 4.99, 
+    devise: 'USD',
+    region: 'Goma',
+    classement: 'Repas & Alimentation',
+    categorie: 'Alimentation',
+    type: 'Tasse',
+    taille: ['150 ml'],
+    couleur: ['rose', 'bleu', 'chocolat'],
+    description: 'Tasse avec poignées pour apprendre à boire.', 
+    imagesParCouleur: {
+      'rose' : '/assets/imagesProduits/bbi-ali-010/rose.jpeg',
+      'bleu' : '/assets/imagesProduits/bbi-ali-010/bleu.jpeg',
+      'chocolat' : '/assets/imagesProduits/bbi-ali-010/chocolat.jpeg',
+    }
+  },
   // // Produit 11
-  // { 
-  //   id: 11, 
-  //   code: 'BBI-JOU-011', 
-  //   nom: 'Jouet à empiler', 
-  //   prix: 9.99, 
-  //   devise: 'USD',
-  //   region: 'Beni',
-  //   classement: 'Jouets & Éveil',
-  //   categorie: 'Jouet',
-  //   type: 'Construction',
-  //   taille: ['20cm'],
-  //   couleur: ['Multicolore'],
-  //   description: 'Anneaux colorés en plastique résistant à empiler.', 
-  //   imageUrl: ['/assets/imagesProduits/011.jpeg']
-  // },
+  { 
+    id: 11, 
+    code: 'BBI-JOU-011', 
+    nom: 'Jouet à empiler', 
+    prix: 9.99, 
+    devise: 'USD',
+    region: 'Beni',
+    classement: 'Jouets & Éveil',
+    categorie: 'Jouet',
+    type: 'Construction',
+    taille: ['20cm'],
+    couleur: ['multicolore', 'rose'],
+    description: 'Anneaux colorés en plastique résistant à empiler.', 
+    imagesParCouleur: {
+      'multicolore' : '/assets/imagesProduits/bbi-jou-011/multicolore.jpeg',
+      'rose' : '/assets/imagesProduits/bbi-jou-011/rose.jpeg',
+    }
+  },
   // // Produit 12
   // {
   //   id: 12, 
