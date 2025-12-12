@@ -123,37 +123,46 @@ export const PRODUITS: Produit[] = [
     }
   },
   // // Produit 7
-  // { 
-  //   id: 7, 
-  //   code: 'BBI-VET-007', 
-  //   nom: 'T-shirt enfant', 
-  //   prix: 8.99, 
-  //   devise: 'USD',
-  //   region: 'Goma',
-  //   classement: 'Vêtements & Mode',
-  //   categorie: 'Vêtement',
-  //   type: 'T-shirt',
-  //   taille: ['2 ans'],
-  //   couleur: ['Jaune'],
-  //   description: 'T-shirt coton avec motif dinosaure fun.', 
-  //   imageUrl: ['/assets/imagesProduits/007.jpeg']
-  // },
+  { 
+    id: 7, 
+    code: 'BBI-VET-007', 
+    nom: 'T-shirt enfant', 
+    prix: 8.99, 
+    devise: 'USD',
+    region: 'Goma',
+    classement: 'Vêtements & Mode',
+    categorie: 'Vêtement',
+    type: 'T-shirt',
+    taille: ['2 ans'],
+    couleur: ['noire', 'rose', 'jaune', 'bleu'],
+    description: 'T-shirt coton avec motif dinosaure fun.', 
+    imagesParCouleur: {
+      'noire' : '/assets/imagesProduits/bbi-vet-007/noire.jpeg',
+      'rose' : '/assets/imagesProduits/bbi-vet-007/rose.jpeg',
+      'jaune' : '/assets/imagesProduits/bbi-vet-007/jaune.jpeg',
+      'bleu' : '/assets/imagesProduits/bbi-vet-007/bleu.jpeg',
+    }
+  },
   // // Produit 8
-  // { 
-  //   id: 8, 
-  //   code: 'BBI-VET-008', 
-  //   nom: 'Short bébé', 
-  //   prix: 6.99, 
-  //   devise: 'USD',
-  //   region: 'Beni',
-  //   classement: 'Vêtements & Mode',
-  //   categorie: 'Vêtement',
-  //   type: 'Short',
-  //   taille: ['6 mois'],
-  //   couleur: ['Gris'],
-  //   description: 'Short léger en coton idéal pour l\'été.', 
-  //   imageUrl: ['/assets/imagesProduits/008.jpeg']
-  // },
+  { 
+    id: 8, 
+    code: 'BBI-VET-008', 
+    nom: 'Short bébé', 
+    prix: 6.99, 
+    devise: 'USD',
+    region: 'Beni',
+    classement: 'Vêtements & Mode',
+    categorie: 'Vêtement',
+    type: 'Short',
+    taille: ['6 mois'],
+    couleur: ['gris', 'bleu ciel', 'rouge'],
+    description: 'Short léger en coton idéal pour l\'été.', 
+    imagesParCouleur: {
+      'gris' : '/assets/imagesProduits/bbi-vet-008/gris.jpeg',
+      'bleu ciel' : '/assets/imagesProduits/bbi-vet-008/bleu-ciel.jpeg',
+      'rouge' : '/assets/imagesProduits/bbi-vet-008/rouge.jpeg',
+    }
+  },
   // // Produit 9
   // { 
   //   id: 9, 
