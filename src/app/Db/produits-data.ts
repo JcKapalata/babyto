@@ -61,37 +61,46 @@ export const PRODUITS: Produit[] = [
     }
   },
   // // Produit 4
-  // { 
-  //   id: 4, 
-  //   code: 'BBI-JOU-004', // Bébé-Jouet-004
-  //   nom: 'Jouet en peluche', 
-  //   prix: 15.99, 
-  //   devise: 'USD',
-  //   region: 'Goma',
-  //   classement: 'Jouets & Éveil',
-  //   categorie: 'Jouet',
-  //   type: 'Peluche',
-  //   taille: ['30 cm', '40 cm'],
-  //   couleur: ['Marron'],
-  //   description: 'Peluche douce en forme d\'ours pour câlins.', 
-  //   imageUrl: ['/assets/imagesProduits/004.jpeg']
-  // }, 
+  { 
+    id: 4, 
+    code: 'BBI-JOU-004', // Bébé-Jouet-004
+    nom: 'Jouet en peluche', 
+    prix: 15.99, 
+    devise: 'USD',
+    region: 'Goma',
+    classement: 'Jouets & Éveil',
+    categorie: 'Jouet',
+    type: 'Peluche',
+    taille: ['30 cm', '40 cm'],
+    couleur: ['lin','chocolat', 'rose'],
+    description: 'Peluche douce en forme d\'ours pour câlins.', 
+    imagesParCouleur: {
+      'lin' : '/assets/imagesProduits/bbi-jou-004/lin.jpeg',
+      'chocolat' : '/assets/imagesProduits/bbi-jou-004/chocolat.jpeg',
+      'rose' : '/assets/imagesProduits/bbi-jou-004/rose.jpeg'
+    }
+  }, 
   // // Produit 5
-  // { 
-  //   id: 5, 
-  //   code: 'BBI-JOU-005', 
-  //   nom: 'Cube d’éveil', 
-  //   prix: 18.99, 
-  //   devise: 'USD',
-  //   region: 'Beni',
-  //   classement: 'Jouets & Éveil',
-  //   categorie: 'Jouet',
-  //   type: 'Éveil',
-  //   taille: ['15 cm', '20 cm'],
-  //   couleur: ['Rouge', 'Jaune', 'Bleu'],
-  //   description: 'Cube sensoriel avec couleurs, textures et sons.', 
-  //   imageUrl: ['/assets/imagesProduits/005.jpeg']
-  // },
+  { 
+    id: 5, 
+    code: 'BBI-JOU-005', 
+    nom: 'Cube d’éveil', 
+    prix: 18.99, 
+    devise: 'USD',
+    region: 'Beni',
+    classement: 'Jouets & Éveil',
+    categorie: 'Jouet',
+    type: 'Éveil',
+    taille: ['15 cm', '20 cm'],
+    couleur: ['bois','rouge', 'jaune', 'bleu'],
+    description: 'Cube sensoriel avec couleurs, textures et sons.', 
+    imagesParCouleur: {
+      'bois' : '/assets/imagesProduits/bbi-jou-005/bois.jpeg',
+      'rouge' : '/assets/imagesProduits/bbi-jou-005/rouge.jpeg',
+      'jaune' : '/assets/imagesProduits/bbi-jou-005/jaune.jpeg',
+      'bleu' : '/assets/imagesProduits/bbi-jou-005/bleu.jpeg',
+    }
+  },
   // // Produit 6
   // { 
   //   id: 6, 
