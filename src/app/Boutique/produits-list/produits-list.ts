@@ -52,6 +52,8 @@ export class ProduitsList implements OnInit{
     if (nouveauFiltre === 'Tous') {
       // Afficher la liste complète (le dictionnaire entier)
       this.produitsAffiches = this.produitsGroupes;
+      this.showAllProduits.set(nouveauFiltre, false);
+
     } else {
       
       if (this.produitsGroupes[nouveauFiltre]) {
@@ -61,7 +63,7 @@ export class ProduitsList implements OnInit{
         this.produitsAffiches = {
           [nouveauFiltre]: this.produitsGroupes[nouveauFiltre]
         };
-        
+
         this.showAllProduits.set(nouveauFiltre, true);
       } else {
         this.produitsAffiches = {};
