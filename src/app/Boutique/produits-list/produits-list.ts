@@ -61,7 +61,8 @@ export class ProduitsList implements OnInit{
         this.produitsAffiches = {
           [nouveauFiltre]: this.produitsGroupes[nouveauFiltre]
         };
-
+        
+        this.showAllProduits.set(nouveauFiltre, true);
       } else {
         this.produitsAffiches = {};
       }
