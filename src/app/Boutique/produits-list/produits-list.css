@@ -31,16 +31,23 @@
     max-height: initial;
 }
 
-/* Ajoutez aussi un effet de "fade out" au bas de la ligne cachée pour un meilleur UX */
-.produits-container.limit-lines::after {
-  content: '';
-  position: absolute;
-  bottom: 0;
-  left: 0;
-  right: 0;
-  height: 100px; 
-  /* background: linear-gradient(to top, white, rgba(255, 255, 255, 0));  */
-  pointer-events: none;
+.show-more-button{
+  display: flex;
+  justify-content: flex-end;
+
+  button{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border: none;
+
+    color: white;
+    background: var(--primary-color);
+    transition: 0.3s;
+  }
+  button:hover{
+    background: var(--accent-color);
+  }
 }
 
 .produit-card {
