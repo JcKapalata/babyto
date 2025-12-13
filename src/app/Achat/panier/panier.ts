@@ -7,6 +7,7 @@ import { MatButtonModule } from '@angular/material/button';
 import { FormsModule } from '@angular/forms';
 import { Paiement } from "../paiement/paiement";
 import { AchatForm } from "../achat-form/achat-form";
+import { Produit } from '../../Models/produits';
 
 
 @Component({
@@ -17,8 +18,9 @@ import { AchatForm } from "../achat-form/achat-form";
 })
 export class Panier implements OnInit {
   items: CommandeItem[] = [];
-  showPaiement: boolean = false
-  idProduitUpdate: number[]=[]
+  showPaiement: boolean = false;
+  idProduitUpdate: number[]=[];
+  currentImageUrl: string = ''
 
   constructor(
     private achatService: AchatService,
@@ -31,6 +33,16 @@ export class Panier implements OnInit {
       console.log('initialisation du produit dans le panier')
       console.table(this.items)
     });
+  }
+
+  getAfficheImageUrl(item: CommandeItem): string {
+    const selectedCouleur = item.couleurSelectionnee as string;
+    
+    if (selectedCouleur && item.imagesParCouleur?.[selectedCouleur]) {
+        // Retourne le chemin spécifique à la couleur
+        return item.imagesParCouleur[selectedCouleur];
+    }
+    return ''
   }
 
   // Récupère le total des articles en USD
