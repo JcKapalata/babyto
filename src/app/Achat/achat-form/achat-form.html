@@ -3,7 +3,7 @@
 
     @if (isAchatDirect) {
       <div class="image-block">
-          <!-- <img [src]="produit.imageUrl"> -->
+          <img [src]="currentImageUrl" [alt]="produit.nom">
       </div>
 
       <div>
@@ -67,7 +67,6 @@
               [id]="'couleur-' + $index" 
               formControlName="couleur" 
               [value]="couleurOption"
-              [checked]="true"
               required 
             />
             <label [for]="'couleur-' + $index">{{couleurOption}}</label>

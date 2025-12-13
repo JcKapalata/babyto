@@ -28,6 +28,7 @@ export class AchatForm implements OnInit, OnChanges {
   couleur: string;
   isAchatDirect: boolean;
   showPayementComponent: boolean = false;
+  currentImageUrl: string = '';
 
   constructor(
     private fb: FormBuilder,
@@ -78,8 +79,8 @@ export class AchatForm implements OnInit, OnChanges {
         if (couleurControl) {
             if (selectedCouleur) {
               couleurControl.enable();
-              couleurControl.setValue(selectedCouleur); 
-            } else {
+              couleurControl.setValue(selectedCouleur, { emitEvent: false});
+            } else { 
               couleurControl.enable(); 
               couleurControl.setValue('');
             }
@@ -90,6 +91,29 @@ export class AchatForm implements OnInit, OnChanges {
 
   ngOnInit() {
     this.isAchatDirect = this.router.url.includes('achat-direct');
+
+    this.produitForm.get('couleur')?.valueChanges.subscribe(selectedCouleur => {
+        
+        // 1. Mise à jour de l'image (Votre logique de dictionnaire)
+        this.updateImageFromColor(selectedCouleur);
+    });
+  }
+
+  // methode pour mettre a jour l'image
+  updateImageFromColor(selectedCouleur: string){
+
+    // Récupère l'URL du dictionnaire
+    const nouveauChemin = (this.produit as any)?.imagesParCouleur[selectedCouleur];
+        
+    if (nouveauChemin) {
+        // Met à jour la variable bindée au template
+        this.currentImageUrl = nouveauChemin; 
+        console.log('Image mise à jour via FormGroup:', this.currentImageUrl);
+    } else {
+        // Revenir à l'image par défaut si la couleur n'a pas d'image spécifique
+        this.currentImageUrl = (this.produit as any)?.imageUrl || ''; 
+        console.warn('Chemin d\'image non défini pour la couleur:', selectedCouleur);
+    }
   }
 
   private updateTotal(qty: number) {
