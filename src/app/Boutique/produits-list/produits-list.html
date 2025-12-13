@@ -6,7 +6,9 @@
 
                 <h2 class="classement-titre">{{ entry.key }}</h2>
 
-                <div class="produits-container">
+                <div class="produits-container"
+                    [class.limit-lines]="!isShowingAll(entry.key)">
+                    
                     @for (produit of entry.value; track produit.id) {
                         <mat-card class="produit-card" (click)="goToDetailProduit(produit)">
                             <img mat-card-image [src]="produit.imagesParCouleur[produit.couleur[0]]" [alt]="produit.nom">
@@ -41,6 +43,25 @@
                         <p class="no-produit">Aucun produit disponible dans ce classement.</p>
                     }
                 </div>
+
+                @if (entry.value.length > 0) {
+                    <div class="show-more-button-container">
+                        <button 
+                            mat-stroked-button 
+                            color="primary" 
+                            (click)="toggleShowAll(entry.key)">
+                            
+                            <ng-container>
+                                @if (isShowingAll(entry.key)) {
+                                    <mat-icon>expand_less</mat-icon> Voir moins
+                                } @else {
+                                    <mat-icon>expand_more</mat-icon> Voir plus
+                                }
+                            </ng-container>
+
+                        </button>
+                    </div>
+                }
 
             </div>
         } @empty {

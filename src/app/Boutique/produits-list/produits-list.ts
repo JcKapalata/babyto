@@ -23,6 +23,7 @@ import { KeyValuePipe } from '@angular/common';
 export class ProduitsList implements OnInit{
 
   produitsGroupes: GroupeProduits = {};
+  showAllProduits: Map<string, boolean> = new Map();
   
   constructor(
     private boutiqueService: BoutiqueService,
@@ -38,6 +39,16 @@ export class ProduitsList implements OnInit{
         console.log('Produits reçus et regroupés par le service.');
       }
     );
+  }
+
+  // masque ou visibilite du produit
+  toggleShowAll(groupKey: string): void {
+    const currentState = this.showAllProduits.get(groupKey) || false;
+    this.showAllProduits.set(groupKey, !currentState);
+  }
+
+  isShowingAll(groupKey: string): boolean {
+    return this.showAllProduits.get(groupKey) || false;
   }
 
 
