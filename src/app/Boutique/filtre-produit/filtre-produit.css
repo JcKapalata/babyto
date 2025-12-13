@@ -12,26 +12,30 @@
 }
 
 .filtre-classement {
+    height: 70px;
     display: flex;
-    flex-wrap: wrap; 
+    align-items: center;
+    /* flex-wrap: wrap;  */
     gap: 10px; 
     overflow-x: scroll;
+    flex-shrink: 0;
 }
 
 /* Styles pour les boutons Material */
-.filtre-classementr button {
-    /* Assurez-vous que les boutons ont une hauteur uniforme */
-    height: 40px; 
-    line-height: 40px;
+.filtre-classement button {
     padding: 0 15px;
     transition: all 0.2s ease-in-out;
+    background: var(--primary-color);
+    color: white;
+    border: none;
+    flex-shrink: 0;
+}
+.filtre-classement button:hover{
+    background: var(--accent-color);
 }
 
-/* Style de survol pour les boutons inactifs */
-.filtre-classementr button:not(.mat-primary) {
-    border-color: #ccc;
-}
-
-.filtre-classement button:not(.mat-primary):hover {
-    background-color: #f0f0f0;
+.filtre-classement button:focus{
+    background: white;
+    color: var(--primary-color);
+    border: var(--primary-color) 2px solid;
 }

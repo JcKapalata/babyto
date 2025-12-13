@@ -5,8 +5,7 @@
     <div class="filtre-classement">
         @for (classement of menuClassement; track classement) {
             <button 
-                mat-stroked-button 
-                [color]="classement === defaultClassementSelected ? 'primary' : 'basic'"
+                mat-raised-button color="primary"
                 (click)="selectionnerFiltre(classement)">
                 
                 {{ classement }}
