@@ -11,11 +11,12 @@ import { CommandeItem } from '../../Models/commande';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { GroupeProduits } from '../../Models/groupeProduits';
 import { KeyValuePipe } from '@angular/common';
+import { FiltreProduit } from "../filtre-produit/filtre-produit";
 
 
 @Component({
   selector: 'app-produits-list',
-  imports: [MatCardModule, MatButtonModule, MatIconModule, KeyValuePipe],
+  imports: [MatCardModule, MatButtonModule, MatIconModule, KeyValuePipe, FiltreProduit],
   templateUrl: './produits-list.html',
   styleUrl: './produits-list.css',
   providers: [BoutiqueService]
@@ -24,6 +25,8 @@ export class ProduitsList implements OnInit{
 
   produitsGroupes: GroupeProduits = {};
   showAllProduits: Map<string, boolean> = new Map();
+  produitsAffiches: GroupeProduits;
+  filtreActif: string = 'Tous';
   
   constructor(
     private boutiqueService: BoutiqueService,
@@ -36,9 +39,33 @@ export class ProduitsList implements OnInit{
     this.boutiqueService.getProduitsList().subscribe(
       (produitsGroupes) => {
         this.produitsGroupes = produitsGroupes;
+        this.produitsAffiches = this.produitsGroupes;
         console.log('Produits reçus et regroupés par le service.');
       }
     );
+  }
+
+  // filtre le classement
+  appliquerFiltre(nouveauFiltre: string): void {
+    this.filtreActif = nouveauFiltre;
+
+    if (nouveauFiltre === 'Tous') {
+      // Afficher la liste complète (le dictionnaire entier)
+      this.produitsAffiches = this.produitsGroupes;
+    } else {
+      
+      if (this.produitsGroupes[nouveauFiltre]) {
+
+        // 1. Créer un NOUVEL objet GroupeProduits
+        // 2. Ajouter la clé [nouveauFiltre] et sa valeur (le tableau de produits) à ce nouvel objet.
+        this.produitsAffiches = {
+          [nouveauFiltre]: this.produitsGroupes[nouveauFiltre]
+        };
+
+      } else {
+        this.produitsAffiches = {};
+      }
+    }
   }
 
   // masque ou visibilite du produit

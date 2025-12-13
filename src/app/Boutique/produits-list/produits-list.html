@@ -1,10 +1,14 @@
 <div class="produits-main-container">
     <div class="main-classement">
-        @for (entry of produitsGroupes | keyvalue; track entry.key) {
+        <filtre-produit 
+            (changeClassementSelected)="appliquerFiltre($event)">
+        </filtre-produit>
+
+        @for (entry of produitsAffiches | keyvalue; track entry.key) {
 
             <div class="classement-groupe">
 
-                <h2 class="classement-titre">{{ entry.key }}</h2>
+                <h2 class="classement-titre">Classement : {{ entry.key }}</h2>
 
                 <div class="produits-container"
                     [class.limit-lines]="!isShowingAll(entry.key)">
@@ -53,9 +57,9 @@
                             
                             <ng-container>
                                 @if (isShowingAll(entry.key)) {
-                                    <mat-icon>expand_less</mat-icon> Voir moins
+                                    <mat-icon>expand_less</mat-icon> <span>Voir moins</span>
                                 } @else {
-                                    <mat-icon>expand_more</mat-icon> Voir plus
+                                    <mat-icon>expand_more</mat-icon> <span>Voir plus</span>
                                 }
                             </ng-container>
 

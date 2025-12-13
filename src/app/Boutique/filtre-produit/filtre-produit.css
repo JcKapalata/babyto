@@ -1,0 +1,37 @@
+.filtre-produit-container {
+    padding: 10px 0;
+    margin-bottom: 20px;
+    border-bottom: 1px solid #ddd;
+}
+
+.filtre-produit-container h2 {
+    font-size: 1.1em;
+    font-weight: 500;
+    margin-bottom: 10px;
+    color: #333;
+}
+
+.filtre-classement {
+    display: flex;
+    flex-wrap: wrap; 
+    gap: 10px; 
+    overflow-x: scroll;
+}
+
+/* Styles pour les boutons Material */
+.filtre-classementr button {
+    /* Assurez-vous que les boutons ont une hauteur uniforme */
+    height: 40px; 
+    line-height: 40px;
+    padding: 0 15px;
+    transition: all 0.2s ease-in-out;
+}
+
+/* Style de survol pour les boutons inactifs */
+.filtre-classementr button:not(.mat-primary) {
+    border-color: #ccc;
+}
+
+.filtre-classement button:not(.mat-primary):hover {
+    background-color: #f0f0f0;
+}
