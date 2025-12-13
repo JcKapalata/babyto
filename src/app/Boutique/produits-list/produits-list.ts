@@ -9,18 +9,20 @@ import { MatCardModule } from '@angular/material/card';
 import {  MatIconModule } from "@angular/material/icon";
 import { CommandeItem } from '../../Models/commande';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { GroupeProduits } from '../../Models/groupeProduits';
+import { KeyValuePipe } from '@angular/common';
 
 
 @Component({
   selector: 'app-produits-list',
-  imports: [MatCardModule, MatButtonModule, MatIconModule],
+  imports: [MatCardModule, MatButtonModule, MatIconModule, KeyValuePipe],
   templateUrl: './produits-list.html',
   styleUrl: './produits-list.css',
   providers: [BoutiqueService]
 })
 export class ProduitsList implements OnInit{
 
-  produitList: Produit[];
+  produitsGroupes: GroupeProduits = {};
   
   constructor(
     private boutiqueService: BoutiqueService,
@@ -31,11 +33,11 @@ export class ProduitsList implements OnInit{
 
   ngOnInit() {
     this.boutiqueService.getProduitsList().subscribe(
-      (produitList) => {
-        this.produitList = produitList;
-        console.table(this.produitList)
+      (produitsGroupes) => {
+        this.produitsGroupes = produitsGroupes;
+        console.log('Produits reçus et regroupés par le service.');
       }
-    )
+    );
   }
 
 

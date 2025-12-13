@@ -1,35 +1,51 @@
 <div class="produits-main-container">
-    <div class="produits-container">
-        @for (produit of produitList; track $index) {
-            <mat-card class="produit-card" (click)="goToDetailProduit(produit)">
-                <img mat-card-image [src]="produit.imagesParCouleur[produit.couleur[0]]" [alt]="produit.nom">
+    <div class="main-classement">
+        @for (entry of produitsGroupes | keyvalue; track entry.key) {
 
-                <mat-card-content>
-                    <h2>{{ produit.nom }}</h2>
-                    <p class="prix">{{ produit.prix }} {{ produit.devise}}</p>
-                </mat-card-content>
-                
-                <mat-card-actions>
-                    <!-- Achat direct -->
-                    <button 
-                    class="boutton" color="primary" 
-                    (click)="goToAchatDirect(produit); $event.stopPropagation()">
-                        <mat-icon>flash_on</mat-icon>
-                        Achat Rapide
-                    </button>
+            <div class="classement-groupe">
 
-                    <!-- Ajout au panier-->
-                    <button
-                    class="boutton" color="primary" 
-                    (click)="addToPanier( produit); $event.stopPropagation()"
-                    >
-                        <mat-icon>add_shopping_cart</mat-icon>
-                        Ajouter au panier
-                    </button>
-                </mat-card-actions>
-            </mat-card>
+                <h2 class="classement-titre">{{ entry.key }}</h2>
+
+                <div class="produits-container">
+                    @for (produit of entry.value; track produit.id) {
+                        <mat-card class="produit-card" (click)="goToDetailProduit(produit)">
+                            <img mat-card-image [src]="produit.imagesParCouleur[produit.couleur[0]]" [alt]="produit.nom">
+
+                            <mat-card-content>
+                                <h2>{{ produit.nom }}</h2>
+                                <p class="prix">{{ produit.prix }} {{ produit.devise}}</p>
+                            </mat-card-content>
+                            
+                            <mat-card-actions>
+                                <!-- Achat direct -->
+                                <button 
+                                class="boutton" color="primary" 
+                                (click)="goToAchatDirect(produit); $event.stopPropagation()">
+                                    <mat-icon>flash_on</mat-icon>
+                                    Achat Rapide
+                                </button>
+
+                                <!-- Ajout au panier-->
+                                <button
+                                class="boutton" color="primary" 
+                                (click)="addToPanier( produit); $event.stopPropagation()"
+                                >
+                                    <mat-icon>add_shopping_cart</mat-icon>
+                                    Ajouter au panier
+                                </button>
+                            </mat-card-actions>
+                        </mat-card>
+                    }
+
+                    @empty {
+                        <p class="no-produit">Aucun produit disponible dans ce classement.</p>
+                    }
+                </div>
+
+            </div>
+        } @empty {
+            <p class="no-classement">Aucun classement ou produit disponible à l'achat.</p>
         }
-    
     </div>
 </div>
 
