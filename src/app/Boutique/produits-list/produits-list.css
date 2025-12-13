@@ -16,6 +16,10 @@
   align-content: start;
 }
 
+.classement-titre{
+  font-size: 1.25rem;
+}
+
 /* style pour masque ou visibilite du produit dans classement */
 .produits-container.limit-lines {
   overflow: hidden; 
@@ -347,6 +351,10 @@ mat-card-actions{
     height: 175px;
   }
 
+  .classement-titre{
+    font-size: 1rem;
+  }
+
   .produit-card:hover{
     mat-card-content{
       margin: 3px 0;
@@ -406,6 +414,10 @@ mat-card-actions{
     height: 165px;
   }
 
+  .classement-titre{
+    font-size: 1.2rem;
+  }
+
   .produit-card:hover{
     mat-card-content{
       margin: 2px 0;
@@ -459,6 +471,10 @@ mat-card-actions{
 
   .produits-container.limit-lines {
     max-height: 160px;
+  }
+  
+  .classement-titre{
+    font-size: 1rem;
   }
 
   .produit-card {
@@ -524,6 +540,10 @@ mat-card-actions{
     height: 165px;
   }
 
+  .classement-titre{
+    font-size: 1rem;
+  }
+
   .produit-card:hover{
     mat-card-content{
       margin: 2px 0;
@@ -581,6 +601,10 @@ mat-card-actions{
 
   .produit-card {
     height: 165px;
+  }
+
+  .classement-titre{
+    font-size: 1rem;
   }
 
   .produit-card:hover{
@@ -642,6 +666,10 @@ mat-card-actions{
     height: 165px;
   }
 
+  .classement-titre{
+    font-size: 1rem;
+  }
+
   .produit-card:hover{
     mat-card-content{
       margin: 2px 0;
@@ -699,6 +727,10 @@ mat-card-actions{
 
   .produit-card {
     height: 175px;
+  }
+
+  .classement-titre{
+    font-size: 1rem;
   }
 
   .produit-card:hover{
@@ -761,6 +793,10 @@ mat-card-actions{
     height: 170px;
   }
 
+  .classement-titre{
+    font-size: 1rem;
+  }
+
   .produit-card:hover{
     mat-card-content{
       margin: 2px 0;
@@ -820,6 +856,10 @@ mat-card-actions{
     height: 170px;
   }
 
+  .classement-titre{
+    font-size: 1rem;
+  }
+
   .produit-card:hover{
     mat-card-content{
       margin: 2px 0;
@@ -877,6 +917,10 @@ mat-card-actions{
 
   .produit-card {
     height: 175px;
+  }
+
+  .classement-titre{
+    font-size: 1rem;
   }
 
   .produit-card:hover{
@@ -953,6 +997,10 @@ mat-card-actions{
     height: 175px;
   }
 
+  .classement-titre{
+    font-size: 1rem;
+  }
+
   .produit-card:hover{
     border: 3px solid var(--primary-color);
     mat-card-content{
@@ -1026,6 +1074,10 @@ mat-card-actions{
 
   .produit-card {
     height: 175px;
+  }
+
+  .classement-titre{
+    font-size: 1rem;
   }
 
   .produit-card:hover{
@@ -1106,6 +1158,10 @@ mat-card-actions{
     height: 175px;
   }
 
+  .classement-titre{
+    font-size: 1rem;
+  }
+
   .produit-card:hover{
     border: 2px solid var(--primary-color);
 
@@ -1168,6 +1224,10 @@ mat-card-actions{
 
   .produit-card {
     height: 175px;
+  }
+
+  .classement-titre{
+    font-size: 1rem;
   }
 
   .produit-card:hover{
