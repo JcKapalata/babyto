@@ -60,7 +60,7 @@ export class AchatForm implements OnInit, OnChanges {
 
       // 2. MISE À JOUR DE LA TAILLE
         // Utilisation du champ dédié et fiable (la sélection unique)
-        const selectedTaille = (this.produit as CommandeItem).tailleSelectionnee || '';
+        const selectedTaille = (this.produit as CommandeItem).tailleSelectionnee || this.produit.taille[0];
         
         if (tailleControl) {
           if (selectedTaille) {
@@ -74,17 +74,20 @@ export class AchatForm implements OnInit, OnChanges {
         
         // 3. MISE À JOUR DE LA COULEUR
         // Utilisation du champ dédié et fiable (la sélection unique)
-        const selectedCouleur = (this.produit as CommandeItem).couleurSelectionnee || '';
+        const selectedCouleur = (this.produit as CommandeItem).couleurSelectionnee || this.produit.couleur[0];
         
         if (couleurControl) {
             if (selectedCouleur) {
               couleurControl.enable();
-              couleurControl.setValue(selectedCouleur, { emitEvent: false});
+              couleurControl.setValue(selectedCouleur);
             } else { 
               couleurControl.enable(); 
               couleurControl.setValue('');
             }
         }
+        
+        
+        console.log(`couleur selected ${selectedCouleur}`)
         this.updateTotal(currentQuantity);
     }
   }
@@ -103,7 +106,7 @@ export class AchatForm implements OnInit, OnChanges {
   updateImageFromColor(selectedCouleur: string){
 
     // Récupère l'URL du dictionnaire
-    const nouveauChemin = (this.produit as any)?.imagesParCouleur[selectedCouleur];
+    const nouveauChemin = this.produit.imagesParCouleur[selectedCouleur];
         
     if (nouveauChemin) {
         // Met à jour la variable bindée au template
