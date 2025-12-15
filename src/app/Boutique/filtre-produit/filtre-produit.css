@@ -1,6 +1,6 @@
 .filtre-produit-container {
     padding: 10px 0;
-    margin-bottom: 20px;
+    margin-bottom: 10px;
     border-bottom: 1px solid #ddd;
 }
 
@@ -38,4 +38,45 @@
     background: white;
     color: var(--primary-color);
     border: var(--primary-color) 2px solid;
+}
+
+.search-box {
+    display: flex; 
+    align-items: center; 
+    padding: 10px;
+    /* background-color: #f8f8f8; */
+}
+
+/* 3. Style de l'Input */
+.search-box input[type="text"] {
+    flex-grow: 1; 
+    padding: 10px 12px;
+    border: 1.8px solid var(--primary-color);
+    border-radius: 4px;
+    font-size: 1em;
+    min-width: 0; 
+    box-sizing: border-box;
+}
+.search-box input[type="text"]:focus{
+    outline: none; 
+    border: 1.8px solid var(--accent-color);
+}
+
+/* S'applique aux écrans de 600px de large ou moins (typique des téléphones) */
+@media (max-width: 600px) {
+    
+    .search-box {
+        flex-direction: column;
+        align-items: stretch;
+        padding: 15px;
+    }
+
+    .search-box label {
+        width: 100%; 
+        margin-bottom: 5px;
+    }
+
+    .search-box input[type="text"] {
+        width: 100%; 
+    }
 }
