@@ -17,4 +17,15 @@
         }
     </div>
 
+    <div class="filter-group">
+        <label for="search">Recherche par Nom:</label>
+        <input 
+            id="search"
+            type="text" 
+            placeholder="Tapez le nom d'un produit..."
+            #searchBox
+            (keyup)="onSearchChange(searchBox.value)"
+        >
+    </div>  
+
 </div>

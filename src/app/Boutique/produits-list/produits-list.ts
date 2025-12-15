@@ -1,5 +1,5 @@
 import { AchatService } from './../../Achat/achat-service';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Produit } from '../../Models/produits';
 import {  Router } from '@angular/router';
 import { BoutiqueService } from '../boutique-service';
@@ -12,6 +12,7 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import { GroupeProduits } from '../../Models/groupeProduits';
 import { KeyValuePipe } from '@angular/common';
 import { FiltreProduit } from "../filtre-produit/filtre-produit";
+import { debounceTime, distinctUntilChanged, map, Observable, Subject, Subscription, switchMap } from 'rxjs';
 
 
 @Component({
@@ -21,12 +22,19 @@ import { FiltreProduit } from "../filtre-produit/filtre-produit";
   styleUrl: './produits-list.css',
   providers: [BoutiqueService]
 })
-export class ProduitsList implements OnInit{
+export class ProduitsList implements OnInit, OnDestroy{
 
   produitsGroupes: GroupeProduits = {};
-  showAllProduits: Map<string, boolean> = new Map();
   produitsAffiches: GroupeProduits;
+
+  searchTerms = new Subject<string>();
+  produits$: Observable<Produit[]>;
+
   filtreActif: string = 'Tous';
+  showAllProduits: Map<string, boolean> = new Map();
+
+  // NOUVEAU: Gérer l'abonnement pour éviter les fuites de mémoire (très important!)
+  private searchSubscription: Subscription;
   
   constructor(
     private boutiqueService: BoutiqueService,
@@ -43,6 +51,62 @@ export class ProduitsList implements OnInit{
         console.log('Produits reçus et regroupés par le service.');
       }
     );
+
+    this.produits$ = this.searchTerms.pipe(
+      debounceTime(300),
+      distinctUntilChanged(),
+      switchMap( term => this.boutiqueService.searchProduit(term)),
+      
+      // 3. Filtrage côté client basé sur le classement actif
+      map((resultatsRecherche: Produit[]) => {
+        // Si le filtre actif est 'Tous' ou si on est déjà en mode 'Recherche', on ne filtre pas.
+        if (this.filtreActif === 'Tous' || this.filtreActif === 'Recherche') {
+          return resultatsRecherche;
+        } 
+        // Sinon, on filtre les résultats par le classement actif
+        return resultatsRecherche.filter(produit => produit.classement === this.filtreActif);
+        
+      })
+    )
+
+    // 4. ABONNEMENT CRUCIAL : Exécution du flux RxJS
+    this.searchSubscription = this.produits$.subscribe({
+        next: (resultatsFiltres: Produit[]) => {
+            // Mettre le filtre actif sur 'Recherche' pour indiquer le mode
+            this.filtreActif = 'Recherche'; 
+            this.showAllProduits.clear();
+
+            // Regrouper les résultats plats (Produit[]) avant l'assignation
+            this.produitsAffiches = this.regrouperParClassement(resultatsFiltres);
+            console.log( this.produitsAffiches)
+        },
+        error: (err) => {
+            console.error("Erreur lors de la recherche RxJS :", err);
+            this.produitsAffiches = {};
+        }
+    });
+  }
+
+  // METHODE MANQUANTE : Doit être implémentée pour la logique de l'abonnement
+  private regrouperParClassement(produits: Produit[]): GroupeProduits {
+    // (Insérer ici la fonction de regroupement montrée précédemment)
+    // Cette fonction prend un Produit[] et retourne un { [key: string]: Produit[] }
+    return produits.reduce((acc, produit) => {
+      const cle = produit.classement || 'Non Classé'; 
+      if (!acc[cle]) {
+        acc[cle] = [];
+      }
+      acc[cle].push(produit);
+        return acc;
+    }, {} as GroupeProduits);
+  }
+
+  // NOUVELLE MÉTHODE CRUCIALE : Nettoyage à la destruction du composant
+  ngOnDestroy(): void {
+      // Nettoie l'abonnement du Subject pour éviter les fuites de mémoire.
+      this.searchSubscription?.unsubscribe();
+      // On peut aussi compléter le subject même si l'unsubscribe suffit souvent pour l'abonnement
+      this.searchTerms.complete(); 
   }
 
   // filtre le classement
@@ -69,6 +133,11 @@ export class ProduitsList implements OnInit{
         this.produitsAffiches = {};
       }
     }
+  }
+
+  // 
+  rechercherProduits(term: string): void {
+    this.searchTerms.next(term);
   }
 
   // masque ou visibilite du produit

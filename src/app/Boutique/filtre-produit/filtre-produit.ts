@@ -15,6 +15,7 @@ export class FiltreProduit implements OnInit{
   defaultClassementSelected: string;
 
   @Output() changeClassementSelected = new EventEmitter<string>();
+  @Output() searchTermChanged = new EventEmitter<string>();
 
   constructor(
     private boutiqueService: BoutiqueService
@@ -34,6 +35,14 @@ export class FiltreProduit implements OnInit{
         console.error("Erreur lors de la récupération des produits", err);
       }
     })
+  }
+
+  // MÉTHODE : Déclenchée à chaque frappe dans le champ de recherche
+  onSearchChange(term: string) {
+    this.searchTermChanged.emit(term.trim()); 
+    
+    // Optionnel : Si vous voulez que la recherche réinitialise le filtre de classement
+    // this.changeClassementSelected.emit(this.defaultClassementSelected);
   }
 
   selectionnerFiltre(classement: string): void {

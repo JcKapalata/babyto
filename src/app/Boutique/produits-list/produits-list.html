@@ -1,7 +1,8 @@
 <div class="produits-main-container">
     <div class="main-classement">
         <filtre-produit 
-            (changeClassementSelected)="appliquerFiltre($event)">
+            (changeClassementSelected)="appliquerFiltre($event)"
+            (searchTermChanged)="rechercherProduits($event)">
         </filtre-produit>
 
         @for (entry of produitsAffiches | keyvalue; track entry.key) {
