@@ -39,10 +39,10 @@ export class FiltreProduit implements OnInit{
 
   // MÉTHODE : Déclenchée à chaque frappe dans le champ de recherche
   onSearchChange(term: string) {
+    if (term.trim().length < 2) {
+      this.searchTermChanged.emit('');
+    }
     this.searchTermChanged.emit(term.trim()); 
-    
-    // Optionnel : Si vous voulez que la recherche réinitialise le filtre de classement
-    // this.changeClassementSelected.emit(this.defaultClassementSelected);
   }
 
   selectionnerFiltre(classement: string): void {

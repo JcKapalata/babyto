@@ -59,12 +59,10 @@ export class ProduitsList implements OnInit, OnDestroy{
       
       // 3. Filtrage côté client basé sur le classement actif
       map((resultatsRecherche: Produit[]) => {
-        // Si le filtre actif est 'Tous' ou si on est déjà en mode 'Recherche', on ne filtre pas.
-        if (this.filtreActif === 'Tous' || this.filtreActif === 'Recherche') {
-          return resultatsRecherche;
+        if (this.filtreActif != 'Tous') {
+          return resultatsRecherche.filter(produit => produit.classement === this.filtreActif);  
         } 
-        // Sinon, on filtre les résultats par le classement actif
-        return resultatsRecherche.filter(produit => produit.classement === this.filtreActif);
+        return resultatsRecherche;
         
       })
     )
@@ -72,22 +70,18 @@ export class ProduitsList implements OnInit, OnDestroy{
     // 4. ABONNEMENT CRUCIAL : Exécution du flux RxJS
     this.searchSubscription = this.produits$.subscribe({
         next: (resultatsFiltres: Produit[]) => {
-            // Mettre le filtre actif sur 'Recherche' pour indiquer le mode
-            this.filtreActif = 'Recherche'; 
-            this.showAllProduits.clear();
-
-            // Regrouper les résultats plats (Produit[]) avant l'assignation
-            this.produitsAffiches = this.regrouperParClassement(resultatsFiltres);
-            console.log( this.produitsAffiches)
+          // Regrouper les résultats plats (Produit[]) avant l'assignation
+          this.produitsAffiches = this.regrouperParClassement(resultatsFiltres);
+          console.log( this.produitsAffiches)
         },
         error: (err) => {
-            console.error("Erreur lors de la recherche RxJS :", err);
-            this.produitsAffiches = {};
+          console.error("Erreur lors de la recherche RxJS :", err);
+          this.produitsAffiches = {};
         }
     });
   }
 
-  // METHODE MANQUANTE : Doit être implémentée pour la logique de l'abonnement
+  // Doit être implémentée pour la logique de l'abonnement
   private regrouperParClassement(produits: Produit[]): GroupeProduits {
     // (Insérer ici la fonction de regroupement montrée précédemment)
     // Cette fonction prend un Produit[] et retourne un { [key: string]: Produit[] }
@@ -101,11 +95,11 @@ export class ProduitsList implements OnInit, OnDestroy{
     }, {} as GroupeProduits);
   }
 
-  // NOUVELLE MÉTHODE CRUCIALE : Nettoyage à la destruction du composant
+  // Nettoyage à la destruction du composant
   ngOnDestroy(): void {
       // Nettoie l'abonnement du Subject pour éviter les fuites de mémoire.
       this.searchSubscription?.unsubscribe();
-      // On peut aussi compléter le subject même si l'unsubscribe suffit souvent pour l'abonnement
+      // // On peut aussi compléter le subject même si l'unsubscribe suffit souvent pour l'abonnement
       this.searchTerms.complete(); 
   }
 
@@ -122,8 +116,8 @@ export class ProduitsList implements OnInit, OnDestroy{
       
       if (this.produitsGroupes[nouveauFiltre]) {
 
-        // 1. Créer un NOUVEL objet GroupeProduits
-        // 2. Ajouter la clé [nouveauFiltre] et sa valeur (le tableau de produits) à ce nouvel objet.
+        // Créer un NOUVEL objet GroupeProduits
+        // Ajouter la clé [nouveauFiltre] et sa valeur (le tableau de produits) à ce nouvel objet.
         this.produitsAffiches = {
           [nouveauFiltre]: this.produitsGroupes[nouveauFiltre]
         };

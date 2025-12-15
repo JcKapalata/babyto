@@ -46,13 +46,8 @@ export class BoutiqueService {
 
   // methode pour search
   searchProduit(term: string): Observable<Produit[]>{
-
-    // 1. Gérer les termes vides : Si le terme est vide ou juste des espaces, ne pas appeler l'API.
-    if (!term.trim()) {
-      return of([]);
-    }
-
-    // 2. Construire les paramètres HTTP de manière standard
+    
+    // Construire les paramètres HTTP de manière standard
     const params = new HttpParams().set('nom', term.trim());
 
     return this.http.get<Produit[]>('api/produits/', {params: params}).pipe(
