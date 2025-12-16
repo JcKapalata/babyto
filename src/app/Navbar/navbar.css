@@ -1,7 +1,7 @@
 .mat-toolbar {
   background-color: var(--primary-color); /* Vert moyen */
   color: white;
-  height: 8vh;
+  min-height: 8vh;
   position: fixed;
   top: 0;
   left: 0;
@@ -11,11 +11,6 @@
   justify-content: space-between;
 }
 
-/* .mat-badge-content {
-  background-color: var(--warn-color);
-  color: white;
-} */
-
 .logo {
   font-size: 1.8rem;
   font-weight: 500;
@@ -23,7 +18,6 @@
 
 
 .menu-pcp{
-  /* background: red; */
   height: 100%;
   display: flex;
   justify-content: center;
@@ -40,14 +34,13 @@
   font-weight: bold;
   transition: 0.3s;
   margin: 0 5px;
-  border-bottom: 1.9px solid var(--accent-color);
 }
 
 /* L'état actif permanent */
 .boutton.active-link {
   background-color: white !important; /* Inversion des couleurs */
   color: var(--accent-color) !important;
-  border-bottom: 2px solid white; /* Soulignement optionnel */
+  /* border-bottom: 2px solid white;  */
 }
 
 /* S'assurer que l'icône change aussi de couleur dans l'état actif */
@@ -62,5 +55,76 @@
 
   mat-icon {
     color:white !important;
+  }
+}
+
+/* Cacher le bouton mobile par défaut */
+.btn-mobile {
+  display: none;
+}
+
+/* --- RESPONSIVE --- */
+@media (600px <= width < 750px) {
+  .logo {
+    font-size: 1.5rem;
+  }
+
+  .boutton {     
+    padding: 4px 8px;
+    font-size: 0.8rem;
+    margin-top: 5px;
+  }
+
+  .menu-second{
+    display: none;
+  }
+  
+  .btn-mobile {
+    display: block;
+    color: white !important;
+  }
+  
+}
+
+@media (495px <= width < 600px) {
+  .mat-toolbar {
+    display: flex;
+    flex-direction: column;
+    align-items: stretch
+  }
+
+  .menu-pcp{
+    height: 40%;
+  }
+
+  .menu-first, .menu-second{
+    height: 100%;
+  }
+
+  .boutton {     
+    padding: 2px 8px;
+    font-size: 0.9rem;
+    border-radius: 5px 5px 0 0;
+    height: 100%;
+  }
+  
+  .logo {
+    font-size: 1.7rem;
+  }
+}
+
+@media (max-width: 350px) {
+  /* On cache le menu complet */
+  .menu-pcp {
+    display: none;
+  }
+
+  /* On affiche le bouton hamburger */
+  .btn-mobile {
+    display: block;
+  }
+  
+  .logo {
+    font-size: 1.2rem;
   }
 }

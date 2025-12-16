@@ -7,11 +7,11 @@ import {
 import {
   trustedHTMLFromString
 } from "./chunk-HKJD4ERT.js";
-import "./chunk-SOXOVYQB.js";
-import "./chunk-OQP7OUDA.js";
 import {
   BidiModule
 } from "./chunk-XOOIT6O6.js";
+import "./chunk-SOXOVYQB.js";
+import "./chunk-OQP7OUDA.js";
 import {
   ChangeDetectionStrategy,
   Component,

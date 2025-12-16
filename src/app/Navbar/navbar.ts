@@ -6,6 +6,8 @@ import { MatToolbarModule } from '@angular/material/toolbar';
 import { Router, RouterModule } from '@angular/router';
 import { AchatService } from '../Achat/achat-service';
 import { AsyncPipe } from '@angular/common';
+import { MatMenuModule } from '@angular/material/menu';
+import { MatDividerModule } from '@angular/material/divider';
 
 @Component({
   selector: 'app-navbar',
@@ -15,7 +17,9 @@ import { AsyncPipe } from '@angular/common';
     MatButtonModule,
     MatBadgeModule,
     RouterModule, 
-    AsyncPipe
+    AsyncPipe,
+    MatMenuModule,
+    MatDividerModule
   ],
   templateUrl: './navbar.html',
   styleUrl: './navbar.css'

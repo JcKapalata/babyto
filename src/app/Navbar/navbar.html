@@ -3,8 +3,6 @@
   <!-- Logo -->
   <h2 class="logo" routerLink="/">Bebito</h2>
 
-  <!-- Espacement pour pousser le menu à droite -->
-  <!-- <span class="spacer"></span> -->
 
   <!-- Menu -->
   <div class="menu-pcp">
@@ -50,8 +48,27 @@
         </button>
     </div>
 
+    <!-- menu mobile -->
+    <button mat-icon-button [matMenuTriggerFor]="mobileMenu" class="btn-mobile">
+      <mat-icon>menu</mat-icon>
+    </button>
+
   </div>
 
-  
+  <mat-menu #mobileMenu="matMenu">
+    <button mat-menu-item (click)="goToAcceuil()">
+      <mat-icon>home</mat-icon> Accueil
+    </button>
+    <button mat-menu-item (click)="goToProduitList()">
+      <mat-icon>store</mat-icon> Boutique
+    </button>
+    <button mat-menu-item (click)="goToPannier()">
+      <mat-icon [matBadge]="nombreProduits$ | async" matBadgeColor="accent">shopping_cart</mat-icon> Panier
+    </button>
+    <mat-divider></mat-divider>
+    <button mat-menu-item (click)="goToConnexion()">
+      <mat-icon>account_circle</mat-icon> Connexion
+    </button>
+  </mat-menu>
 
 </mat-toolbar>
