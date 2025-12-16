@@ -4,42 +4,54 @@
   <h2 class="logo" routerLink="/">Bebito</h2>
 
   <!-- Espacement pour pousser le menu à droite -->
-  <span class="spacer"></span>
+  <!-- <span class="spacer"></span> -->
 
   <!-- Menu -->
   <div class="menu-pcp">
 
-    <!-- menu button -->
-    <div class="menu-button">
-      <button mat-button 
-        (click)="goToAcceuil()" 
-        class="boutton"
-        >
-          <mat-icon>home</mat-icon> Accueil
-      </button>
+    <!-- menu button  first-->
+    <div class="menu-first">
+        <button mat-button 
+          (click)="goToAcceuil()" 
+          class="boutton"
+          [class.active-link]="pageActive === 'accueil'"
+          >
+            <mat-icon>home</mat-icon> Accueil
+        </button>
 
-      <button mat-button 
-        (click)="goToProduitList()" 
-        class="boutton"
-        >
-          <mat-icon>store</mat-icon> Boutique
-      </button>
+        <button mat-button 
+          (click)="goToProduitList()" 
+          class="boutton"
+          [class.active-link]="pageActive === 'boutique'"
+          >
+            <mat-icon>store</mat-icon> Boutique
+        </button>
 
-      <button mat-button 
-        (click)="goToConnexion()" 
-        class="boutton"
-        >
-          <mat-icon>account_circle</mat-icon> Connexion
-      </button>
+        <!-- Icône panier avec compteur -->
+        <button mat-button 
+          (click)="goToPannier()"
+          class="boutton"  
+          [matBadge]="nombreProduits$ | async"
+          matBadgeColor="accent"
+          [class.active-link]="pageActive === 'panier'"
+          >
+            <mat-icon class="btn-icon">shopping_cart</mat-icon> Panier
+        </button>
     </div>
-    
-    <!-- Icône panier avec compteur -->
-    <button mat-icon-button 
-      (click)="goToPannier()"  
-      [matBadge]="nombreProduits$ | async"
-      matBadgeColor="accent">
-        <mat-icon class="btn-icon">shopping_cart</mat-icon>
-    </button>
+
+    <!-- menu second -->
+    <div class="menu-second">
+        <button mat-button 
+          (click)="goToConnexion()" 
+          class="boutton"
+          [class.active-link]="pageActive === 'connexion'"
+          >
+            <mat-icon>account_circle</mat-icon> Connexion
+        </button>
+    </div>
+
   </div>
+
+  
 
 </mat-toolbar>

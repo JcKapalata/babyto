@@ -7,36 +7,60 @@
   left: 0;
   right: 0;
   z-index: 1000;
+  display: flex;
+  justify-content: space-between;
 }
 
-.mat-badge-content {
-  background-color: var(--warn-color); /* Corail moyen */
+/* .mat-badge-content {
+  background-color: var(--warn-color);
   color: white;
-}
+} */
 
 .logo {
   font-size: 1.8rem;
   font-weight: 500;
 }
 
-.spacer {
-  flex: 1 1 auto;
-}
 
 .menu-pcp{
+  /* background: red; */
+  height: 100%;
   display: flex;
   justify-content: center;
   align-items: center;
 }
 
 .boutton {
-  background: var(--accent-color);  /* Bleu moyen */
-  color: white;               /* texte */
+  background: var(--accent-color);
+  color: white !important;            
   border: none;
   border-radius: 8px;
   padding: 8px 16px;
   cursor: pointer;
   font-weight: bold;
   transition: 0.3s;
-  margin: 5px;
+  margin: 0 5px;
+  border-bottom: 1.9px solid var(--accent-color);
+}
+
+/* L'état actif permanent */
+.boutton.active-link {
+  background-color: white !important; /* Inversion des couleurs */
+  color: var(--accent-color) !important;
+  border-bottom: 2px solid white; /* Soulignement optionnel */
+}
+
+/* S'assurer que l'icône change aussi de couleur dans l'état actif */
+.boutton.active-link mat-icon {
+  color: var(--accent-color) !important;
+}
+
+.boutton:hover{
+  background: var(--primary-color) !important;
+  color: white !important;
+  border: 2px solid white;
+
+  mat-icon {
+    color:white !important;
+  }
 }

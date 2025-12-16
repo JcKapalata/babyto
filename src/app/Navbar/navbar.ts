@@ -22,6 +22,7 @@ import { AsyncPipe } from '@angular/common';
 })
 export class Navbar {
 
+  pageActive: string = 'accueil';
   nombreProduits$;
 
   constructor(
@@ -32,18 +33,22 @@ export class Navbar {
   }
 
   goToAcceuil(){
+    this.pageActive = 'accueil';
     this.route.navigate(['accueil']);
   }
 
   goToProduitList(){
+    this.pageActive = 'boutique';
     this.route.navigate(['boutique/produits-list']);
   }
 
   goToConnexion(){
+    this.pageActive = 'connexion';
     this.route.navigate(['auth/connexion']);
   }
 
   goToPannier(){
+    this.pageActive = 'panier';
     this.route.navigate(['achat/panier']);
   }
 }
