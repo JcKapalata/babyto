@@ -26,7 +26,7 @@ import { MatDividerModule } from '@angular/material/divider';
 })
 export class Navbar {
 
-  pageActive: string = 'accueil';
+  pageActive: string;
   nombreProduits$;
 
   constructor(
