@@ -24,6 +24,7 @@
   max-width: 1200px;
   margin: auto;
   padding: 50px 20px;
+  overflow-x: hidden;
 }
 
 /* SECTIONS */
