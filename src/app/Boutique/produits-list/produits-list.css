@@ -1,10 +1,14 @@
 .produits-main-container {
   position: relative;
-}
-
-.main-classement{
   padding: 16px;
   min-height: 88.5vh;
+}
+
+filtre-produit{
+  position: sticky;
+  z-index: 500;
+  top: 9vh;
+  height: 150px;
 }
 
 .produits-container {
