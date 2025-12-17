@@ -4,7 +4,6 @@ import { MatIconModule} from '@angular/material/icon';
 import { Router } from '@angular/router';
 @Component({
   selector: 'app-footer',
-  standalone: true,
   imports: [MatIconModule],
   templateUrl: './footer.html',
   styleUrls: ['./footer.css'],
