@@ -41,30 +41,30 @@ export class AuthService {
   }
 
   login(credentials: { email: string; password: string }): Observable<boolean> {
-    console.log('[AuthService] Tentative login avec', credentials.email);
     return this.http.get<UserClient[]>('api/clients').pipe(
       switchMap(users => {
         const user = users.find(u => u.email === credentials.email && u.password === credentials.password);
-        if (!user) {
-          console.log('[AuthService] Identifiants incorrects');
-          return of(false);
-        }
+        if (!user) return of(false);
 
         const sessionTag = crypto.randomUUID();
         const updatedUser = { ...user, lastSessionTag: sessionTag };
 
-        console.log('[AuthService] Login réussi, mise à jour sessionTag et token');
+        // Mettre à jour la "base" simulée
         return this.http.put(`api/clients/${user.id}`, updatedUser).pipe(
           map(() => {
             this._token = `${user.id}.${sessionTag}`;
             localStorage.setItem(this.AUTH_KEY, this._token);
-            console.log('[AuthService] Token enregistré:', this._token);
+
+            // --- Ajouté pour persistance sur refresh ---
+            localStorage.setItem(`sessionTag_${user.id}`, sessionTag);
+
             this._isLoggedIn.next(true);
+            console.log('[AuthService] Token enregistré:', this._token);
             return true;
           })
         );
       })
-    );
+    )
   }
 
   logout(): void {
@@ -86,6 +86,15 @@ export class AuthService {
     const [userId, localTag] = currentToken.split('.');
     console.log('[AuthService] validateSession: vérification token', currentToken);
 
+    // --- Utilisation du sessionTag stocké côté client pour persistance ---
+    const storedTag = localStorage.getItem(`sessionTag_${userId}`);
+    if (storedTag && storedTag === localTag) {
+      console.log('[AuthService] validateSession: sessionTag local valide');
+      this._isLoggedIn.next(true);
+      return of(true);
+    }
+
+    // --- Si pas de tag local ou divergence, tentative vérification serveur ---
     return this.http.get<UserClient>(`api/clients/${userId}`).pipe(
       map(user => {
         const valid = user.lastSessionTag === localTag;
