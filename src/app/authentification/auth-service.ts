@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { computed, inject, Injectable, signal } from '@angular/core';
 import { Router } from '@angular/router';
-import { delay, map, Observable, tap } from 'rxjs';
+import { BehaviorSubject, catchError, delay, map, Observable, of, switchMap, tap } from 'rxjs';
 import { jwtDecode} from 'jwt-decode';
 import { UserClient } from '../Models/clientUser';
 
@@ -9,109 +9,61 @@ import { UserClient } from '../Models/clientUser';
   providedIn: 'root',
 })
 export class AuthService {
-  private readonly AUTH_KEY = 'auth_tk_secur'; // Une seule variable pour éviter les erreurs de frappe
+  private readonly AUTH_KEY = 'auth_tk_secur';
   private http = inject(HttpClient);
   private router = inject(Router);
 
-  // On initialise le signal
-  private _token = signal<string | null>(localStorage.getItem(this.AUTH_KEY));
+  // Token et état login
+  private _token: string | null = localStorage.getItem(this.AUTH_KEY);
+  private _isLoggedIn = new BehaviorSubject<boolean>(!!this._token);
 
-  // isLoggedIn vérifie maintenant DEUX choses : 
-  // 1. Si le token existe. 2. S'il n'est pas expiré.
-  public isLoggedIn = computed(() => {
-    const token = this._token();
-  
-    console.log('Vérification isLoggedIn - Valeur du Signal :', token);
+  // Observable pour composants et Guard
+  public isLoggedIn$ = this._isLoggedIn.asObservable();
 
-    if (!token) return false;
+  // Récupérer le token courant
+  getToken(): string | null {
+    return this._token;
+  }
 
-    // Si c'est un token simulé "ID.SESSION.EMAIL"
-    // On considère qu'il est valide s'il a bien nos 3 parties
-    if (token.includes('.')) {
-      const parts = token.split('.');
-      if (parts.length === 3) {
-        // Optionnel : ne vérifier l'expiration QUE si c'est un vrai JWT (3 parties + format Base64)
-        // Pour l'instant, on retourne true pour valider ta session unique
-        return true; 
-      }
-      return !this.isTokenExpired(token);
-    }
-
-    return true;
-  });
-
+  // Login
   login(credentials: { email: string; password: string }): Observable<boolean> {
     return this.http.get<UserClient[]>('api/clients').pipe(
-      map(users => {
+      switchMap(users => {
         const user = users.find(u => u.email === credentials.email && u.password === credentials.password);
-        
-        if (user) {
-          // STRATÉGIE SÉCURITÉ : On crée un identifiant unique de session (Timestamp)
-          const sessionTag = Date.now().toString();
+        if (!user) return of(false);
 
-          // On construit un token qui contient cet ID de session
-          // Format: ID.SESSION.EMAIL_B64
-          const simulatedToken = `${user.id}.${sessionTag}.${btoa(user.email)}`;
-          
-          // On sauvegarde (Met à jour le LocalStorage ET le Signal)
-          this.saveToken(simulatedToken);
+        const sessionTag = Date.now().toString();
+        const updatedUser = { ...user, lastSessionTag: sessionTag };
 
-          console.log('Nouvelle session unique générée :', sessionTag);
-          return true;
-        }
-        return false;
-      }),
-
-      // 2. On attend 100ms AVANT de renvoyer le résultat au composant
-      delay(4000)
+        return this.http.put(`api/clients/${user.id}`, updatedUser).pipe(
+          map(() => {
+            // Sauvegarde du token et mise à jour de l'état login
+            this._token = `${user.id}.${sessionTag}`;
+            localStorage.setItem(this.AUTH_KEY, this._token);
+            this._isLoggedIn.next(true);
+            return true;
+          })
+        );
+      })
     );
   }
 
-  logout() {
+  // Logout
+  logout(): void {
+    this._token = null;
     localStorage.removeItem(this.AUTH_KEY);
-    this._token.set(null);
+    this._isLoggedIn.next(false);
     this.router.navigate(['/login']);
   }
 
-  private saveToken(token: string) {
-    localStorage.setItem(this.AUTH_KEY, token);
-    this._token.set(token);
-  }
-
-
-  //==============VRAIN MODELS ===========
-
-  // getToken(): string | null {
-  //   // Si le token est expiré au moment de l'appel, on déconnecte
-  //   const token = this._token();
-  //   if (token && this.isTokenExpired(token)) {
-  //     this.logout();
-  //     return null;
-  //   }
-  //   return token;
-  // }
-
-
-  //======Pour simulation ==========
-  getToken(): string | null {
-    const token = this._token();
-    // Sécurité : si vrai JWT expiré, on déconnecte
-    if (token && token.includes('.') && this.isTokenExpired(token)) {
-      this.logout();
-      return null;
-    }
-    return token;
-  }
-
-  // --- LOGIQUE DE SÉCURITÉ SUPPLÉMENTAIRE ---
-
+  // Vérifier expiration du token (optionnel)
   private isTokenExpired(token: string): boolean {
     try {
       const decoded: any = jwtDecode(token);
       const currentTime = Math.floor(Date.now() / 1000);
-      return decoded.exp < currentTime; // Renvoie vrai si la date d'expiration est passée
+      return decoded.exp < currentTime;
     } catch {
-      return true; // Si le token est malformé, on considère qu'il est expiré
+      return true; // Malformé = expiré
     }
   }
 }

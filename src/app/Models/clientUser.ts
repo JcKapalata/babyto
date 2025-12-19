@@ -3,5 +3,6 @@ export interface UserClient {
   email: string;
   nom?: string;   
   password?: string;
-  token?: string;   
+  token?: string; 
+  lastSessionTag?: string;  
 }

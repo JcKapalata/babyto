@@ -20,36 +20,21 @@ export class Login {
   errorMessage = '';
 
   onSubmit() {
-    console.log('Tentative de connexion...');
-  
-  this.authService.login(this.credentials).subscribe({
-    next: (success) => {
-      if (success) {
-        // 1. Récupération de l'URL de retour
-        let returnUrl = this.route.snapshot.queryParams['returnUrl'] || '/';
+    this.errorMessage = '';
+      this.authService.login(this.credentials).subscribe({
+        next: success => {
+          if (!success) {
+            this.errorMessage = 'Vos identifiants sont incorrects';
+            return;
+          }
 
-        // 2. Correction si l'URL est un tableau (sécurité pour le routage)
-        if (Array.isArray(returnUrl)) {
-          returnUrl = '/' + returnUrl.join('/');
-        }
-
-        console.log('Login réussi. Signal actuel :', this.authService.isLoggedIn());
-        console.log('Redirection vers :', returnUrl);
-
-        // 3. Délai de 10ms pour laisser le Signal et l'Interceptor se synchroniser
-        setTimeout(() => {
+          const returnUrl = this.route.snapshot.queryParams['returnUrl'] || '/';
           this.router.navigateByUrl(returnUrl);
-        }, 10);
-
-      } else {
-        // Ce bloc est maintenant correctement placé
-        this.errorMessage = 'Email ou mot de passe incorrect.';
-      }
-    },
-    error: (err) => {
-      this.errorMessage = 'Une erreur serveur est survenue.';
-      console.error('Erreur API Login:', err);
-    }
-  });
+        },
+        error: err => {
+          this.errorMessage = 'Erreur serveur lors de la connexion';
+          console.error(err);
+        }
+    });
   }
 }
