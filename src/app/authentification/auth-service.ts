@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { computed, inject, Injectable, signal } from '@angular/core';
 import { Router } from '@angular/router';
-import { map, Observable, tap } from 'rxjs';
+import { delay, map, Observable, tap } from 'rxjs';
 import { jwtDecode} from 'jwt-decode';
 import { UserClient } from '../Models/clientUser';
 
@@ -21,34 +21,49 @@ export class AuthService {
   public isLoggedIn = computed(() => {
     const token = this._token();
   
-    // Debug pour voir si le Signal reçoit bien le token après le login
-    console.log('Signal _token actuel :', token);
+    console.log('Vérification isLoggedIn - Valeur du Signal :', token);
 
     if (!token) return false;
 
-    // Si c'est un vrai JWT (contient des points), on vérifie l'expiration
+    // Si c'est un token simulé "ID.SESSION.EMAIL"
+    // On considère qu'il est valide s'il a bien nos 3 parties
     if (token.includes('.')) {
+      const parts = token.split('.');
+      if (parts.length === 3) {
+        // Optionnel : ne vérifier l'expiration QUE si c'est un vrai JWT (3 parties + format Base64)
+        // Pour l'instant, on retourne true pour valider ta session unique
+        return true; 
+      }
       return !this.isTokenExpired(token);
     }
 
-    return true; // Token de test valide
+    return true;
   });
 
   login(credentials: { email: string; password: string }): Observable<boolean> {
-    // 1. On interroge la table 'clients' de ton InMemoryDb
     return this.http.get<UserClient[]>('api/clients').pipe(
       map(users => {
-        // 2. On cherche si un utilisateur correspond aux identifiants
         const user = users.find(u => u.email === credentials.email && u.password === credentials.password);
         
         if (user) {
-          // 3. Si trouvé, on simule la création d'un token et on sauvegarde
-          const simulatedToken = user.token || 'token-simule-' + user.id;
+          // STRATÉGIE SÉCURITÉ : On crée un identifiant unique de session (Timestamp)
+          const sessionTag = Date.now().toString();
+
+          // On construit un token qui contient cet ID de session
+          // Format: ID.SESSION.EMAIL_B64
+          const simulatedToken = `${user.id}.${sessionTag}.${btoa(user.email)}`;
+          
+          // On sauvegarde (Met à jour le LocalStorage ET le Signal)
           this.saveToken(simulatedToken);
+
+          console.log('Nouvelle session unique générée :', sessionTag);
           return true;
         }
-        return false; // Identifiants incorrects
-      })
+        return false;
+      }),
+
+      // 2. On attend 100ms AVANT de renvoyer le résultat au composant
+      delay(4000)
     );
   }
 

@@ -20,35 +20,36 @@ export class Login {
   errorMessage = '';
 
   onSubmit() {
-    this.authService.login(this.credentials).subscribe({
-      next: (success) => {
-        if (success) {
-          if (success) {
-            // On récupère la destination (ex: /achat/achat-direct/18)
-            let returnUrl = this.route.snapshot.queryParams['returnUrl'] || '/';
+    console.log('Tentative de connexion...');
+  
+  this.authService.login(this.credentials).subscribe({
+    next: (success) => {
+      if (success) {
+        // 1. Récupération de l'URL de retour
+        let returnUrl = this.route.snapshot.queryParams['returnUrl'] || '/';
 
-            // Sécurité : si returnUrl est un tableau (rare mais possible), on le répare
-            if (Array.isArray(returnUrl)) {
-              returnUrl = '/' + returnUrl.join('/');
-            }
+        // 2. Correction si l'URL est un tableau (sécurité pour le routage)
+        if (Array.isArray(returnUrl)) {
+          returnUrl = '/' + returnUrl.join('/');
+        }
 
-            console.log('Connexion réussie. Redirection vers :', returnUrl);
+        console.log('Login réussi. Signal actuel :', this.authService.isLoggedIn());
+        console.log('Redirection vers :', returnUrl);
 
-            // ASTUCE PRODUCTION : Un léger délai pour laisser le Signal se propager
-            // Cela évite que le Guard ne rejette la redirection à cause d'un micro-délai
-            setTimeout(() => {
-              this.router.navigateByUrl(returnUrl);
-            }, 10);
-          
-          } else {
-            this.errorMessage = 'Email ou mot de passe incorrect.';
-          }
-        } 
-      },
-      error: (err) => {
-        this.errorMessage = 'Une erreur serveur est survenue.';
-        console.error(err);
+        // 3. Délai de 10ms pour laisser le Signal et l'Interceptor se synchroniser
+        setTimeout(() => {
+          this.router.navigateByUrl(returnUrl);
+        }, 10);
+
+      } else {
+        // Ce bloc est maintenant correctement placé
+        this.errorMessage = 'Email ou mot de passe incorrect.';
       }
-    });
+    },
+    error: (err) => {
+      this.errorMessage = 'Une erreur serveur est survenue.';
+      console.error('Erreur API Login:', err);
+    }
+  });
   }
 }

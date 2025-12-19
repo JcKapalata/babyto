@@ -1,21 +1,40 @@
-import { HttpInterceptorFn } from '@angular/common/http';
+import { HttpErrorResponse, HttpInterceptorFn } from '@angular/common/http';
 import { inject } from '@angular/core';
 import { AuthService } from './auth-service';
+import { Router } from '@angular/router';
+import { catchError, throwError } from 'rxjs';
 
 export const authInterceptor: HttpInterceptorFn = (req, next) => {
   const authService = inject(AuthService);
-  const token = authService.getToken(); // <--- C'est ici qu'on utilise ta méthode !
+  const router = inject(Router);
+  const token = authService.getToken(); 
 
-  // On clone la requête pour y ajouter le header Authorization
+  // 1. AJOUT DU TOKEN
+  let authReq = req;
   if (token) {
-    const cloned = req.clone({
+    authReq = req.clone({
       setHeaders: {
         Authorization: `Bearer ${token}`
       }
     });
-    return next(cloned);
   }
 
-  // Si pas de token, on laisse passer la requête normale (ex: pour le login)
-  return next(req);
+  // 2. GESTION DU RETOUR SERVEUR (Pour le "Dernier connecté gagne")
+  return next(authReq).pipe(
+    catchError((error: HttpErrorResponse) => {
+      // Si le code est 401, c'est que la session a été invalidée ailleurs
+      if (error.status === 401) {
+        console.warn('Session invalidée ou expirée. Déconnexion automatique.');
+        
+        // On vide le localStorage et le Signal
+        authService.logout(); 
+        
+        // On redirige vers le login
+        router.navigate(['/login']);
+      }
+      
+      // On propage l'erreur pour que les services puissent la gérer si besoin
+      return throwError(() => error);
+    })
+  )
 };
