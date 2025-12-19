@@ -20,8 +20,18 @@ export class AuthService {
   // 1. Si le token existe. 2. S'il n'est pas expiré.
   public isLoggedIn = computed(() => {
     const token = this._token();
+  
+    // Debug pour voir si le Signal reçoit bien le token après le login
+    console.log('Signal _token actuel :', token);
+
     if (!token) return false;
-    return !this.isTokenExpired(token);
+
+    // Si c'est un vrai JWT (contient des points), on vérifie l'expiration
+    if (token.includes('.')) {
+      return !this.isTokenExpired(token);
+    }
+
+    return true; // Token de test valide
   });
 
   login(credentials: { email: string; password: string }): Observable<boolean> {

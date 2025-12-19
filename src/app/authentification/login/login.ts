@@ -23,13 +23,27 @@ export class Login {
     this.authService.login(this.credentials).subscribe({
       next: (success) => {
         if (success) {
-          // 3. RÉCUPÉRATION DU CHEMIN DE RETOUR (SÉCURITÉ UX)
-          // Si returnUrl existe dans l'adresse, on y va, sinon on va sur /produits
-          const returnUrl = this.route.snapshot.queryParams['returnUrl'] || '/';
-          this.router.navigateByUrl(returnUrl);
-        } else {
-          this.errorMessage = 'Email ou mot de passe incorrect.';
-        }
+          if (success) {
+            // On récupère la destination (ex: /achat/achat-direct/18)
+            let returnUrl = this.route.snapshot.queryParams['returnUrl'] || '/';
+
+            // Sécurité : si returnUrl est un tableau (rare mais possible), on le répare
+            if (Array.isArray(returnUrl)) {
+              returnUrl = '/' + returnUrl.join('/');
+            }
+
+            console.log('Connexion réussie. Redirection vers :', returnUrl);
+
+            // ASTUCE PRODUCTION : Un léger délai pour laisser le Signal se propager
+            // Cela évite que le Guard ne rejette la redirection à cause d'un micro-délai
+            setTimeout(() => {
+              this.router.navigateByUrl(returnUrl);
+            }, 10);
+          
+          } else {
+            this.errorMessage = 'Email ou mot de passe incorrect.';
+          }
+        } 
       },
       error: (err) => {
         this.errorMessage = 'Une erreur serveur est survenue.';

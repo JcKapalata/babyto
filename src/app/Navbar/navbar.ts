@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { MatBadgeModule } from '@angular/material/badge';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
@@ -8,6 +8,7 @@ import { AchatService } from '../Achat/achat-service';
 import { AsyncPipe } from '@angular/common';
 import { MatMenuModule } from '@angular/material/menu';
 import { MatDividerModule } from '@angular/material/divider';
+import { AuthService } from '../authentification/auth-service';
 
 @Component({
   selector: 'app-navbar',
@@ -28,12 +29,20 @@ export class Navbar {
 
   pageActive: string;
   nombreProduits$;
+  public authService = inject(AuthService);
 
   constructor(
     private route: Router,
     private achatService: AchatService,
   ){
     this.nombreProduits$ = this.achatService.nombreProduits$;
+  }
+
+
+  onLogout() {
+    if (confirm('Voulez-vous vraiment vous déconnecter ?')) {
+      this.authService.logout();
+    }
   }
 
   goToAcceuil(){
