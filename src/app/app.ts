@@ -14,16 +14,7 @@ import { AuthService } from './authentification/auth-service';
   templateUrl: './app.html',
   styleUrl: './app.css',
 })
-export class App implements OnInit{
-
-  constructor(private authService: AuthService) {
-  }
-
-  ngOnInit(): void {
-    this.authService.validateSession().subscribe(
-      () => console.log('refrechissement ...')
-    )
-  }
+export class App {
 
   // Déclarez l'icône comme propriété pour le template
   public faWhatsapp = faWhatsapp;

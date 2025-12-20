@@ -39,7 +39,7 @@
 
     <!-- menu second -->
     <div class="menu-second">
-      @if (authService.isLoggedIn$ | async) {
+      <!-- @if (authService.isLoggedIn$ | async) {
         <button 
           (click)="goToProfile()"  
           class="boutton btn-seconde"
@@ -48,7 +48,16 @@
             <mat-icon>account_circle</mat-icon>
             <span>Mon Profil</span>
         </button>
-      } @else {
+      } @else { -->
+
+        <button 
+          (click)="logout()"  
+          class="boutton btn-seconde"
+          [class.active-link]="pageActive === 'profile'"
+          >
+            <mat-icon>account_circle</mat-icon>
+            <span>Deconnecter</span>
+        </button>
         <button mat-button 
           (click)="goToConnexion()" 
           class="boutton btn-seconde"
@@ -57,7 +66,7 @@
             <mat-icon>login</mat-icon>
             <span>Connexion</span>
         </button>
-      }
+      <!-- } -->
     </div>
 
     <!-- menu mobile -->
@@ -79,7 +88,7 @@
     </button>
     <mat-divider></mat-divider>
 
-    @if (authService.isLoggedIn$ | async) {
+    <!-- @if (authService.isLoggedIn$ | async) {
       <button mat-menu-item (click)="goToProfile()">
         <mat-icon>account_circle</mat-icon> Profile
       </button>
@@ -87,7 +96,7 @@
       <button mat-menu-item (click)="goToConnexion()">
       <mat-icon>account_circle</mat-icon> Connexion
     </button>
-    }
+    } -->
   </mat-menu>
 
 </mat-toolbar>

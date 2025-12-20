@@ -1,13 +1,11 @@
-import { UserClient } from "../Models/clientUser";
+import { UserClientApi } from "../Models/clientUser";
 
-export const USERS: UserClient[] = [
+export const USERS: UserClientApi[] = [
   {
     id: 1,
     email: 'admin@monsite.com',
     nom: 'Super Admin',
     password: 'admin123password',
-    token: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...', // Token simulé
-    // lastSessionTag: ''
   },
   {
     id: 2,
@@ -15,13 +13,10 @@ export const USERS: UserClient[] = [
     nom: 'Sophie',
     prenom: 'Martin',
     password: 'password456',
-    token: 'abc123def456',
-    lastSessionTag: ''
   },
   {
     id: 3,
     email: 'contact@lucas.fr',
-    // nom est optionnel, donc on peut l'omettre ici
     password: 'lucaspassword789',
     lastSessionTag: ''
   },

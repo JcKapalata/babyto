@@ -6,22 +6,22 @@ import { Loading } from "../../loading/loading";
 
 @Component({
   selector: 'app-view-profile',
-  imports: [CommonModule, Loading],
+  imports: [CommonModule],
   templateUrl: './view-profile.html',
   styleUrl: './view-profile.css',
 })
 export class ViewProfile {
-  // Injection du service
-  private userService = inject(UserService);
-  private authService = inject(AuthService);
+  // // Injection du service
+  // private userService = inject(UserService);
+  // private authService = inject(AuthService);
 
-  // On expose le flux (observable) au template
-  public user$ = this.userService.currentUser$;
+  // // On expose le flux (observable) au template
+  // public user$ = this.userService.currentUser$;
 
-  onLogout(): void {
-    if (confirm('Voulez-vous vraiment vous déconnecter ?')) {
-      this.authService.logout();
-      // La redirection vers /login est déjà gérée dans votre AuthService.logout()
-    }
-  }
+  // onLogout(): void {
+  //   if (confirm('Voulez-vous vraiment vous déconnecter ?')) {
+  //     this.authService.logout();
+  //     // La redirection vers /login est déjà gérée dans votre AuthService.logout()
+  //   }
+  // }
 }

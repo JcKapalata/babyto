@@ -1,4 +1,4 @@
-import { Component, inject } from '@angular/core';
+import { Component, inject, OnDestroy } from '@angular/core';
 import { MatBadgeModule } from '@angular/material/badge';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
@@ -9,6 +9,7 @@ import { AsyncPipe } from '@angular/common';
 import { MatMenuModule } from '@angular/material/menu';
 import { MatDividerModule } from '@angular/material/divider';
 import { AuthService } from '../authentification/auth-service';
+import { Subscriber, Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-navbar',
@@ -25,48 +26,61 @@ import { AuthService } from '../authentification/auth-service';
   templateUrl: './navbar.html',
   styleUrl: './navbar.css'
 })
-export class Navbar {
+export class Navbar implements OnDestroy{
 
   pageActive: string;
   nombreProduits$;
   public authService = inject(AuthService);
 
+  private logoutSubscription: Subscription|null = null;
+
   constructor(
-    private route: Router,
+    private router: Router,
     private achatService: AchatService,
   ){
     this.nombreProduits$ = this.achatService.nombreProduits$;
   }
 
 
-  onLogout() {
+  logout() {
     if (confirm('Voulez-vous vraiment vous déconnecter ?')) {
-      this.authService.logout();
+      this.logoutSubscription = this.authService.logout().subscribe({
+        next: _ => {
+          this.router.navigate(['login'])
+        },
+        error: _ =>{
+          this.router.navigate(['login'])
+        }
+      })
     }
+  }
+
+  ngOnDestroy(): void {
+    this.logoutSubscription?.unsubscribe
   }
 
   goToAcceuil(){
     this.pageActive = 'accueil';
-    this.route.navigate(['accueil']);
+    this.router.navigate(['accueil']);
   }
 
   goToProduitList(){
     this.pageActive = 'boutique';
-    this.route.navigate(['boutique/produits-list']);
+    this.router.navigate(['boutique/produits-list']);
   }
 
   goToConnexion(){
     this.pageActive = 'connexion';
-    this.route.navigate(['login']);
+    this.router.navigate(['login']);
   }
 
   goToPannier(){
     this.pageActive = 'panier';
-    this.route.navigate(['achat/panier']);
+    this.router.navigate(['achat/panier']);
   }
 
   goToProfile(){
     this.pageActive = 'profile';
-    this.route.navigate(['mon-compte/profil'])
+    this.router.navigate(['mon-compte/profil'])
   }
 }

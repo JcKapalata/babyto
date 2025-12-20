@@ -1,13 +1,15 @@
 import {
-  _CdkPrivateStyleLoader,
-  _VisuallyHiddenLoader
-} from "./chunk-HKJD4ERT.js";
-import {
   _getEventTarget,
   _getFocusedElementPierceShadowDom,
   _getShadowRoot,
   normalizePassiveListenerOptions
 } from "./chunk-XA6252L2.js";
+import {
+  _VisuallyHiddenLoader
+} from "./chunk-X757NHUP.js";
+import {
+  _CdkPrivateStyleLoader
+} from "./chunk-3BBV4J32.js";
 import {
   Platform
 } from "./chunk-BC3ST3GM.js";
@@ -2611,6 +2613,7 @@ export {
   DOWN_ARROW,
   FocusMonitor,
   BreakpointObserver,
+  ObserversModule,
   InteractivityChecker,
   LiveAnnouncer,
   A11yModule,
@@ -2621,4 +2624,4 @@ export {
   Breakpoints,
   _animationsDisabled
 };
-//# sourceMappingURL=chunk-OGW3FASP.js.map
+//# sourceMappingURL=chunk-LRZ2HMP7.js.map
