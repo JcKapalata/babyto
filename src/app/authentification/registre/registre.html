@@ -30,7 +30,23 @@
 
       <div class="form-group">
         <label>Mot de passe</label>
-        <input type="password" formControlName="password" placeholder="********">
+
+        <div class="input-wrapper">
+          <input 
+            [type]="hidePassword ? 'password' : 'text'" 
+            formControlName="password" 
+            placeholder="********">
+          
+          <button 
+            type="button" 
+            class="toggle-password" 
+            (click)="hidePassword = !hidePassword">
+            <span class="material-icons">
+              {{ hidePassword ? 'visibility_off' : 'visibility' }}
+            </span>
+          </button>
+        </div>
+  
         @if (registerForm.get('password')?.touched && registerForm.get('password')?.invalid) {
             <small>Minimum 6 caractères.</small>
         }
@@ -38,7 +54,23 @@
 
       <div class="form-group">
         <label>Confirmer le mot de passe</label>
-        <input type="password" formControlName="confirmPassword" placeholder="********">
+
+        <div class="input-wrapper">
+          <input 
+            [type]="hideConfirmPassword ? 'password' : 'text'" 
+            formControlName="confirmPassword" 
+            placeholder="********">
+          
+          <button 
+            type="button" 
+            class="toggle-password" 
+            (click)="hideConfirmPassword = !hideConfirmPassword">
+            <span class="material-icons">
+              {{ hideConfirmPassword ? 'visibility_off' : 'visibility' }}
+            </span>
+          </button>
+        </div>
+
         @if (registerForm.hasError('mismatch') && registerForm.get('confirmPassword')?.touched) {
             <small >Les mots de passe ne correspondent pas.</small>
         }    

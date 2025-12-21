@@ -24,6 +24,9 @@ export class Registre {
   private authService = inject(AuthService);
   private router = inject(Router);
 
+  hidePassword = true; // Par défaut, le mot de passe est masqué
+  hideConfirmPassword = true; // Par défaut, le mot de passe de confirmation est masqué
+
   // Définition du formulaire avec la nouvelle syntaxe// Définition des options pour supprimer le warning de dépréciation
   private formOptions: AbstractControlOptions = {
     validators: [this.passwordMatchValidator]
