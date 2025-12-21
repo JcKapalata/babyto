@@ -1,27 +1,45 @@
-import { Component, inject } from '@angular/core';
-import { UserService } from '../user-service';
+import { Component, inject, OnDestroy } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { UserService } from '../user-service';
 import { AuthService } from '../../authentification/auth-service';
-import { Loading } from "../../loading/loading";
+import { Loading } from '../../loading/loading';
+import { Subscription } from 'rxjs';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-view-profile',
-  imports: [CommonModule],
+  imports: [CommonModule, Loading],
   templateUrl: './view-profile.html',
   styleUrl: './view-profile.css',
 })
-export class ViewProfile {
-  // // Injection du service
-  // private userService = inject(UserService);
-  // private authService = inject(AuthService);
+export class ViewProfile implements OnDestroy{
+  // Injection des services
+  public userService = inject(UserService);
+  private authService = inject(AuthService);
+  private router = inject(Router);
 
-  // // On expose le flux (observable) au template
-  // public user$ = this.userService.currentUser$;
+  private logoutSubscription: Subscription|null = null;
 
-  // onLogout(): void {
-  //   if (confirm('Voulez-vous vraiment vous déconnecter ?')) {
-  //     this.authService.logout();
-  //     // La redirection vers /login est déjà gérée dans votre AuthService.logout()
-  //   }
-  // }
+  /**
+   * On utilise directement le signal currentProfile du service.
+   * Il se mettra à jour tout seul si les données changent.
+   */
+  public profile = this.userService.currentProfile;
+
+  logout() {
+    if (confirm('Voulez-vous vraiment vous déconnecter ?')) {
+      this.logoutSubscription = this.authService.logout().subscribe({
+        next: _ => {
+          this.router.navigate(['login'])
+        },
+        error: _ =>{
+          this.router.navigate(['login'])
+        }
+      })
+    }
+  }
+
+  ngOnDestroy(): void {
+    this.logoutSubscription?.unsubscribe
+  }
 }

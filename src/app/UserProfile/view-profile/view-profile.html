@@ -1,26 +1,26 @@
-<!-- <div class="profile-container">
-  @if (user$ | async; as user) {
+<div class="profile-container">
+  @if (profile()) {
     <div class="profile-card">
       <div class="profile-header">
         <div class="avatar-circle">
-          {{ user.prenom?.[0] }}{{ user.nom?.[0] }}
+          {{ profile()?.prenom?.[0] }}{{ profile()?.nom?.[0] }}
         </div>
       </div>
 
       <div class="profile-body">
         <div class="info-row">
           <span class="label">Utilisateur</span>
-          <p class="value">{{ user.prenom }} {{ user.nom }}</p>
+          <p class="value">{{ profile()?.prenom }} {{ profile()?.nom }}</p>
         </div>
 
         <div class="info-row">
           <span class="label">Email sécurisé</span>
-          <p class="value">{{ user.email }}</p>
+          <p class="value">{{ profile()?.email }}</p>
         </div>
 
         <div class="info-row">
           <span class="label">Session ID</span>
-          <span class="token-badge">{{ user.lastSessionTag }}</span>
+          <span class="token-badge">{{ profile()?.lastSessionTag }}</span>
         </div>
       </div>
 
@@ -33,4 +33,4 @@
   } @else {
     <app-loading></app-loading>
   }
-</div> -->
+</div>
