@@ -2,20 +2,28 @@ import { Routes } from '@angular/router';
 import { Boutique } from './Boutique/boutique';
 import { PageNotFound } from './page-not-found/page-not-found';
 import { Achats } from './Achat/achat';
-import { Accueil } from './Acceuil/accueil';
 import { GestionFooter } from './Gestion-Footer/GestionFooter';
-import { Login } from './authentification/login/login';
 import { UserRoutes } from './UserProfile/userRoutes';
-import { Registre } from './authentification/registre/registre';
 
 export const routes: Routes = [
-    { path: 'login', component: Login},
-    { path: 'signup', component: Registre},
+    { path: 'login', 
+        loadComponent: () => import('./authentification/login/login')
+            .then(m => m.Login)
+    },
+    { 
+        path: 'signup', 
+        loadComponent: () => import('./authentification/registre/registre')
+            .then(m => m.Registre)
+    },
     ...UserRoutes,
-    ...Boutique,
     ...Achats,
+    ...Boutique,
     ...GestionFooter,
-    { path: 'accueil', component: Accueil},
+    { 
+        path: 'accueil', 
+        loadComponent: () => import('./Acceuil/accueil')
+            .then(m => m.Accueil)
+    },
     {path: '', redirectTo: 'accueil', pathMatch: 'full' },
     { path: '**', component: PageNotFound }
 ];

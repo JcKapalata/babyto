@@ -1,0 +1,151 @@
+import { ProduitAchete } from "../Models/produitAchete";
+
+export const HISTORIQUE_ACHATS: ProduitAchete[] = [
+  {
+    AchatId: 2025001,
+    codeProduit: 'BBI-VET-001',
+    reference: 'REF-BBI-VET-001-ROSE',
+    nom: 'Body bébé coton',
+    prixUnitaire: 9.99,
+    quantite: 3,
+    prixTotal: 29.97,
+    paiement: {
+      methode: 'mobile_money',
+      etat: 'succès',
+      montantPaye: 29.97,
+      devise: 'USD',
+      transactionId: 'MPESA-GOMA-9928',
+      dateTransaction: new Date(),
+      operateur: 'mpesa',
+      numeroMobile: '+243810000000'
+    },
+    tailleSelectionnee: '6-9 mois',
+    couleurSelectionnee: 'rose',
+    image: '/assets/imagesProduits/bbi-vet-001/rose.jpeg',
+    regionProduit: 'Goma',
+    addresseLivraison: 'Q. Himbi, Avenue de la Paix, Goma',
+    dateAchat: new Date(),
+    status: 'en cours'
+  },
+  {
+    AchatId: 2025002,
+    codeProduit: 'BBI-VET-002',
+    reference: 'REF-BBI-VET-002-CHOC',
+    nom: 'Pyjama bébé',
+    prixUnitaire: 12.99,
+    quantite: 1,
+    prixTotal: 12.99,
+    paiement: {
+      methode: 'cash_delivery',
+      etat: 'à_collecter',
+      montantPaye: 12.99,
+      devise: 'USD'
+    },
+    tailleSelectionnee: '12-18 mois',
+    couleurSelectionnee: 'chocolat',
+    image: '/assets/imagesProduits/bbi-vet-002/chocolat.jpeg',
+    regionProduit: 'Beni',
+    addresseLivraison: 'Q. Résidentiel, Beni Centre',
+    dateAchat: new Date(),
+    status: 'en_attente_paiement'
+  },
+  {
+    AchatId: 2025003,
+    codeProduit: 'BBI-ACC-003',
+    reference: 'REF-BBI-ACC-MULTI',
+    nom: 'Chaussettes',
+    prixUnitaire: 2000,
+    quantite: 5,
+    prixTotal: 10000,
+    paiement: {
+      methode: 'mobile_money',
+      etat: 'succès',
+      montantPaye: 10000,
+      devise: 'CDF',
+      transactionId: 'AIRTEL-BTM-771',
+      operateur: 'airtel',
+      numeroMobile: '+243970000000',
+      dateTransaction: new Date()
+    },
+    tailleSelectionnee: 'Taille unique',
+    couleurSelectionnee: 'multicolore',
+    image: '/assets/imagesProduits/bbi-acc-003/multicolore.png',
+    regionProduit: 'Butembo',
+    addresseLivraison: 'Cellule Kitulu, Butembo',
+    dateAchat: new Date(),
+    status: 'livré'
+  },
+  {
+    AchatId: 2025004,
+    codeProduit: 'BBI-JOU-004',
+    reference: 'REF-BBI-JOU-OURS-LIN',
+    nom: 'Jouet en peluche',
+    prixUnitaire: 15.99,
+    quantite: 1,
+    prixTotal: 15.99,
+    paiement: {
+      methode: 'visa',
+      etat: 'succès',
+      montantPaye: 15.99,
+      devise: 'USD',
+      transactionId: 'STRIPE-V-441',
+      cardLast4: '8812',
+      dateTransaction: new Date()
+    },
+    tailleSelectionnee: '30 cm',
+    couleurSelectionnee: 'lin',
+    image: '/assets/imagesProduits/bbi-jou-004/lin.jpeg',
+    regionProduit: 'Goma',
+    addresseLivraison: 'Q. Volcans, Avenue du Port, Goma',
+    dateAchat: new Date(),
+    status: 'en cours'
+  },
+  {
+    AchatId: 2025005,
+    codeProduit: 'BBI-JOU-005',
+    reference: 'REF-BBI-JOU-EVEIL-BOIS',
+    nom: 'Cube d’éveil',
+    prixUnitaire: 18.99,
+    quantite: 1,
+    prixTotal: 18.99,
+    paiement: {
+      methode: 'cash_delivery',
+      etat: 'à_collecter',
+      montantPaye: 18.99,
+      devise: 'USD'
+    },
+    tailleSelectionnee: '15 cm',
+    couleurSelectionnee: 'bois',
+    image: '/assets/imagesProduits/bbi-jou-005/bois.jpeg',
+    regionProduit: 'Beni',
+    addresseLivraison: 'Avenue des Martyrs, Beni',
+    dateAchat: new Date(),
+    status: 'en_attente_paiement'
+  },
+  {
+    AchatId: 2025006,
+    codeProduit: 'BBI-JOU-006',
+    reference: 'REF-BBI-JOU-HOC-BISQUE',
+    nom: 'Hochet',
+    prixUnitaire: 7.99,
+    quantite: 1,
+    prixTotal: 7.99,
+    paiement: {
+      methode: 'mobile_money',
+      etat: 'succès',
+      montantPaye: 7.99,
+      devise: 'USD',
+      transactionId: 'OM-BTM-112',
+      operateur: 'orange',
+      numeroMobile: '+243890000000',
+      dateTransaction: new Date()
+    },
+    tailleSelectionnee: '10 cm',
+    couleurSelectionnee: 'bisque',
+    image: '/assets/imagesProduits/bbi-jou-006/bisque.jpeg',
+    regionProduit: 'Butembo',
+    addresseLivraison: 'Q. Vungi, Butembo',
+    dateAchat: new Date(),
+    status: 'en cours'
+  }
+];

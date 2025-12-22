@@ -1,12 +1,24 @@
 import { Routes } from "@angular/router";
-import { ConditionsGeneralesVentes } from "./conditions-generales-ventes/conditions-generales-ventes";
-import { PolitiqueRetour } from "./politique-retour/politique-retour";
-import { PolitiqueConfidentialite } from "./politique-confidentialite/politique-confidentialite";
-import { Apropos } from "./apropos/apropos";
 
 export const GestionFooter: Routes =[
-    { path: 'conditions-generales-ventes', component: ConditionsGeneralesVentes },
-    { path: 'politique-retour', component: PolitiqueRetour },
-    { path: 'politique-confidentialite', component: PolitiqueConfidentialite },
-    { path: 'a-propos', component: Apropos}
+    { 
+        path: 'conditions-generales-ventes', 
+        loadComponent: () => import('./conditions-generales-ventes/conditions-generales-ventes')
+            .then(m => m.ConditionsGeneralesVentes)
+    },
+    { 
+        path: 'politique-retour', 
+        loadComponent: () => import('./politique-retour/politique-retour')
+            .then(m => m.PolitiqueRetour)
+    },
+    { 
+        path: 'politique-confidentialite', 
+        loadComponent: () => import('./politique-confidentialite/politique-confidentialite')
+            .then(m => m.PolitiqueConfidentialite)
+    },
+    { 
+        path: 'a-propos', 
+        loadComponent: () => import('./apropos/apropos')
+            .then(m => m.Apropos)
+    }
 ]
