@@ -6,7 +6,7 @@
     }
 
     <div class="liste-commandes">
-        @if (chargement() == false) {
+        @if (chargement() == false && commandesTrieesEtFiltrees().length > 0) {
             <div class="filtres-container">
                 <button [class.actif]="filtreStatut() === 'tous'" (click)="changerFiltre('tous')">
                     Tous
@@ -54,8 +54,8 @@
             } @empty {
                 @if (!chargement()) {
                     <div class="filtres-container">
-                        <button [class.actif]="filtreStatut() === 'annulé'" (click)="goBack()">
-                            Retour
+                        <button (click)="goBack()" class="btn-retour">
+                            Retour boutique
                         </button>
                     </div>
 

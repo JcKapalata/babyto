@@ -73,6 +73,6 @@ export class HistoriqueAchat {
   }
 
   goBack(): void {
-    this.router.navigate(['/profil']);
+    this.router.navigate(['boutique/produits-list']);
   }
 }
