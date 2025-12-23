@@ -8,7 +8,6 @@ filtre-produit{
   position: sticky;
   z-index: 500;
   top: 9vh;
-  height: 150px;
 }
 
 .produits-container {

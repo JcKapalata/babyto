@@ -14,9 +14,8 @@
 .filtre-classement {
     display: flex;
     gap: 10px;
-    margin-bottom: 25px;
+    margin-bottom: 5px;
     overflow-x: auto; /* Défilement horizontal sur mobile */
-    padding-bottom: 10px;
     scrollbar-width: none;  /* Cache la scrollbar sur Firefox */
 }
 .filtre-classement::-webkit-scrollbar {
