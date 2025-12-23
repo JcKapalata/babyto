@@ -67,10 +67,18 @@ filtre-produit{
   border: 4px solid var(--primary-color);
 }
 
-.prix {
-  font-weight: 900;
-  color: var(--primary-color); /* utilise ta couleur enfant */
+mat-card-content{
+  h2{
+    margin: 5px 0;
+  }
+  .prix {
+    margin: 5px 0;
+    font-weight: 900;
+    color: var(--primary-color); /* utilise ta couleur enfant */
 }
+}
+
+
 
 .produit-card img {
   width: 150px;        
