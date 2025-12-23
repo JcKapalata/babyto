@@ -74,7 +74,7 @@
   background: var(--primary-color); 
 }
 
-.statut-badge.en-cours { 
+.statut-badge.en-route { 
   color: white; 
   background: var(--warning-orange); 
 }
@@ -84,10 +84,12 @@
   background: var(--warn-color); 
 }
 
-.statut-badge.en-attente-paiement {
-  color: white; /* Bleu clair type info */
+
+.statut-badge.en-preparation {
+  color: white;
   background: var(--accent-color); 
 }
+
 
 
 /* --- Section Infos --- */
@@ -130,11 +132,10 @@ h1 {
   font-weight: 700;
 }
 
-.badge-etat[data-etat="succès"] { color: var(--primary-color); }
+.badge-etat[data-etat="payé"] { color: var(--primary-color); }
 .badge-etat[data-etat="en_attente"] { color: var(--warning-orange); }
 .badge-etat[data-etat="échec"] { color: var(--warn-color); }
 .badge-etat[data-etat="remboursé"] { color: var(--warn-color); opacity: 0.8; }
-.badge-etat[data-etat="à_collecter"] { color: var(--accent-color); }
 
 .info-item .valeur {
   display: flex;

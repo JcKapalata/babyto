@@ -29,8 +29,8 @@
             <p class="prix">{{ achat.prixTotal }} {{ achat.paiement.devise }}</p>
           </div>
 
-          <div [class]="'statut-badge ' + achat.status.replaceAll(' ', '-').toLowerCase()">
-            {{ achat.status }}
+          <div [class]="'statut-badge ' + achat.status.replaceAll('_', '-').toLowerCase()">
+            {{ achat.status.replaceAll('_', ' ') }}
           </div>
         </div>
       } 

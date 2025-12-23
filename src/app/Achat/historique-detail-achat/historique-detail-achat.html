@@ -14,8 +14,8 @@
     <div class="carte-detail">
       <div class="section-image">
         <img [src]="achat.image" [alt]="achat.nom">
-        <div [class]="'statut-badge ' + achat.status.replaceAll(' ', '-').toLowerCase()">
-          {{ achat.status }}
+        <div [class]="'statut-badge ' + achat.status.replaceAll('_', '-').toLowerCase()">
+          {{ achat.status.replaceAll('_', ' ') }}
         </div>
       </div>
 
@@ -57,7 +57,7 @@
           <div class="info-item">
             <span class="label">État du Paiement</span>
             <span class="valeur badge-etat" [attr.data-etat]="achat.paiement.etat">
-              {{ achat.paiement.etat.split('_').join(' ') | titlecase }}
+              {{ achat.paiement.etat.replaceAll('_', ' ') | titlecase }}
             </span>
           </div>
 

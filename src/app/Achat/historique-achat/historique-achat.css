@@ -162,7 +162,7 @@ h2 {
   background: var(--primary-color); 
 }
 
-.statut-badge.en-cours { 
+.statut-badge.en-route { 
   color: white; 
   background: var(--warning-orange); 
 }
@@ -173,8 +173,8 @@ h2 {
 }
 
 
-.statut-badge.en-attente-paiement {
-  color: white; /* Bleu clair type info */
+.statut-badge.en-preparation {
+  color: white;
   background: var(--accent-color); 
 }
 
