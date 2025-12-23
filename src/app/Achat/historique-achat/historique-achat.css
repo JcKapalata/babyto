@@ -13,7 +13,7 @@ h2 {
   text-align: center;
   position: sticky;
   z-index: 500;
-  top: 8vh;
+  top: 9vh;
   background: white;
 }
 
@@ -35,7 +35,7 @@ h2 {
 .filtres-container {
   display: flex;
   gap: 10px;
-  padding: 15px 7.5px;
+  padding: 10px 7.5px;
   margin: 0 -7.5px;
   overflow-x: auto; 
   scrollbar-width: none;
