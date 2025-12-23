@@ -136,7 +136,7 @@ export class Paiement implements OnInit {
       id: uniqueId.toString(),
       clientId: user?.id ?? 0,
       data: {
-        achatId: Date.now() + Math.floor(Math.random() * 1000),
+        achatId: uniqueId,
         codeProduit: item.code,
         reference: ref,
         nom: item.nom,
@@ -198,7 +198,7 @@ export class Paiement implements OnInit {
       .subscribe(res => {
         if (res) {
           console.log("Paiement réussi");
-          this.router.navigate(['/mes-achats']);
+          this.router.navigate(['achat/historique-achats']);
         }
       });
   }
