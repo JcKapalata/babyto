@@ -2,10 +2,14 @@
     
     <h2>Filtrer par classement :</h2>
 
+    @if (chargement()) {
+        <app-loading></app-loading>
+    }
+
     <div class="filtre-classement">
         @for (classement of menuClassement; track classement) {
             <button 
-                mat-raised-button color="primary"
+                [class.actif]="classement === defaultClassementSelected()"
                 (click)="selectionnerFiltre(classement)">
                 
                 {{ classement }}
@@ -13,18 +17,22 @@
         }
         
         @empty {
-            <p>Chargement des filtres...</p>
+            @if (!chargement()) {
+                <p class="no-classement">Aucun classement disponible.</p>
+            }
         }
     </div>
 
-    <div class="search-box">
-        <input 
-            id="search"
-            type="text" 
-            placeholder="Tapez le nom d'un produit..."
-            #searchBox
-            (keyup)="onSearchChange(searchBox.value)"
-        >
-    </div>  
+   @if (!this.chargement()) {
+        <div class="search-box">
+            <input 
+                id="search"
+                type="text" 
+                placeholder="Tapez le nom d'un produit..."
+                #searchBox
+                (keyup)="onSearchChange(searchBox.value)"
+            >
+        </div> 
+   } 
 
 </div>

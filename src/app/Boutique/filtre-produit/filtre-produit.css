@@ -12,31 +12,40 @@
 }
 
 .filtre-classement {
-    height: 60px;
     display: flex;
-    align-items: center;
-    gap: 10px; 
-    overflow-y: hidden;
-    overflow-x: scroll;
+    gap: 10px;
+    margin-bottom: 25px;
+    overflow-x: auto; /* Défilement horizontal sur mobile */
+    padding-bottom: 10px;
+    scrollbar-width: none;  /* Cache la scrollbar sur Firefox */
+}
+.filtre-classement::-webkit-scrollbar {
+    display: none; /* Cache la scrollbar sur Chrome/Safari */   
 }
 
 /* Styles pour les boutons Material */
 .filtre-classement button {
-    padding: 0 10px;
-    transition: all 0.2s ease-in-out;
-    background: var(--primary-color);
-    color: white;
-    border: none;
-    flex-shrink: 0;
-}
-.filtre-classement button:hover{
-    background: var(--accent-color);
+    padding: 8px 20px;
+    border-radius: 25px;
+    border: 2px solid #eee;
+    background: white;
+    color: #7f8c8d;
+    font-weight: 600;
+    cursor: pointer;
+    white-space: nowrap;
+    transition: all 0.3s ease;
 }
 
-.filtre-classement button:focus{
-    background: white;
+.filtre-classement button.actif{
+    background: var(--accent-color);
+    color: white;
+    border-color: var(--accent-color);
+    box-shadow: 0 4px 10px rgba(102, 169, 189, 0.3);
+}
+
+.filtre-classement button:hover:not(.actif) {
+    border-color: var(--primary-color);
     color: var(--primary-color);
-    border: var(--primary-color) 2px solid;
 }
 
 .search-box {
