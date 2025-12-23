@@ -1,5 +1,5 @@
 import { inject, Injectable } from '@angular/core';
-import { BehaviorSubject, catchError, delay, map, Observable, tap, throwError } from 'rxjs';
+import { BehaviorSubject, catchError, delay, forkJoin, map, Observable, tap, throwError } from 'rxjs';
 import { CommandeItem } from '../Models/commande'; // Assurez-vous du bon chemin
 import { BoutiqueService } from '../Boutique/boutique-service'; 
 import { DetailAchat, ProduitAchete } from '../Models/produitAchete';
@@ -13,6 +13,8 @@ export class AchatService {
 
   private http = inject(HttpClient);
   private authService = inject(AuthService);
+
+  private readonly API_URL_MES_ACHATS = 'api/achats';
 
   // BehaviorSubject est initialisé avec la fonction qui charge le panier depuis le local storage
   private itemsSubject = new BehaviorSubject<CommandeItem[]>([]);
@@ -146,6 +148,38 @@ export class AchatService {
         console.error('Erreur lors de la récupération du détail:', error);
         // On renvoie un message d'erreur clair pour l'interface utilisateur
         return throwError(() => new Error(error.message || 'Impossible de charger les détails de cet achat.'));
+      })
+    );
+  }
+
+  // LOGIQUE : Vide complètement le panier
+  viderPanier(): void {
+    // On publie un tableau vide pour informer tous les composants abonnés
+    this.itemsSubject.next([]);
+    console.log("Le panier a été réinitialisé.");
+  }
+
+  /**
+   * Enregistre une liste d'achats de manière atomique.
+   * Pour chaque produit du panier, un POST est envoyé au serveur.
+   */
+  saveAchats(achats: ProduitAchete[]): Observable<any> {
+    // 1. On crée un tableau de requêtes HTTP POST
+    const requetes = achats.map(achat => this.http.post<ProduitAchete>(this.API_URL_MES_ACHATS, achat));
+
+    // 2. forkJoin attend que TOUTES les requêtes réussissent
+    // C'est crucial pour garantir que le client ne perd aucun article de son panier
+    return forkJoin(requetes).pipe(
+      // tap s'exécute uniquement en cas de SUCCÈS du forkJoin
+      tap(() => this.viderPanier()), 
+      map(resultats => {
+        console.log(`${resultats.length} achats enregistrés.`);
+        return resultats;
+      }),
+      catchError(err => {
+        // En cas d'erreur, le panier n'est PAS vidé (l'utilisateur peut réessayer)
+        console.error("Échec de l'enregistrement, le panier est conservé.");
+        return throwError(() => err);
       })
     );
   }

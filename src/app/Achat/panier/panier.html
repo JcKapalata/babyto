@@ -1,7 +1,20 @@
 
 <div class="panier-container">
     
-    <h2>Mon Panier</h2>
+    <div class="panier-header">
+        <h2>Mon Panier ({{ items.length }})</h2>
+        <div class="header-actions">
+            @if (items.length > 0 && !showPaiement) {
+                <button mat-button color="warn" (click)="viderToutLePanier()" class="btn-vider-tout">
+                    <mat-icon>delete_sweep</mat-icon>
+                    Vider le panier
+                </button>
+            }
+            <button mat-icon-button (click)="goBack()" class="btn-close">
+                <mat-icon>close</mat-icon>
+            </button>
+        </div>
+    </div>
 
     <div class="back-button">
       <button mat-icon-button color="warn" (click)="goBack()">

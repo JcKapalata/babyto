@@ -2,16 +2,14 @@
 
   <form [formGroup]="paymentForm" (ngSubmit)="onSubmit()">
 
-    <!-- Adresse de livraison -->
     <div>
       <h2>Adresse de livraison</h2>
         <div class="address-form">
-          <label for="address">Lieu de rencontre:</label>
+          <label for="address">Lieu de rencontre / Livraison:</label>
           <textarea
             id="address"
-            name="address"
             formControlName="address" 
-            placeholder="123 Rue Exemple"
+            placeholder="Ex: Quartier Himbi, Goma"
             rows="3"
             cols="50"
           ></textarea>
@@ -26,7 +24,6 @@
 
     <h2>Paiement</h2>
 
-    <!-- Choix du formulaire -->
     <div class="payment-method">
       <h3>Choisir le mode de paiement</h3>
         
@@ -36,7 +33,7 @@
       </label>
 
       <div class="operator-group">
-        @for (operatorSelectItem of operatorSelect; track $index) {
+        @for (operatorSelectItem of operatorSelect; track operatorSelectItem) {
           <label class="radio-option">
             <input type="radio" 
                   formControlName="method" 
@@ -52,7 +49,6 @@
 
     <hr>
 
-    <!-- Pour visa -->
     @if (paymentForm.get('method')?.value === 'visa') {
       <div class="payment-details visa-details">
         <h4>Détails de la Carte</h4>
@@ -63,23 +59,13 @@
         }     
             
         <input type="text" formControlName="cardName" placeholder="Nom sur la carte">
-        @if (paymentForm.get('cardName')?.touched && paymentForm.get('cardName')?.invalid) {
-          <span class="error">Nom requis.</span>
-        }
-
         <div class="expiry-cvv">
           <input type="text" formControlName="expiry" placeholder="MM/AA">
           <input type="text" formControlName="cvv" placeholder="CVV">
         </div>
-
-        @if ((paymentForm.get('expiry')?.touched && paymentForm.get('expiry')?.invalid) ||
-            (paymentForm.get('cvv')?.touched && paymentForm.get('cvv')?.invalid)) {
-              <span class="error">Expiration ou CVV invalide.</span>
-        }
       </div>
     }
 
-    <!-- pour mobile money -->
     @if (isMobileMoneySelected()) {
       <div class="payment-details mobile-details">
         <h4>Paiement sur {{ paymentForm.get('method')?.value }}</h4>
@@ -91,11 +77,9 @@
       </div>
     }
 
-    <button type="submit" [disabled]="!disableButtonPayer()">
-      <span class="material-icons">
-        payment 
-      </span>
-      Payer
+    <button type="submit" [disabled]="!disableButtonPayer()" class="btn-submit">
+      <span class="material-icons">payment</span>
+      {{ isSubmitting ? 'Traitement...' : 'Payer' }}
     </button>
 
   </form>

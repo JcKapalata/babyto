@@ -1,116 +1,110 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, inject, Input, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
+import { Router } from '@angular/router';
+import { catchError, finalize, of } from 'rxjs';
+
+// Models & Interfaces
 import { CommandeItem } from '../../Models/commande';
-import { MobileMoney } from '../../Models/mobileMoney';
+import { ProduitAchete } from '../../Models/produitAchete';
+import { AuthService } from '../../authentification/auth-service';
+import { AchatService } from '../achat-service'; 
+
+// Configuration des opérateurs pour éviter les erreurs de typage
+const OPERATEUR_MAP: Record<string, 'orange' | 'airtel' | 'mpesa' | 'mtn'> = {
+  'Airtel Money': 'airtel',
+  'M-pesa': 'mpesa',
+  'Orange money': 'orange'
+};
 
 @Component({
   selector: 'app-paiement',
-  imports: [ReactiveFormsModule], 
+  standalone: true,
+  imports: [ReactiveFormsModule],
   templateUrl: './paiement.html',
   styleUrls: ['./paiement.css']
 })
-export class Paiement implements OnInit{
+export class Paiement implements OnInit {
+  // --- INJECTIONS ---
+  private fb = inject(FormBuilder);
+  private authService = inject(AuthService);
+  private achatService = inject(AchatService);
+  private router = inject(Router);
 
-  @Input() articleAchete: CommandeItem | CommandeItem[] |undefined;
-  paymentForm!: FormGroup;
+  // --- INPUTS & PROPRIÉTÉS ---
+  @Input() articleAchete: CommandeItem | CommandeItem[] | undefined;
   
+  paymentForm!: FormGroup;
+  isSubmitting = false; // Pour éviter les doubles clics
   // Cette liste est utilisée dans le HTML pour les boutons radio
-  operatorSelect: string[] = ['Airtel Money', 'M-pesa', 'Orange money'];
-
-  // Propriétés du composant (ne sont pas utilisées directement pour la liaison, mais pour le submit)
-  address!: string;
-  method!: string;
-  cardNumber!: string;
-  cardName!: string;
-  expiry!: string;
-  cvv!: string;
-  mobileNumber!: string;
-  operator!: string; // Maintenu pour stocker l'opérateur après soumission
-
-  constructor(private fb: FormBuilder) {}
+  readonly operatorSelect = Object.keys(OPERATEUR_MAP);
 
   ngOnInit() {
+    this.initForm();
+    this.listenToMethodChanges();
+  }
+
+  // --- INITIALISATION ---
+
+  private initForm() {
     this.paymentForm = this.fb.group({
-      address: ['', Validators.required],
+      address: ['', [Validators.required, Validators.minLength(5)]],
       method: ['', Validators.required],
-      cardNumber: ['', []],
-      cardName: ['', []],
-      expiry: ['', []],
-      cvv: ['', []],
-      mobileNumber: ['', []],
-      operator: ['', []] 
+      // Visa fields
+      cardNumber: [''],
+      cardName: [''],
+      expiry: [''],
+      cvv: [''],
+      // Mobile fields
+      mobileNumber: ['']
     });
+  }
 
-    const visaControls = [
-        this.paymentForm.get('cardNumber'),
-        this.paymentForm.get('cardName'),
-        this.paymentForm.get('expiry'),
-        this.paymentForm.get('cvv')
-    ];
-    // Le contrôle 'method' gère déjà le choix de l'opérateur.
-    const mobileNumberControl = this.paymentForm.get('mobileNumber');
-
-
-    // Gestion des validations dynamiques selon la méthode choisie
+  // Gestion des validations dynamiques selon la méthode choisie
+  private listenToMethodChanges() {
     this.paymentForm.get('method')?.valueChanges.subscribe(method => {
-      
-      // Assurez-vous que les valeurs des contrôles non-actifs sont effacées
-      this.clearFormValues(method);
-
-      // --- LOGIQUE VISA ---
-      if (method === 'visa') {
-        
-        // 1. Définir les validateurs Visa
-        this.paymentForm.get('cardNumber')?.setValidators([Validators.required, Validators.minLength(16), Validators.maxLength(16)]);
-        this.paymentForm.get('cardName')?.setValidators([Validators.required]);
-        this.paymentForm.get('expiry')?.setValidators([Validators.required]);
-        this.paymentForm.get('cvv')?.setValidators([Validators.required, Validators.minLength(3), Validators.maxLength(3)]);
-        
-        // 2. Supprimer les validateurs Mobile Money
-        mobileNumberControl?.clearValidators();
-
-      // --- LOGIQUE MOBILE MONEY (Un des opérateurs) ---
-      } else if (this.operatorSelect.includes(method)) {
-        
-        // 1. Définir les validateurs Mobile Money (seul le numéro est nécessaire)
-        mobileNumberControl?.setValidators([
-            Validators.required, 
-            Validators.minLength(10), // Adaptez la taille si nécessaire
-            Validators.maxLength(10) // Adaptez la taille si nécessaire
-        ]);
-
-        // 2. Supprimer les validateurs Visa
-        visaControls.forEach(control => {
-            control?.clearValidators();
-        });
-        
-      } else {
-         // Si aucune méthode valide n'est sélectionnée (cas initial ou étrange)
-         visaControls.forEach(control => control?.clearValidators());
-         mobileNumberControl?.clearValidators();
-      }
-      
-      // --- MISE À JOUR FINALE DE LA VALIDITÉ ---
-      // Mise à jour de tous les contrôles affectés
-      visaControls.forEach(control => control?.updateValueAndValidity());
-      mobileNumberControl?.updateValueAndValidity();
+      this.updateValidators(method);
     });
   }
 
-  // Ajout d'une fonction pour effacer les valeurs des champs non utilisés
-  private clearFormValues(currentMethod: string): void {
-      const visaFields = ['cardNumber', 'cardName', 'expiry', 'cvv'];
-      const mobileFields = ['mobileNumber']; // 'operator' n'est plus pertinent
+  // --- LOGIQUE DE VALIDATION DYNAMIQUE ---
 
-      if (currentMethod === 'visa') {
-          mobileFields.forEach(field => this.paymentForm.get(field)?.setValue(null));
-      } else if (this.operatorSelect.includes(currentMethod)) {
-          visaFields.forEach(field => this.paymentForm.get(field)?.setValue(null));
-      } else {
-          // Tout effacer si la méthode est réinitialisée ou invalide
-          [...visaFields, ...mobileFields].forEach(field => this.paymentForm.get(field)?.setValue(null));
-      }
+  private updateValidators(method: string) {
+    const visaFields = ['cardNumber', 'cardName', 'expiry', 'cvv'];
+    const mobileFields = ['mobileNumber'];
+
+    if (method === 'visa') {
+      // 1. Définir les validateurs Visa
+      this.setFieldsValidators(visaFields, [Validators.required]);
+      // 2. Supprimer les validateurs Mobile Money
+      this.clearFieldsValidators(mobileFields);
+    } else if (this.operatorSelect.includes(method)) {
+      // 1. Définir les validateurs Mobile Money
+      this.setFieldsValidators(mobileFields, [Validators.required, Validators.pattern('^[0-9]{10}$')]);
+      // 2. Supprimer les validateurs Visa
+      this.clearFieldsValidators(visaFields);
+    }
+    
+    this.paymentForm.updateValueAndValidity();
   }
+
+  private setFieldsValidators(fields: string[], validators: any[]) {
+    fields.forEach(f => {
+      const ctrl = this.paymentForm.get(f);
+      ctrl?.setValidators(validators);
+      ctrl?.updateValueAndValidity();
+    });
+  }
+
+  private clearFieldsValidators(fields: string[]) {
+    fields.forEach(f => {
+      const ctrl = this.paymentForm.get(f);
+      ctrl?.clearValidators();
+      ctrl?.setValue(null); // Efface les valeurs des champs non utilisés
+      ctrl?.updateValueAndValidity();
+    });
+  }
+
+  // --- MÉTHODES POUR LE HTML ---
 
   // L'opérateur "method" est-il un opérateur Mobile Money valide?
   isMobileMoneySelected(): boolean {
@@ -119,120 +113,93 @@ export class Paiement implements OnInit{
     return !!method && this.operatorSelect.includes(method); 
   }
 
-  // recuperation de l'information du payement
-  getInfoPayement(): MobileMoney{
-    return {
-      numberPhone: this.mobileNumber,
-      opereator: this.operator
-    }
-  }
-
   // desactive le button payer
-  disableButtonPayer(){
-    return this.paymentForm.valid && this.articleAchete
+  disableButtonPayer(): boolean {
+    // On vérifie que le formulaire est valide et qu'il y a un article
+    return this.paymentForm.valid && !!this.articleAchete && !this.isSubmitting;
   }
 
-  // Récupère le prix global des articles en USD
-  getPrixGlobalUSD(): number| undefined {
-    if (Array.isArray(this.articleAchete)) {
-      return this.articleAchete
-      .filter(item => item.devise === 'USD') // Filtre uniquement les articles en USD
-      .reduce((sum, item) => sum + item.prixTotal, 0);
-    } else if (this.articleAchete) {
-      // Cas 1 : Achat direct (CommandeItem unique)
-      return this.articleAchete.prixTotal; // <-- Ceci manquait !
-    } else{
-      return undefined
-    }
-  }
+  // --- MAPPING ET SOUCOISSION ---
 
-  // Récupère le prix global des articles en CDF
-  getPrixGlobalCDF(): number| undefined {
-    if (Array.isArray(this.articleAchete)) {
-      return this.articleAchete
-      .filter(item => item.devise === 'CDF') // Filtre uniquement les articles en USD
-      .reduce((sum, item) => sum + item.prixTotal, 0);
-    } else if (this.articleAchete) {
-      // Cas 1 : Achat direct (CommandeItem unique)
-      return this.articleAchete.prixTotal; // <-- Ceci manquait !
-    } else{
-      return undefined
-    }
-  }
-
-  //Log du prix global
-  logPrixGlobal(): void {
-
-    // 1. --- LOGIQUE ACHAT DIRECT (articleAchete est un CommandeItem unique) ---
-    // Cas 1.1 : Article unique en USD
-    if (!Array.isArray(this.articleAchete) && this.articleAchete?.devise === 'USD') {
-        const prixUSD = this.getPrixGlobalUSD(); // Récupère le prix de l'article unique en USD
-        
-        console.log("--- Achat Direct (USD) ---");
-        console.log(`Paiement effectué au Prix Global en USD : ${prixUSD}`);
-        console.log(`Paiement effectué au Prix Global en CDF : 0`); // Zéro car c'est un article en USD
-
-    } 
-    // Cas 1.2 : Article unique en CDF
-    else if (!Array.isArray(this.articleAchete) && this.articleAchete?.devise === 'CDF') {
-        const prixCDF = this.getPrixGlobalCDF(); // Récupère le prix de l'article unique en CDF
-        
-        console.log("--- Achat Direct (CDF) ---");
-        console.log(`Paiement effectué au Prix Global en USD : 0`); // Zéro car c'est un article en CDF
-        console.log(`Paiement effectué au Prix Global en CDF : ${prixCDF}`);
-    } 
+  // Gestion du donne a envoyer au paiement
+  private createAchatPayload(item: CommandeItem, method: string, address: string): ProduitAchete {
+    const user = this.authService.user();
+    const date = new Date();
+    const dateStr = date.toISOString().slice(0, 10).replace(/-/g, '');
     
-    // 2. --- LOGIQUE PANIER (articleAchete est un tableau CommandeItem[]) ---   
-    // Cas 2 : Panier (peut contenir les deux devises)
-    else if (Array.isArray(this.articleAchete)) {
-        const prixUSD = this.getPrixGlobalUSD(); // Calcule la somme des articles en USD
-        const prixCDF = this.getPrixGlobalCDF(); // Calcule la somme des articles en CDF
-        
-        console.log("--- Achat Panier (Multi-Devises) ---");
-        console.log(`Paiement effectué au Prix Global en USD : ${prixUSD}`);
-        console.log(`Paiement effectué au Prix Global en CDF : ${prixCDF}`);
-    } 
-    
-    // 3. --- AUCUN ARTICLE ---
-    else {
-        console.log("Aucun article trouvé pour la journalisation.");
-    }
+    // Génération d'une référence de suivi unique
+    const ref = `REF-${dateStr}-U${user?.id}-${item.code}-${Math.floor(Math.random() * 100)}`;
+    // Génération d'un ID unique pour éviter l'erreur 422
+    const uniqueId = Date.now() + Math.floor(Math.random() * 1000);
+
+    return {
+      id: uniqueId.toString(),
+      clientId: user?.id ?? 0,
+      data: {
+        achatId: Date.now() + Math.floor(Math.random() * 1000),
+        codeProduit: item.code,
+        reference: ref,
+        nom: item.nom,
+        prixUnitaire: item.prix,
+        quantite: item.quantity,
+        prixTotal: item.prixTotal,
+        tailleSelectionnee: Array.isArray(item.tailleSelectionnee) ? item.tailleSelectionnee[0] : item.tailleSelectionnee,
+        couleurSelectionnee: Array.isArray(item.couleurSelectionnee) ? item.couleurSelectionnee[0] : item.couleurSelectionnee,
+        image: Array.isArray(item.imagesParCouleur) ? item.imagesParCouleur[0] : (item.imagesParCouleur as any || ''),
+        regionProduit: item.region,
+        addresseLivraison: address,
+        dateAchat: date,
+        status: 'en cours',
+        paiement: {
+          methode: this.operatorSelect.includes(method) ? 'mobile_money' : 'visa',
+          etat: 'succès',
+          montantPaye: item.prixTotal,
+          devise: item.devise as 'USD' | 'CDF',
+          transactionId: `TXN-${Math.random().toString(36).toUpperCase().substring(2, 10)}`,
+          dateTransaction: date,
+          ...(this.operatorSelect.includes(method) && {
+            operateur: OPERATEUR_MAP[method],
+            numeroMobile: this.paymentForm.get('mobileNumber')?.value
+          })
+        }
+      }
+    };
   }
 
   // submit le paiement
   onSubmit() {
-    if (this.disableButtonPayer()) {
-      const paymentMethod = this.paymentForm.get('method')?.value;
-
-      // Si la transaction ce faite avec visa
-      if (paymentMethod === 'visa') {
-        this.cardName = this.paymentForm.get('cardName')?.value;
-        this.cardNumber = this.paymentForm.get('cardNumber')?.value;
-        this.cvv = this.paymentForm.get('cvv')?.value;
-        this.expiry = this.paymentForm.get('expiry')?.value;
-        
-        console.log(`Paiement Visa soumis pour la carte se terminant par: ${this.cardNumber.slice(-4)}`);
-      }
-
-      // Si la transaction se faite par mobile money (la méthode est un nom d'opérateur)
-      if(this.operatorSelect.includes(paymentMethod) ){
-        // L'opérateur est la valeur de la méthode elle-même
-        this.operator = paymentMethod; 
-        this.mobileNumber = this.paymentForm.get('mobileNumber')?.value;
-        
-        //log infoPayement
-        console.table(this.getInfoPayement())
-      }
-
-      //log Adress de livraison
-      console.log(`l'address de livraison est: ${this.paymentForm.get('address')?.value}`)
-      //log le prix global
-      this.logPrixGlobal()
-      //log les article
-      console.table(this.articleAchete);
-    } else {
+    const user = this.authService.user();
+    
+    if (this.paymentForm.invalid || !this.articleAchete || !user) {
       this.paymentForm.markAllAsTouched();
-      console.error(`Formulaire invalide ou de l'article. Veuillez vérifier les champs requis.`);
+      console.error(`Formulaire invalide ou article manquant.`);
+      return;
     }
+
+    this.isSubmitting = true;
+    const { method, address } = this.paymentForm.value;
+
+    // Log Adress de livraison
+    console.log(`l'address de livraison est: ${address}`);
+
+    // Transformer les articles en format ProduitAchete
+    const items = Array.isArray(this.articleAchete) ? this.articleAchete : [this.articleAchete];
+    const payloads = items.map(item => this.createAchatPayload(item, method, address));
+
+    // Envoi au service d'achat
+    this.achatService.saveAchats(payloads)
+      .pipe(
+        finalize(() => this.isSubmitting = false),
+        catchError(err => {
+          console.error("Erreur paiement:", err);
+          return of(null);
+        })
+      )
+      .subscribe(res => {
+        if (res) {
+          console.log("Paiement réussi");
+          this.router.navigate(['/mes-achats']);
+        }
+      });
   }
 }

@@ -59,13 +59,20 @@ export class Panier implements OnInit {
       .reduce((sum, item) => sum + item.prixTotal, 0);
   }
 
+  // AJOUTER CETTE MÉTHODE
+  viderToutLePanier() {
+    if (confirm('Voulez-vous vraiment vider tout votre panier ?')) {
+      this.achatService.viderPanier();
+      // Optionnel : si vous voulez fermer le formulaire de paiement si il était ouvert
+      this.showPaiement = false;
+    }
+  }
+
+  // OPTIMISATION DE LA SUPPRESSION (Correction de votre code actuel)
   supprimer(item: CommandeItem) {
-    this.items = this.items.filter(i => {
-      i !== item;
-      console.log(`supression d'in element dans le panier`);
-      console.table(i)
-    });
-    this.achatService.updateItems(this.items);
+    // Votre ancien code avait une petite erreur de logique (filter)
+    const nouveauxItems = this.items.filter(i => i.id !== item.id);
+    this.achatService.updateItems(nouveauxItems);
   }
   
   // button pour active mise a jour du produit
