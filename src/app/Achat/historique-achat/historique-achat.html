@@ -1,69 +1,52 @@
 <div class="historique-container">
-    <h2>Mes Achats</h2>
+  <h2>Mes Achats</h2>
 
-    @if (chargement()) {
-        <app-loading></app-loading>
-    }
-
+  @if (chargement()) {
+    <app-loading></app-loading>
+  } 
+  @else {
     <div class="liste-commandes">
-        @if (chargement() == false && commandesTrieesEtFiltrees().length > 0) {
-            <div class="filtres-container">
-                <button [class.actif]="filtreStatut() === 'tous'" (click)="changerFiltre('tous')">
-                    Tous
-                </button>
-                <button [class.actif]="filtreStatut() === 'livré'" (click)="changerFiltre('livré')">
-                    Livrés
-                </button>
-                <button [class.actif]="filtreStatut() === 'en cours'" (click)="changerFiltre('en cours')">
-                    En cours
-                </button>
-                <button [class.actif]="filtreStatut() === 'en attente paiement'" (click)="changerFiltre('en attente paiement')">
-                    En attente paiement
-                </button>
-                <button [class.actif]="filtreStatut() === 'annulé'" (click)="changerFiltre('annulé')">
-                    Annulés
-                </button>
-            </div>
+      
+      @if (commandes().length > 0) {
+        <div class="filtres-container">
+          <button [class.actif]="filtreStatut() === 'tous'" (click)="changerFiltre('tous')">Tous</button>
+          <button [class.actif]="filtreStatut() === 'livré'" (click)="changerFiltre('livré')">Livrés</button>
+          <button [class.actif]="filtreStatut() === 'en cours'" (click)="changerFiltre('en cours')">En cours</button>
+          <button [class.actif]="filtreStatut() === 'en attente paiement'" (click)="changerFiltre('en attente paiement')">En attente</button>
+          <button [class.actif]="filtreStatut() === 'annulé'" (click)="changerFiltre('annulé')">Annulés</button>
+        </div>
+      }
 
-        }
+      @for (achat of commandesTrieesEtFiltrees(); track achat.achatId) {
+        <div class="carte-achat" (click)="goToDetailsAchat(achat.achatId)">
+          <div class="image-produit">
+            <img [src]="achat.image" [alt]="achat.nom">
+          </div>
+          
+          <div class="infos-achat">
+            <h3>{{ achat.nom }}</h3>
+            <p class="info-date">{{ achat.dateAchat | date:'dd/MM/yyyy HH:mm' }}</p>
+            <p class="prix">{{ achat.prixTotal }} {{ achat.paiement.devise }}</p>
+          </div>
 
-        @if (commandesTrieesEtFiltrees().length == 0 && !chargement() && filtreStatut() !== 'tous') {
-            <div class="empty-state">
-                <p>Aucun achat trouvé pour le filtre sélectionné.</p>
-            </div>
-        } @else {
-
-            @for (achat of commandesTrieesEtFiltrees(); track achat.achatId) {
-                <div class="carte-achat" (click)="goToDetailsAchat(achat.achatId)">
-                    <div class="image-produit">
-                        <img [src]="achat.image" [alt]="achat.nom">
-                    </div>
-                    
-                    <div class="infos-achat">
-                        <h3>{{ achat.nom }}</h3>
-                        <p class="info-date">{{ achat.dateAchat | date:'dd/MM/yyyy HH:mm' }}</p>
-                        <p class=".info-short">Région : {{ achat.regionProduit }}</p>
-                        <p class=".info-short">Adresse livraison : {{ achat.addresseLivraison }}</p>
-                        <p class="prix">{{ achat.prixTotal }} {{ achat.paiement.devise }}</p>
-                    </div>
-
-                    <div [class]="'statut-badge '+ achat.status.replaceAll(' ', '-').toLowerCase()">
-                        {{ achat.status }}
-                    </div>
-                </div>
-            } @empty {
-                @if (!chargement()) {
-                    <div class="filtres-container">
-                        <button (click)="goBack()" class="btn-retour">
-                            Retour boutique
-                        </button>
-                    </div>
-
-                    <div class="empty-state">
-                        <p>Aucun achat trouvé pour votre compte.</p>
-                    </div>
-                }
-            }
-        }
+          <div [class]="'statut-badge ' + achat.status.replaceAll(' ', '-').toLowerCase()">
+            {{ achat.status }}
+          </div>
+        </div>
+      } 
+      @empty {
+        <div class="empty-state">
+          @if (commandes().length > 0) {
+            <p>Aucun achat trouvé avec le statut "<strong>{{ filtreStatut() }}</strong>".</p>
+            <button (click)="changerFiltre('tous')" class="btn-retour">Voir tous mes achats</button>
+          } 
+          @else {
+            <mat-icon class="big-icon">shopping_basket</mat-icon>
+            <p>Vous n'avez pas encore effectué d'achats sur notre boutique.</p>
+            <button (click)="goBack()" class="btn-retour">Aller à la boutique</button>
+          }
+        </div>
+      }
     </div>
+  }
 </div>

@@ -4,10 +4,11 @@ import { CommonModule } from '@angular/common';
 import { AchatService } from '../achat-service';
 import { Loading } from "../../loading/loading";
 import { Router } from '@angular/router';
+import { MatIcon } from "@angular/material/icon";
 
 @Component({
   selector: 'app-historique-achat',
-  imports: [CommonModule, Loading],
+  imports: [CommonModule, Loading, MatIcon],
   templateUrl: './historique-achat.html',
   styleUrl: './historique-achat.css',
 })

@@ -71,15 +71,6 @@ h2 {
   color: var(--primary-color);
 }
 
-.filtres-container button.btn-retour{
-  color: white;
-  background: var(--warn-color);
-}
-.filtres-container button.btn-retour:hover{
-  color: var(--warn-color);
-  background: white;
-  border: 2px solid var(--warn-color);
-}
 
 /* Carte d'achat - Design Mobile First */
 .carte-achat {
@@ -194,6 +185,23 @@ h2 {
   border-radius: 12px;
   color: #95a5a6;
   border: 1px dashed #cccccc;
+}
+
+.empty-state .btn-retour{
+  padding: 8px 20px;
+  border-radius: 25px;
+  border: 2px solid #eee;
+  font-weight: 600;
+  cursor: pointer;
+  white-space: nowrap;
+  transition: all 0.3s ease;
+  color: white;
+  background: var(--warn-color);
+}
+.empty-state .btn-retour:hover{
+  color: var(--warn-color);
+  background: white;
+  border: 2px solid var(--warn-color);
 }
 
 /* --- RESPONSIVE : Tablettes et PC (600px et plus) --- */
