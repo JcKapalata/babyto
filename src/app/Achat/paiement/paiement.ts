@@ -131,6 +131,18 @@ export class Paiement implements OnInit {
     const ref = `REF-${dateStr}-U${user?.id}-${item.code}-${Math.floor(Math.random() * 100)}`;
     // Génération d'un ID unique pour éviter l'erreur 422
     const uniqueId = Date.now() + Math.floor(Math.random() * 1000);
+    
+    // 1. On récupère la couleur sélectionnée (qui peut être string ou string[])
+    const selection = item.couleurSelectionnee;
+
+    // 2. On s'assure d'avoir une string simple
+    // Si c'est un tableau, on prend le premier élément, sinon on prend la valeur telle quelle
+    const couleurCle = Array.isArray(selection) ? selection[0] : selection;
+
+    // 3. Maintenant TypeScript accepte l'indexation car couleurCle est forcément une string
+    const imageAchat = (item.imagesParCouleur && couleurCle && item.imagesParCouleur[couleurCle]) 
+                      ? item.imagesParCouleur[couleurCle] 
+                      : '';
 
     return {
       id: uniqueId.toString(),
@@ -144,8 +156,8 @@ export class Paiement implements OnInit {
         quantite: item.quantity,
         prixTotal: item.prixTotal,
         tailleSelectionnee: Array.isArray(item.tailleSelectionnee) ? item.tailleSelectionnee[0] : item.tailleSelectionnee,
-        couleurSelectionnee: Array.isArray(item.couleurSelectionnee) ? item.couleurSelectionnee[0] : item.couleurSelectionnee,
-        image: Array.isArray(item.imagesParCouleur) ? item.imagesParCouleur[0] : (item.imagesParCouleur as any || ''),
+        couleurSelectionnee: couleurCle,
+        image: imageAchat,
         regionProduit: item.region,
         addresseLivraison: address,
         dateAchat: date,
