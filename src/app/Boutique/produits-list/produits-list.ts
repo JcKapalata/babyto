@@ -1,5 +1,5 @@
 import { AchatService } from './../../Achat/achat-service';
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit, signal } from '@angular/core';
 import { Produit } from '../../Models/produits';
 import {  Router } from '@angular/router';
 import { BoutiqueService } from '../boutique-service';
@@ -13,11 +13,12 @@ import { GroupeProduits } from '../../Models/groupeProduits';
 import { KeyValuePipe } from '@angular/common';
 import { FiltreProduit } from "../filtre-produit/filtre-produit";
 import { debounceTime, distinctUntilChanged, map, Observable, Subject, Subscription, switchMap } from 'rxjs';
+import { Loading } from "../../loading/loading";
 
 
 @Component({
   selector: 'app-produits-list',
-  imports: [MatCardModule, MatButtonModule, MatIconModule, KeyValuePipe, FiltreProduit],
+  imports: [MatCardModule, MatButtonModule, MatIconModule, KeyValuePipe, FiltreProduit, Loading],
   templateUrl: './produits-list.html',
   styleUrl: './produits-list.css',
   providers: [BoutiqueService]
@@ -33,6 +34,8 @@ export class ProduitsList implements OnInit, OnDestroy{
   filtreActif: string = 'Tous';
   showAllProduits: Map<string, boolean> = new Map();
 
+  chargement = signal<boolean>(false);
+
   // Gérer l'abonnement pour éviter les fuites de mémoire (très important!)
   private searchSubscription: Subscription;
   
@@ -44,10 +47,13 @@ export class ProduitsList implements OnInit, OnDestroy{
   ){}
 
   ngOnInit() {
+    this.chargement.set(true);
+
     this.boutiqueService.getProduitsList().subscribe(
       (produitsGroupes) => {
         this.produitsGroupes = produitsGroupes;
         this.produitsAffiches = this.produitsGroupes;
+        this.chargement.set(false);
         console.log('Produits reçus et regroupés par le service.');
       }
     );

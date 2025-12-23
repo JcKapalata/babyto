@@ -5,10 +5,9 @@
     </filtre-produit> 
 
     <div class="main-classement">
-        <!-- <filtre-produit 
-            (changeClassementSelected)="appliquerFiltre($event)"
-            (searchTermChanged)="rechercherProduits($event)">
-        </filtre-produit>  -->
+        @if (chargement()) {
+            <app-loading></app-loading>
+        }
 
         @for (entry of produitsAffiches | keyvalue; track entry.key) {
 
@@ -75,7 +74,9 @@
 
             </div>
         } @empty {
-            <p class="no-classement">Aucun classement ou produit disponible à l'achat.</p>
+            @if (!chargement()) {
+                <p class="no-classement">Aucun classement ou produit disponible à l'achat.</p>
+            }
         }
     </div>
 </div>
