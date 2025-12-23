@@ -69,17 +69,6 @@
   word-break: break-all;
 }
 
-.token-badge {
-  display: inline-block;
-  background: #fef2f2;
-  color: var(--warn-color);
-  font-family: monospace;
-  font-size: 0.8rem;
-  padding: 6px 12px;
-  border-radius: 6px;
-  margin-top: 5px;
-  border: 1px solid #fee2e2;
-}
 
 .profile-footer {
   padding: 0 24px 24px 24px;
@@ -114,11 +103,6 @@
     margin: 20px auto;
     padding: 0; 
   }
-  
-  /* .profile-card {
-    border-radius: 0;
-    box-shadow: none;
-  } */
 
   .profile-header {
     height: 100px;

@@ -36,6 +36,7 @@ export class Registre {
     nom: ['', [Validators.required, Validators.minLength(4)]],
     prenom: ['', [Validators.required, Validators.minLength(4)]],
     email: ['', [Validators.required, Validators.email]],
+    numero: ['', [Validators.required, Validators.pattern('^\\+?[0-9]{7,15}$')]],
     password: ['', [Validators.required, Validators.minLength(8)]],
     confirmPassword: ['', [Validators.required]]
   }, this.formOptions); 

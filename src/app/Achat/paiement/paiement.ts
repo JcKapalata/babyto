@@ -53,12 +53,12 @@ export class Paiement implements OnInit {
       address: ['', [Validators.required, Validators.minLength(5)]],
       method: ['', Validators.required],
       // Visa fields
-      cardNumber: [''],
-      cardName: [''],
-      expiry: [''],
-      cvv: [''],
+      cardNumber: ['', [Validators.required, Validators.pattern('^4[0-9]{12}(?:[0-9]{3})?$')]],
+      cardName: ['', [Validators.required, Validators.pattern('^[a-zA-Z ]{2,30}$')]],
+      expiry: ['', [Validators.required, Validators.pattern('^(0[1-9]|1[0-2])\\/?([0-9]{2})$')]],
+      cvv: ['', [Validators.required, Validators.pattern('^[0-9]{3}$')]],
       // Mobile fields
-      mobileNumber: ['']
+      mobileNumber: ['', [Validators.required, Validators.pattern('^\\+?[0-9]{7,15}$')]]
     });
   }
 

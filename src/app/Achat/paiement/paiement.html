@@ -70,7 +70,7 @@
       <div class="payment-details mobile-details">
         <h4>Paiement sur {{ paymentForm.get('method')?.value }}</h4>
           
-        <input type="text" formControlName="mobileNumber" placeholder="Numéro Mobile">
+        <input type="tel" formControlName="mobileNumber" placeholder="+1234567890">
         @if (paymentForm.get('mobileNumber')?.touched && paymentForm.get('mobileNumber')?.invalid) {
           <span class="error">Numéro Mobile requis.</span>
         }

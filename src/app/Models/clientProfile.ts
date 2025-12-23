@@ -3,5 +3,5 @@ export interface UserClientProfile{
   email: string;
   nom?: string;
   prenom?: string;
-  lastSessionTag?: string;
+  numero?: string;
 }

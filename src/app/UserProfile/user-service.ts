@@ -25,7 +25,7 @@ export class UserService {
       email: u.email,
       nom: u.nom,
       prenom: u.prenom,
-      lastSessionTag: u.lastSessionTag
+      numero: u.numero,
     };
 
     console.log('[UserService] Profil sécurisé mis à jour');
